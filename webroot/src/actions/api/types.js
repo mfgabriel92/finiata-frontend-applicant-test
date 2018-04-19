@@ -1,0 +1,1 @@
+export const TEST_GET = "api:test_get";
