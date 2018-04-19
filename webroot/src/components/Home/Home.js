@@ -25,7 +25,7 @@ class Home extends Component {
 
   render() {
     return (
-      <div>
+      <div id="home">
         <h1>Testing API GET</h1>
         {this.showGetTestResult()}
       </div>
