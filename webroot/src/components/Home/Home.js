@@ -1,33 +1,32 @@
 import React, { Component } from "react";
+import Dropzone from "react-dropzone";
 
 class Home extends Component {
   constructor(props) {
     super(props);
-  }
 
-  componentWillMount() {
-    this.props.testGET();
-  }
-
-  showGetTestResult = () => {
-    const { api: { get: { data } } } = this.props;
-
-    if (!data) {
-      return "Loading...";
+    this.state = {
+      invoice: []
     }
+  }
 
-    return data.map((d) => {
-      return (
-        <p>{d.name}</p>
-      )
-    })
-  };
+  handleOnDrop = (invoice) => {
+    this.setState({ invoice });
+  }
 
   render() {
     return (
       <div id="home">
-        <h1>Testing API GET</h1>
-        {this.showGetTestResult()}
+        <h1>Upload your invoice</h1>
+        <Dropzone
+          accept=".pdf"
+          preventDropOnDocument={false}
+          multiple={false}
+          className={"invoice-dropzone"}
+          onDrop={this.handleOnDrop}
+        >
+          <p>drag your files here...</p>
+        </Dropzone>
       </div>
     )
   }
