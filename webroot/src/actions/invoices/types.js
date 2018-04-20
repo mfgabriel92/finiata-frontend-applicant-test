@@ -1,0 +1,1 @@
+export const UPLOAD_INVOICE = "invoices:upload_invoice";

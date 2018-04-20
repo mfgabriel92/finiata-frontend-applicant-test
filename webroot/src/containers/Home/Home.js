@@ -1,19 +1,19 @@
 import Home from "../../components/Home";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { testGET } from "../../actions/api/api";
+import { uploadInvoice } from "../../actions/invoices/invoices";
 
 function mapStateToProps(state) {
   return {
-    api: {
-      get: state.testGET
+    invoice: {
+      post: state.uploadInvoice
     }
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    testGET
+    uploadInvoice
   }, dispatch);
 }
 

@@ -13,6 +13,8 @@
 |
 */
 
-const Route = use('Route')
+const Route = use('Route');
 
-Route.on('/').render('welcome')
+Route.group(() => {
+  Route.post("/invoices", "InvoiceController.store");
+}).prefix('api/v1');

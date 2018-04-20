@@ -22,14 +22,24 @@ class Api {
     return this.xhr(route, params, "DELETE")
   }
 
-  static xhr(route, params, verb) {
-    const host = `https://jsonplaceholder.typicode.com/${route}/`;
+  static FILE(route, params) {
+    return this.xhr(route, params, "POST", false)
+  }
 
-    let options = Object.assign({ method: verb }, params ? { body: JSON.stringify(params) } : null);
-    options.headers = Api.headers();
+  static xhr(route, params, verb, stringify = true) {
+    let host = `http://127.0.0.1:3333/api/v1/${route}/`;
+    let data = JSON.stringify(params);
+
+    if (!stringify) {
+      data = params;
+    }
+
+    let options = Object.assign({ method: verb }, params ? { body: data } : null);
 
     return fetch(host, options).then((res) => {
-      return res.ok ? res.json() : res.json().then((err) => { throw err })
+      return res.ok ? res.json() : res.json().then((err) => {
+        throw err
+      })
     })
   }
 }
