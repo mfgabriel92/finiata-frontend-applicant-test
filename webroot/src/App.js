@@ -2,24 +2,25 @@ import React, { Component } from "react";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
 import thunkMiddleware from "redux-thunk";
-import reducer from "./reducers";
+import { apiMiddleware } from "redux-api-middleware";
+import makeRootReducer from "./actions/reducers";
 import AppContainer from "./containers/App";
 import "./App.css"
 
-function configureStore(initialState) {
-  const enhancer = compose(
-    applyMiddleware(
-      thunkMiddleware,
-    )
-  );
+const middleware = [thunkMiddleware, apiMiddleware];
+const store = createStore(
+  makeRootReducer(),
+  compose(
+    applyMiddleware(...middleware),
+  )
+);
 
-  return createStore(reducer, initialState, enhancer)
-}
+store.asyncRecuers = {};
 
 export default class App extends Component {
   render () {
     return (
-      <Provider store={configureStore()}>
+      <Provider store={store}>
         <AppContainer/>
       </Provider>
     )

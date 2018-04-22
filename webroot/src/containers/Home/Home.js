@@ -1,20 +1,13 @@
 import Home from "../../components/Home";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import { uploadInvoice } from "../../actions/invoices/invoices";
 
-function mapStateToProps(state) {
-  return {
-    invoice: {
-      post: state.uploadInvoice
-    }
-  }
-}
+const mapActionCreators = {
+  uploadInvoice
+};
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    uploadInvoice
-  }, dispatch);
-}
+const mapStateToProps = state => ({
+  invoices: state.invoices
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapActionCreators)(Home);

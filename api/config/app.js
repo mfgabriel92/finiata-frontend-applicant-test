@@ -185,7 +185,7 @@ module.exports = {
     */
     console: {
       driver: 'console',
-      name: 'adonis-app',
+      name: 'adonis-invoices',
       level: 'info'
     },
 
@@ -195,14 +195,14 @@ module.exports = {
     |--------------------------------------------------------------------------
     |
     | File transport uses file driver and writes log messages for a given
-    | file inside `tmp` directory for your app.
+    | file inside `tmp` directory for your invoices.
     |
     | For a different directory, set an absolute path for the filename.
     |
     */
     file: {
       driver: 'file',
-      name: 'adonis-app',
+      name: 'adonis-invoices',
       filename: 'adonis.log',
       level: 'info'
     }
