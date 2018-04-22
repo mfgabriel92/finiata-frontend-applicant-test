@@ -2,14 +2,33 @@
 
 const InvoiceOperation = use("App/Operations/InvoiceOperation");
 
+/**
+ * Controller class for accessing operations for invoices table
+ *
+ * @author gabriel
+ * @class
+ */
 class InvoiceController {
+  /**
+   * Operation for storing into the database
+   *
+   * @param request
+   * @param response
+   * @returns {Promise<{limit, strict, types}|any>}
+   */
   async store({ request, response }) {
-    const invoiceOperation = new InvoiceOperation();
+    const op = new InvoiceOperation();
 
-    invoiceOperation.invoice = request.file("invoice");
-    invoiceOperation.store();
+    op.invoice = request.file("invoice");
+    op.store();
 
-    return await response.json(invoiceOperation);
+    const store = await op.store();
+
+    if (!store) {
+      return op.getFirstError();
+    }
+
+    return response.send(200);
   }
 }
 

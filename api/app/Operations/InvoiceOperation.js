@@ -5,14 +5,41 @@ const Operation = use("App/Operations/Operation");
 const Invoice = use("App/Models/Invoice");
 const moment = use("moment");
 
+/**
+ * Operations for invoices table
+ *
+ * @author gabriel
+ * @class
+ */
 class InvoiceOperation extends Operation {
+  /**
+   * Initial values
+   */
   constructor() {
     super();
 
-    this.invoice = [];
+    this.invoice = null;
   }
 
+  /**
+   * Rules for invoices table
+   */
+  get rules() {
+    return {
+      invoice: "required"
+    }
+  }
+
+  /**
+   * Operation for storing into the database
+   *
+   * @returns {Promise<*>}
+   */
   async store() {
+    if (!this.validate()) {
+      return false;
+    }
+
     const file = this.invoice;
     const name = moment().format("YYYY-MM-DD-HH-mm-ss") + "_" + file.clientName;
 
