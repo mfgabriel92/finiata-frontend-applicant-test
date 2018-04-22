@@ -1,15 +1,16 @@
 #home {
-    text-align: center;
+  text-align: center;
 
-    .invoice-dropzone {
-        height: 80vh;
-        background: #e6e6e6;
-        width: 90%;
-        margin: auto;
-        display: flex;
+  .invoice-dropzone {
+    height: 80vh;
+    background: #e6e6e6;
+    width: 90%;
+    margin: auto;
+    display: flex;
+    cursor: pointer;
 
-        p {
-            width: 100%;
-        }
+    p {
+      width: 100%;
     }
+  }
 }

@@ -34,7 +34,7 @@ class Operation {
         this.addError(HTTP.STATUS_INTERNAL_SERVER_ERROR, err.message);
       });
 
-      return false
+      return false;
     }
 
     return true;
@@ -48,7 +48,7 @@ class Operation {
    * @returns {Promise<void>}
    */
   async addError(code, message) {
-    this.errors.push({ code, message })
+    await this.errors.push({ code, message })
   }
 
   /**
@@ -56,7 +56,7 @@ class Operation {
    *
    * @returns {Promise<*>}
    */
-  async getFirstError() {
+  getFirstError() {
     return this.errors[0]
   }
 }

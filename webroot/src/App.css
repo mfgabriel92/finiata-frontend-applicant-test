@@ -6278,9 +6278,34 @@ a.text-dark:hover, a.text-dark:focus {
     background: #e6e6e6;
     width: 90%;
     margin: auto;
-    display: flex; }
+    display: flex;
+    cursor: pointer; }
     #home .invoice-dropzone p {
       width: 100%; }
 
+#invoice-info .react-datepicker__input-container,
+#invoice-info .react-datepicker-wrapper {
+  width: 100% !important; }
+
+#invoice-info .block {
+  padding: 50px 0; }
+
+#invoice-info .dropzone {
+  height: 200px;
+  width: 100%;
+  background: lightgray;
+  margin-bottom: 25px;
+  cursor: pointer; }
+  #invoice-info .dropzone p {
+    text-align: center;
+    line-height: 200px;
+    font-size: 52px; }
+
 body {
   font-family: "Lato Regular", serif; }
+
+.active-dropzone {
+  background: darkseagreen !important; }
+
+.reject-dropzone {
+  background: indianred !important; }

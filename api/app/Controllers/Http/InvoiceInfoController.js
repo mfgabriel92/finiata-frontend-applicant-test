@@ -16,20 +16,21 @@ class InvoiceInfoController {
    * @param response
    * @returns {Promise<*>}
    */
-  async store({ request, response }) {
-    const op = new InvoiceInfoOperation();
-    op.invoiceId = request.input("invoiceId");
-    op.invoiceAmount = request.input("invoiceAmount");
-    op.paymentTarget = request.input("paymentTarget");
+    async store({ request, response }) {
+      const op = new InvoiceInfoOperation();
+      op.invoiceId = request.input("invoiceId");
+      op.invoiceAmount = request.input("invoiceAmount");
+      op.paymentTarget = request.input("paymentTarget");
 
-    const store = await op.store();
+      const store = await op.store();
 
-    if (!store) {
-      return op.getFirstError();
+      if (!store) {
+        const error = op.getFirstError();
+        return await response.send(error.code);
+      }
+
+      return response.send(200);
     }
-
-    return response.send(200);
-  }
 }
 
 module.exports = InvoiceInfoController;

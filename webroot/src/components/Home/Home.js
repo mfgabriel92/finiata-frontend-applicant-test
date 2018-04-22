@@ -27,10 +27,12 @@ class Home extends Component {
         <div className="container">
           <h1>Upload your invoice</h1>
           <Dropzone
-            accept=".pdf"
+            accept="application/pdf"
             preventDropOnDocument={false}
             multiple={false}
             className={"invoice-dropzone"}
+            activeClassName={"active-dropzone"}
+            rejectClassName={"reject-dropzone"}
             onDrop={this.handleOnDrop}
           >
             <p className="align-self-center">

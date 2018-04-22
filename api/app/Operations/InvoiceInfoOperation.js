@@ -42,10 +42,10 @@ class InvoiceInfoOperation extends Operation {
    *
    * @returns {Promise<boolean>}
    */
-  async store() {
-    if (!this.validate()) {
-      return false;
-    }
+    async store() {
+      if (!this.validate()) {
+        return false;
+      }
 
     const invoice = await Invoice.find(this.invoiceId);
 
@@ -54,11 +54,13 @@ class InvoiceInfoOperation extends Operation {
       return false;
     }
 
-    await InvoiceInfo.create({
+    const invoiceInfo = await InvoiceInfo.create({
       invoice_id: invoice.id,
       invoiceAmount: this.invoiceAmount,
       paymentTarget: moment(this.paymentTarget).format("YYYY-MM-DD HH:mm:ss")
     });
+
+    return invoiceInfo
   }
 }
 

@@ -3,9 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "classnames": "^2.2.5",
+    "moment": "^2.22.1",
     "node-sass-chokidar": "^1.2.2",
+    "prop-types": "^15.6.1",
     "react": "^16.3.2",
     "react-bootstrap": "^0.32.1",
+    "react-date-picker": "^6.10.1",
+    "react-datepicker": "^1.4.1",
     "react-dom": "^16.3.2",
     "react-dropzone": "^4.2.9",
     "react-redux": "^5.0.7",
@@ -17,7 +22,8 @@
     "redux-api-middleware": "^2.3.0",
     "redux-history-transitions": "^2.2.0",
     "redux-persist": "^5.9.1",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "validator": "^9.4.1"
   },
   "scripts": {
     "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",

@@ -4,7 +4,16 @@
 }
 @import "./styles/bootstrap/bootstrap.scss";
 @import "./styles/components/home.scss";
+@import "./styles/components/invoice-info.scss";
 
 body {
   font-family: "Lato Regular", serif;
+}
+
+.active-dropzone {
+  background: darkseagreen !important;
+}
+
+.reject-dropzone {
+  background: indianred !important;
 }

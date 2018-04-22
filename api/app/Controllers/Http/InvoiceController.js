@@ -24,8 +24,10 @@ class InvoiceController {
 
     const store = await op.store();
 
-    if (!store) {
-      return op.getFirstError();
+    if (store === false) {
+      const error = op.getFirstError();
+      console.log(error.code, error.message);
+      return response.send(error.code, error.message);
     }
 
     return response.send(200);
