@@ -66,7 +66,7 @@ const ACTION_HANDLERS = {
     ...state,
     addingInvoiceInfo: false,
     addingInvoiceInfoSuccess: false,
-    addingInvoiceInfoErrors: action.payload
+    addingInvoiceInfoErrors: action.payload.response
   }),
 };
 

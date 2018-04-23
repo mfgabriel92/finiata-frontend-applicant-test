@@ -29,10 +29,10 @@ class RecipientController {
 
     if (!recipient) {
       const error = op.getFirstError();
-      return response.status(error.code).send(error.message);
+      return response.status(error.code).json(error);
     }
 
-    return response.status(200).send(recipient);
+    return response.status(200).json(recipient);
   }
 
   /**
@@ -51,10 +51,10 @@ class RecipientController {
 
     if (!recipient) {
       const error = op.getFirstError();
-      return response.status(error.code).send(error.message);
+      return response.status(error.code).json(error);
     }
 
-    return response.status(200).send(recipient);
+    return response.status(200).json(recipient);
   }
 }
 

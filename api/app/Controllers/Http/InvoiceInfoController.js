@@ -27,10 +27,10 @@ class InvoiceInfoController {
 
       if (!invoiceInfo) {
         const error = op.getFirstError();
-        return response.status(error.code).send(error.message);
+        return response.status(error.code).json(error);
       }
 
-      return response.status(200).send(invoiceInfo);
+      return response.status(200).json(invoiceInfo);
     }
 }
 

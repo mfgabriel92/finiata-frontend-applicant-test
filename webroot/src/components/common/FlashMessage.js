@@ -30,14 +30,14 @@ class FlashMessage extends Component {
     }, 4000);
   };
 
-  getContent = () => {
-    const { flash: { message, type } } = this.props;
-
-    console.log(message.isArray);
-  };
-
   render() {
-    const { flash: { message, type } } = this.props;
+    const {
+      flash: {
+        message,
+        type
+      }
+    } = this.props;
+
     const { hide } = this.state;
 
     let modalClass;
@@ -63,7 +63,7 @@ class FlashMessage extends Component {
         <span className={spanClass}>
           {
             type === "error"
-              ? message.message
+              ? message.response.message
               : message
           }
         </span>

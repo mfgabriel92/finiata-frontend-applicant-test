@@ -37,9 +37,9 @@ class InvoiceOperation extends Operation {
    * @returns {Promise<*>}
    */
   async store() {
-    if (!await this.validate()) {
-      return false;
-    }
+    // if (!await this.validate()) {
+    //   return false;
+    // }
 
     const file = this.invoice;
     const name = moment().format("YYYY-MM-DD-HH-mm-ss") + "_" + file.clientName;

@@ -25,6 +25,20 @@ class InvoiceInfo extends Component {
     this.state = this.defaultState;
   }
 
+  componentWillReceiveProps(nextProps) {
+    const {
+      fetchRecipient,
+      recipients: {
+        addingRecipient,
+        addingRecipientSuccess
+      }
+    } = nextProps;
+
+    if (addingRecipient && addingRecipientSuccess) {
+      fetchRecipient(1);
+    }
+  }
+
   handleOnChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value
@@ -102,7 +116,7 @@ class InvoiceInfo extends Component {
                 </div>
               </div>
               <div className="col-lg-6 text-right">
-                <label>Invoice file:</label>
+                <label>Recipient:</label>
                 <Button
                   className="btn-primary col-lg-6 col-md-6 col-sm-12"
                   text="Add Recipient"

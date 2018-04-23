@@ -1,20 +1,20 @@
 import { RSAA } from "redux-api-middleware";
 
-export const GET_RECIPIENTS = "invoices:get_recipients";
-export const GET_RECIPIENTS_SUCCESS = "invoices:get_recipients_success";
-export const GET_RECIPIENTS_FAILURE = "invoices:get_recipients_failure";
+export const FETCH_RECIPIENT = "invoices:fetch_recipient";
+export const FETCH_RECIPIENT_SUCCESS = "invoices:fetch_recipient_success";
+export const FETCH_RECIPIENT_FAILURE = "invoices:fetch_recipient_failure";
 
 export const ADD_RECIPIENT = "invoices:add_recipient";
 export const ADD_RECIPIENT_SUCCESS = "invoices:add_recipient_success";
 export const ADD_RECIPIENT_FAILURE = "invoices:add_recipient_failure";
 
-export function getRecipients(invoiceId) {
+export function fetchRecipient(invoiceId) {
   return (dispatch) => {
     return dispatch({
       [RSAA]: {
         endpoint: `http://127.0.0.1:3333/api/v1/recipients/${invoiceId}`,
         method: "GET",
-        types: [GET_RECIPIENTS, GET_RECIPIENTS_SUCCESS, GET_RECIPIENTS_FAILURE]
+        types: [FETCH_RECIPIENT, FETCH_RECIPIENT_SUCCESS, FETCH_RECIPIENT_FAILURE]
       }
     })
   }
@@ -38,6 +38,23 @@ export function addRecipient(invoiceId, data) {
 }
 
 const ACTION_HANDLERS = {
+  [FETCH_RECIPIENT]: state => ({
+    ...state,
+    fetchingRecipient: true
+  }),
+  [FETCH_RECIPIENT_SUCCESS]: (state, action) => ({
+    ...state,
+    fetchingRecipient: false,
+    fetchingRecipientSuccess: true,
+    recipient: action.payload
+  }),
+  [FETCH_RECIPIENT_FAILURE]: (state, action) => ({
+    ...state,
+    fetchingRecipient: false,
+    fetchingRecipientSuccess: false,
+    fetchingRecipientError: action.payload
+  }),
+  
   [ADD_RECIPIENT]: state => ({
     ...state,
     addingRecipient: true
@@ -52,7 +69,7 @@ const ACTION_HANDLERS = {
     ...state,
     addingRecipient: false,
     addingRecipientSuccess: false,
-    addingRecipientError: action.payload
+    addingRecipientError: action.payload.response
   }),
 };
 

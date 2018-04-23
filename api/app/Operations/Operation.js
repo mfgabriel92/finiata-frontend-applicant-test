@@ -35,6 +35,8 @@ class Operation {
 
     const validation = await this.validator.validate(this, rules);
 
+    console.log(validation);
+
     if (validation.fails()) {
       validation.messages().map((err) => {
         this.addError(HTTP.STATUS_INTERNAL_SERVER_ERROR, err.message);
