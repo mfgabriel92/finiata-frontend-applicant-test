@@ -22,14 +22,14 @@ class InvoiceInfoController {
       op.invoiceAmount = request.input("invoiceAmount");
       op.paymentTarget = request.input("paymentTarget");
 
-      const store = await op.store();
+      const invoiceInfo = await op.store();
 
-      if (!store) {
+      if (!invoiceInfo) {
         const error = op.getFirstError();
-        return await response.send(error.code);
+        return response.status(error.code).send(error.message);
       }
 
-      return response.send(200);
+      return response.status(200).send(invoiceInfo);
     }
 }
 

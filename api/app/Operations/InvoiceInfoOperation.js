@@ -43,7 +43,7 @@ class InvoiceInfoOperation extends Operation {
    * @returns {Promise<boolean>}
    */
     async store() {
-      if (!this.validate()) {
+      if (!await this.validate()) {
         return false;
       }
 
@@ -54,13 +54,16 @@ class InvoiceInfoOperation extends Operation {
       return false;
     }
 
-    const invoiceInfo = await InvoiceInfo.create({
-      invoice_id: invoice.id,
-      invoiceAmount: this.invoiceAmount,
-      paymentTarget: moment(this.paymentTarget).format("YYYY-MM-DD HH:mm:ss")
-    });
-
-    return invoiceInfo
+    try {
+      return await InvoiceInfo.create({
+        invoice_id: invoice.id,
+        invoiceAmount: this.invoiceAmount,
+        paymentTarget: moment(this.paymentTarget).format("YYYY-MM-DD HH:mm:ss")
+      });
+    } catch (e) {
+      this.addError(HTTP.STATUS_INTERNAL_SERVER_ERROR, e);
+      return false;
+    }
   }
 }
 

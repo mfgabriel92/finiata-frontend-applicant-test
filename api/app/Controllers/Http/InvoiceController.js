@@ -20,14 +20,12 @@ class InvoiceController {
     const op = new InvoiceOperation();
 
     op.invoice = request.file("invoice");
-    op.store();
 
-    const store = await op.store();
+    const invoice = await op.store();
 
-    if (store === false) {
+    if (!invoice) {
       const error = op.getFirstError();
-      console.log(error.code, error.message);
-      return response.send(error.code, error.message);
+      return response.status(error.code).send(error.message);
     }
 
     return response.send(200);

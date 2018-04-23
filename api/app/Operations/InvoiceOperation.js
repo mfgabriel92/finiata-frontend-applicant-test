@@ -2,6 +2,7 @@
 
 const Helpers = use("Helpers");
 const Operation = use("App/Operations/Operation");
+const HTTP = use("App/HTTPResponse");
 const Invoice = use("App/Models/Invoice");
 const moment = use("moment");
 
@@ -36,7 +37,7 @@ class InvoiceOperation extends Operation {
    * @returns {Promise<*>}
    */
   async store() {
-    if (!this.validate()) {
+    if (!await this.validate()) {
       return false;
     }
 
@@ -51,9 +52,14 @@ class InvoiceOperation extends Operation {
       return file.error();
     }
 
-    await Invoice.create({
-      filename: name
-    });
+    try {
+      await Invoice.create({
+        filename: name
+      });
+    } catch (e) {
+      this.addError(HTTP.STATUS_INTERNAL_SERVER_ERROR, e);
+      return false;
+    }
 
     return true;
   }
