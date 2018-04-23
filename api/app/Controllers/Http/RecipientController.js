@@ -34,6 +34,28 @@ class RecipientController {
 
     return response.status(200).send(recipient);
   }
+
+  /**
+   * Operation for fetching recipients from database
+   *
+   * @param request
+   * @param response
+   * @param params
+   * @returns {Promise<void>}
+   */
+  async fetch({ request, response, params }) {
+    const op = new RecipientOperation();
+    op.invoiceId = params.invoiceId;
+
+    const recipient = await op.fetch();
+
+    if (!recipient) {
+      const error = op.getFirstError();
+      return response.status(error.code).send(error.message);
+    }
+
+    return response.status(200).send(recipient);
+  }
 }
 
 module.exports = RecipientController;

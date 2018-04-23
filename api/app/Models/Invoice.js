@@ -7,6 +7,10 @@ class Invoice extends Model {
     return this.hasMany("App/Models/InvoiceInfo");
   }
 
+  recipients() {
+    return this.hasMany("App/Models/Recipient");
+  }
+
   static directoryPath() {
     return "public/invoices";
   }

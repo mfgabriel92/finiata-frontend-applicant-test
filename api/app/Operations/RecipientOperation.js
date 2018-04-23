@@ -26,25 +26,20 @@ class RecipientOperation extends Operation {
   }
 
   /**
-   * Rules for recipients table
-   */
-  get rules() {
-    return {
-      invoiceId: "required",
-      name: "required|string",
-      surname: "required|string",
-      address: "required",
-      phone: "required|string"
-    }
-  }
-
-  /**
    * Operation for storing into the database
    *
    * @returns {Promise<*>}
    */
   async store() {
-    if (!await this.validate()) {
+    const rules = {
+      invoiceId: "required|number",
+      name: "required|string",
+      surname: "required|string",
+      address: "required",
+      phone: "required|string"
+    };
+
+    if (!await this.validate(rules)) {
       return false;
     }
 
@@ -67,6 +62,23 @@ class RecipientOperation extends Operation {
       this.addError(HTTP.STATUS_INTERNAL_SERVER_ERROR, e);
       return false;
     }
+  }
+
+  /**
+   * Operation for fetching recipients from database
+   *
+   * @returns {Promise<void>}
+   */
+  async fetch() {
+    const rules = {
+      invoiceId: "required",
+    };
+
+    if (!await this.validate(rules)) {
+      return false;
+    }
+
+    return await Recipient.query().where("invoice_id", this.invoiceId).fetch();
   }
 }
 

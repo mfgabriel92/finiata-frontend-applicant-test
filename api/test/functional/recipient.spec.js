@@ -1,11 +1,28 @@
 "use strict";
 
 const { trait, test } = use("Test/Suite")("Add Recipient");
+const Recipient = use("App/Models/Recipient");
 
 trait("Test/ApiClient");
 
 test("fetch recipients", async ({ client }) => {
-  const request = await client.get("http://127.0.0.1:3333/api/v1/recipients/1")
+  await Recipient.create({
+    invoice_id: 1,
+    name: "Test",
+    surname: "Ing",
+    address: "123 Lorem",
+    phone: "55555555"
+  });
+
+  const response = await client.get("http://127.0.0.1:3333/api/v1/recipients/1").end();
+
+  response.assertStatus(200);
+  response.assertJSONSubset({
+    name: "Test",
+    surname: "Ing",
+    address: "123 Lorem",
+    phone: "55555555"
+  });
 });
 
 test("insertion of a recipient", async ({ client }) => {

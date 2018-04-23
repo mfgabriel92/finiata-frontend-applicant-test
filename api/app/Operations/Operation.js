@@ -24,10 +24,16 @@ class Operation {
     return {}
   }
 
-  async validate() {
+  /**
+   * Validation of data being sent to the database
+   *
+   * @param rules
+   * @returns {Promise<boolean>}
+   */
+  async validate(rules) {
     this.errors = [];
 
-    const validation = await this.validator.validate(this, this.rules);
+    const validation = await this.validator.validate(this, rules);
 
     if (validation.fails()) {
       validation.messages().map((err) => {
