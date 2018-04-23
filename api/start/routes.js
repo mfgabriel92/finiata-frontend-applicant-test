@@ -17,6 +17,7 @@ const Route = use('Route');
 
 Route.group(() => {
   Route.post("/invoices", "InvoiceController.store");
-  Route.post("/invoices-info", "InvoiceInfoController.store");
-  Route.post("/recipients", "RecipientController.store");
+  Route.post("/invoices-info/:invoiceId", "InvoiceInfoController.store");
+  Route.get("/recipients/:invoiceId", "RecipientController.fetch");
+  Route.post("/recipients/:invoiceId", "RecipientController.store");
 }).prefix('api/v1');

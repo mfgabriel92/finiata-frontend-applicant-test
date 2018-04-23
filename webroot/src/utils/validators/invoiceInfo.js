@@ -18,6 +18,6 @@ export default function validate(data) {
 
   return {
     errors,
-    isValid: errors.length > 0
+    isValid: Object.keys(errors).length === 0
   }
 }

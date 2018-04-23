@@ -5,6 +5,7 @@ import thunkMiddleware from "redux-thunk";
 import { apiMiddleware } from "redux-api-middleware";
 import makeRootReducer from "./actions/reducers";
 import AppContainer from "./containers/App";
+import FlashMessage from "./containers/common/FlashMessage";
 import "./App.css"
 
 const middleware = [thunkMiddleware, apiMiddleware];
@@ -21,7 +22,10 @@ export default class App extends Component {
   render () {
     return (
       <Provider store={store}>
-        <AppContainer/>
+        <div>
+          <FlashMessage/>
+          <AppContainer/>
+        </div>
       </Provider>
     )
   }

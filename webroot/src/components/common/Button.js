@@ -4,10 +4,10 @@ import cx from "classnames";
 
 class Button extends Component {
   render() {
-    const { className, onClick, text } = this.props;
+    const { className, onClick, text, showFromGroup } = this.props;
 
     return (
-      <div className="form-group">
+      <div className={showFromGroup && "form-group"}>
         <button className={cx("btn", className)} onClick={onClick}>
           {text}
         </button>
@@ -17,13 +17,15 @@ class Button extends Component {
 }
 
 Button.propTypes = {
-  className: PropTypes.string,
+  className: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
-  text: PropTypes.string
+  text: PropTypes.string,
+  showFromGroup: PropTypes.bool
 };
 
 Button.defaultProps = {
-  text: "Submit"
+  text: "Submit",
+  showFromGroup: false
 };
 
 export default Button;

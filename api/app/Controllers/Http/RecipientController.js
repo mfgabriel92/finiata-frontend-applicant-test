@@ -2,10 +2,24 @@
 
 const RecipientOperation = use("App/Operations/RecipientOperation");
 
+/**
+ * Controller class for accessing operations for recipients table
+ *
+ * @author gabriel
+ * @class
+ */
 class RecipientController {
-  async store({ request, response }) {
+  /**
+   * Operation for storing into the database
+   *
+   * @param request
+   * @param response
+   * @param params
+   * @returns {Promise<void>}
+   */
+  async store({ request, response, params }) {
     const op = new RecipientOperation();
-    op.invoiceId = request.input("invoiceId");
+    op.invoiceId = params.invoiceId;
     op.name = request.input("name");
     op.surname = request.input("surname");
     op.address = request.input("address");

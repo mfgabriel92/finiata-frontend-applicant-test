@@ -25,7 +25,7 @@ export function addInvoiceInfo(invoiceId, data) {
   return dispatch => {
     return dispatch({
       [RSAA]: {
-        endpoint: `http://127.0.0.1:3333/api/v1/invoice-info/${invoiceId}`,
+        endpoint: `http://127.0.0.1:3333/api/v1/invoices-info/${invoiceId}`,
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -66,6 +66,7 @@ const ACTION_HANDLERS = {
     ...state,
     addingInvoiceInfo: false,
     addingInvoiceInfoSuccess: false,
+    addingInvoiceInfoErrors: action.payload
   }),
 };
 
@@ -75,9 +76,10 @@ const initialState = {
 
   addingInvoiceInfo: false,
   addingInvoiceInfoSuccess: false,
+  addingInvoiceInfoErrors: null
 };
 
-export default function reducer(state = initialState, action) {
+export default function invoiceReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type];
   return handler ? handler(state, action) : state;
 }

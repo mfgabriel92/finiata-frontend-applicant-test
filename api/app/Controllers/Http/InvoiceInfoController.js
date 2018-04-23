@@ -14,11 +14,12 @@ class InvoiceInfoController {
    *
    * @param request
    * @param response
+   * @param params
    * @returns {Promise<*>}
    */
-    async store({ request, response }) {
+    async store({ request, response, params }) {
       const op = new InvoiceInfoOperation();
-      op.invoiceId = request.input("invoiceId");
+      op.invoiceId = params.invoiceId;
       op.invoiceAmount = request.input("invoiceAmount");
       op.paymentTarget = request.input("paymentTarget");
 

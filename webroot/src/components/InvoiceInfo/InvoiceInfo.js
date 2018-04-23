@@ -3,6 +3,7 @@ import DatePicker from "react-datepicker";
 import Dropzone from "react-dropzone";
 import Input from "../common/Input";
 import Button from "../common/Button";
+import AddRecipientModal from "./AddRecipientModal";
 import moment from "moment";
 import validate from "../../utils/validators/invoiceInfo";
 import cx from "classnames";
@@ -37,7 +38,8 @@ class InvoiceInfo extends Component {
   };
 
   handleAddRecipientClick = () => {
-
+    const { addRecipientModal } = this.refs;
+    addRecipientModal.open();
   };
 
   isValid = (data) => {
@@ -45,9 +47,10 @@ class InvoiceInfo extends Component {
 
     if (!isValid) {
       this.setState({ errors });
+      return false;
     }
 
-    return isValid;
+    return true;
   };
 
   handleOnSubmit = (e) => {
@@ -57,15 +60,17 @@ class InvoiceInfo extends Component {
       const { addInvoiceInfo } = this.props;
       const { invoiceId, invoiceAmount, paymentTarget } = this.state;
 
-      addInvoiceInfo(invoiceId, { invoiceAmount, paymentTarget });
+      addInvoiceInfo(1, { invoiceAmount, paymentTarget });
     }
   };
 
   render() {
     const { invoiceAmount, paymentTarget, errors } = this.state;
+    const { addRecipient, recipients } = this.props;
 
     return (
       <div id="invoice-info">
+        <AddRecipientModal ref="addRecipientModal" addRecipient={addRecipient} recipients={recipients}/>
         <div className="container">
           <div className="col-lg-12">
             <div className="row block">
