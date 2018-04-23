@@ -27,6 +27,16 @@ export function deleteFlashMessage() {
   }
 }
 
+const failureMessage = () => {
+  return (state, action) => ({
+    ...state,
+    flashMessage: {
+      message: action.payload,
+      type: TYPE_ERROR
+    }
+  })
+};
+
 const ACTION_HANDLERS = {
   [ADD_FLASH_MESSAGE]: (state, action) => ({
     ...state,
@@ -64,6 +74,8 @@ const ACTION_HANDLERS = {
       type: TYPE_SUCCESS
     }
   }),
+  [UPLOAD_INVOICE_FAILURE]: failureMessage(),
+  [ADD_INVOICE_INFO_FAILURE]: failureMessage(),
 };
 
 const initialState = {

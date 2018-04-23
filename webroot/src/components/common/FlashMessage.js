@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { deleteFlashMessage } from "../../actions/app";
 import cx from "classnames";
 
@@ -31,6 +30,12 @@ class FlashMessage extends Component {
     }, 4000);
   };
 
+  getContent = () => {
+    const { flash: { message, type } } = this.props;
+
+    console.log(message.isArray);
+  };
+
   render() {
     const { flash: { message, type } } = this.props;
     const { hide } = this.state;
@@ -48,15 +53,19 @@ class FlashMessage extends Component {
         spanClass = "text-warning";
         break;
       case "error":
-        modalClass = "alert-error";
-        spanClass = "text-error";
+        modalClass = "alert-danger";
+        spanClass = "text-danger";
         break;
     }
 
     return (
       !hide && <div className={cx("text-center alert", modalClass)}>
         <span className={spanClass}>
-          {message}
+          {
+            type === "error"
+              ? message.message
+              : message
+          }
         </span>
       </div>
     )
