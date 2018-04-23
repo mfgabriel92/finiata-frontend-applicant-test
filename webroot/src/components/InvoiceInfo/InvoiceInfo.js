@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 import Dropzone from "react-dropzone";
 import Input from "../common/Input";
 import Button from "../common/Button";
-import AddRecipientModal from "./AddRecipientModal";
+import RecipientModal from "./RecipientModal";
 import moment from "moment";
 import validate from "../../utils/validators/invoiceInfo";
 import cx from "classnames";
@@ -17,6 +17,7 @@ class InvoiceInfo extends Component {
       invoiceId: "",
       invoiceAmount: "",
       paymentTarget: moment().add(1, 'day'),
+      recipient: null,
       files: [],
       errors: {},
       isLoading: false
@@ -25,17 +26,27 @@ class InvoiceInfo extends Component {
     this.state = this.defaultState;
   }
 
+  componentWillMount() {
+    const { fetchRecipient } = this.props;
+    fetchRecipient(1);
+  }
+
   componentWillReceiveProps(nextProps) {
     const {
       fetchRecipient,
       recipients: {
-        addingRecipient,
-        addingRecipientSuccess
+        fetchingRecipientSuccess,
+        addingRecipientSuccess,
+        recipient
       }
     } = nextProps;
 
-    if (addingRecipient && addingRecipientSuccess) {
+    if (addingRecipientSuccess) {
       fetchRecipient(1);
+    }
+
+    if (recipient && fetchingRecipientSuccess) {
+      this.setState({ recipient });
     }
   }
 
@@ -51,9 +62,9 @@ class InvoiceInfo extends Component {
     });
   };
 
-  handleAddRecipientClick = () => {
-    const { addRecipientModal } = this.refs;
-    addRecipientModal.open();
+  handleRecipientManagementClick = () => {
+    const { recipientModal } = this.refs;
+    recipientModal.open();
   };
 
   isValid = (data) => {
@@ -71,6 +82,8 @@ class InvoiceInfo extends Component {
     e.preventDefault();
 
     if (this.isValid(this.state)) {
+      this.setState({ errors: {} });
+
       const { addInvoiceInfo } = this.props;
       const { invoiceId, invoiceAmount, paymentTarget } = this.state;
 
@@ -79,12 +92,12 @@ class InvoiceInfo extends Component {
   };
 
   render() {
-    const { invoiceAmount, paymentTarget, errors } = this.state;
+    const { invoiceAmount, paymentTarget, errors, recipient } = this.state;
     const { addRecipient, recipients } = this.props;
 
     return (
       <div id="invoice-info">
-        <AddRecipientModal ref="addRecipientModal" addRecipient={addRecipient} recipients={recipients}/>
+        <RecipientModal ref="recipientModal" addRecipient={addRecipient} recipients={recipients}/>
         <div className="container">
           <div className="col-lg-12">
             <div className="row block">
@@ -110,18 +123,33 @@ class InvoiceInfo extends Component {
                         onChange={this.handleOnChangePaymentTarget}
                         selected={moment(paymentTarget)}
                       />
-                      {errors.paymentTarget && <span className="error-label small float-right text-danger">{errors.paymentTarget}</span>}
+                      {errors.paymentTarget &&
+                      <span className="error-label small float-right text-danger">{errors.paymentTarget}</span>}
                     </div>
                   </div>
                 </div>
               </div>
               <div className="col-lg-6 text-right">
-                <label>Recipient:</label>
-                <Button
-                  className="btn-primary col-lg-6 col-md-6 col-sm-12"
-                  text="Add Recipient"
-                  onClick={this.handleAddRecipientClick}
-                />
+                <div className="row">
+                  <div className="col-lg-6"></div>
+                  <div className="col-lg-6 text-left">
+                    <label>Recipient:</label>
+                    {
+                      recipient && (
+                        <div className="text-muted">
+                          <p>Full name: {recipient.name} {recipient.surname}</p>
+                          <p>Address: {recipient.address}</p>
+                          <p>Phone: {recipient.phone}</p>
+                        </div>
+                      )
+                    }
+                    <Button
+                      className="btn-primary col-lg-12"
+                      text={`${recipient ? "Edit " : "Add "} Recipient`}
+                      onClick={this.handleRecipientManagementClick}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
             <div className="row block">

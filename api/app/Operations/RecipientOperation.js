@@ -32,7 +32,7 @@ class RecipientOperation extends Operation {
    */
   async store() {
     const rules = {
-      invoiceId: "required|number",
+      invoiceId: "required",
       name: "required|string",
       surname: "required|string",
       address: "required",
@@ -78,7 +78,7 @@ class RecipientOperation extends Operation {
       return false;
     }
 
-    return await Recipient.query().where("invoice_id", this.invoiceId).fetch();
+    return await Recipient.findBy("invoice_id", this.invoiceId);
   }
 }
 

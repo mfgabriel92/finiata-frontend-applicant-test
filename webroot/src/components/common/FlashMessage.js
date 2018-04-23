@@ -58,14 +58,14 @@ class FlashMessage extends Component {
         break;
     }
 
+    let text = type === "error"
+      ? message.response.message
+      : message;
+
     return (
       !hide && <div className={cx("text-center alert", modalClass)}>
         <span className={spanClass}>
-          {
-            type === "error"
-              ? message.response.message
-              : message
-          }
+          {text.charAt(0).toUpperCase() + text.slice(1)}
         </span>
       </div>
     )

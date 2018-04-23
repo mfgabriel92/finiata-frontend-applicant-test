@@ -8,6 +8,10 @@ export const ADD_RECIPIENT = "invoices:add_recipient";
 export const ADD_RECIPIENT_SUCCESS = "invoices:add_recipient_success";
 export const ADD_RECIPIENT_FAILURE = "invoices:add_recipient_failure";
 
+export const UPDATE_RECIPIENT = "invoices:update_recipient";
+export const UPDATE_RECIPIENT_SUCCESS = "invoices:update_recipient_success";
+export const UPDATE_RECIPIENT_FAILURE = "invoices:update_recipient_failure";
+
 export function fetchRecipient(invoiceId) {
   return (dispatch) => {
     return dispatch({
@@ -37,10 +41,29 @@ export function addRecipient(invoiceId, data) {
   }
 }
 
+export function updateRecipient(recipientId, data) {
+  return (dispatch) => {
+    return dispatch({
+      [RSAA]: {
+        endpoint: `http://127.0.0.1:3333/api/v1/recipients/${recipientId}`,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data),
+        types: [UPDATE_RECIPIENT, UPDATE_RECIPIENT_SUCCESS, UPDATE_RECIPIENT_FAILURE]
+      }
+    })
+  }
+}
+
+
 const ACTION_HANDLERS = {
   [FETCH_RECIPIENT]: state => ({
     ...state,
-    fetchingRecipient: true
+    fetchingRecipient: true,
+    fetchingRecipientSuccess: false,
+    addingRecipientSuccess: false,
   }),
   [FETCH_RECIPIENT_SUCCESS]: (state, action) => ({
     ...state,
@@ -71,12 +94,30 @@ const ACTION_HANDLERS = {
     addingRecipientSuccess: false,
     addingRecipientError: action.payload.response
   }),
+
+  [UPDATE_RECIPIENT]: state => ({
+    ...state,
+    updateRecipient: true
+  }),
+  [UPDATE_RECIPIENT_SUCCESS]: (state, action) => ({
+    ...state,
+    updateRecipient: false,
+    updateRecipientSuccess: true,
+    recipient: action.payload
+  }),
+  [UPDATE_RECIPIENT_FAILURE]: (state, action) => ({
+    ...state,
+    updateRecipient: false,
+    updateRecipientSuccess: false,
+    updateRecipientError: action.payload.response
+  }),
 };
 
 const initialState = {
   addingRecipient: false,
   addingRecipientSuccess: false,
-  addingRecipientError: null
+  addingRecipientError: null,
+  recipients: null
 };
 
 export default function recipientReducer(state = initialState, action) {

@@ -4,7 +4,7 @@ import { ModalContainer, ModalDialog } from "react-modal-dialog-react16";
 import Input from "../common/Input";
 import validate from "../../utils/validators/recipient";
 
-class AddRecipientModal extends Component {
+class RecipientModal extends Component {
   constructor(props) {
     super(props);
 
@@ -13,11 +13,31 @@ class AddRecipientModal extends Component {
       surname: "",
       address: "",
       phone: "",
+      recipient: null,
       show: false,
-      errors: {}
+      errors: {},
     };
 
     this.state = this.defaultState;
+    this.editing = false;
+  }
+
+  setEditing = (editing) => {
+    this.editing = editing;
+  };
+
+  componentWillReceiveProps(nextProps) {
+    const { recipients: { addingRecipientSuccess, recipient } } = nextProps;
+
+    if (recipient) {
+      this.setEditing(true);
+      this.setState({ ...recipient });
+    }
+
+    if (addingRecipientSuccess) {
+      this.close();
+      this.setState(...this.defaultState);
+    }
   }
 
   open = () => {
@@ -49,8 +69,17 @@ class AddRecipientModal extends Component {
     e.preventDefault();
 
     if (this.isValid(this.state)) {
-      const { addRecipient } = this.props;
-      addRecipient(1, this.state);
+      switch (this.editing) {
+        case true:
+          console.log("Updating...");
+          // const { updateRecipient } = this.props;
+          // updateRecipient(1, this.state);
+          break;
+        case false:
+          const { addRecipient } = this.props;
+          addRecipient(1, this.state);
+          break;
+      }
     }
   };
 
@@ -61,7 +90,7 @@ class AddRecipientModal extends Component {
       show && <ModalContainer>
         <ModalDialog>
           <div className="col-lg-12">
-            <h3>Add Recipient</h3>
+            <h3>{this.editing ? "Edit " : "Add "} Recipient</h3>
           </div>
           <hr/>
           <div className="col-lg-12">
@@ -81,11 +110,11 @@ class AddRecipientModal extends Component {
   }
 }
 
-AddRecipientModal.propTypes = {
+RecipientModal.propTypes = {
   addRecipient: PropTypes.func.isRequired,
   recipients: PropTypes.object.isRequired
 };
 //
-// AddRecipientModal.defaultProps = {};
+// RecipientModal.defaultProps = {};
 
-export default AddRecipientModal;
+export default RecipientModal;

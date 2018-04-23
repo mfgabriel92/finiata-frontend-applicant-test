@@ -7,6 +7,12 @@ import {
   ADD_INVOICE_INFO_FAILURE
 } from "./invoices/invoices";
 
+import {
+  ADD_RECIPIENT,
+  ADD_RECIPIENT_SUCCESS,
+  ADD_RECIPIENT_FAILURE
+} from "./recipients/recipients";
+
 export const ADD_FLASH_MESSAGE = 'app:add_flash_message';
 export const DELETE_FLASH_MESSAGE = 'app:delete_flash_message';
 
@@ -60,6 +66,7 @@ const ACTION_HANDLERS = {
       type: TYPE_SUCCESS
     }
   }),
+
   [ADD_INVOICE_INFO]: state => ({
     ...state,
     flashMessage: {
@@ -74,8 +81,25 @@ const ACTION_HANDLERS = {
       type: TYPE_SUCCESS
     }
   }),
+
+  [ADD_RECIPIENT]: state => ({
+    ...state,
+    flashMessage: {
+      message: "Submitting recipient...",
+      type: TYPE_PROCESSING
+    }
+  }),
+  [ADD_RECIPIENT_SUCCESS]: state => ({
+    ...state,
+    flashMessage: {
+      message: "Recipient successfully added!",
+      type: TYPE_SUCCESS
+    }
+  }),
+
   [UPLOAD_INVOICE_FAILURE]: failureMessage(),
   [ADD_INVOICE_INFO_FAILURE]: failureMessage(),
+  [ADD_RECIPIENT_FAILURE]: failureMessage(),
 };
 
 const initialState = {
