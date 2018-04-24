@@ -11,6 +11,10 @@ class Invoice extends Model {
     return this.hasMany("App/Models/Recipient");
   }
 
+  additionalFiles() {
+    return this.hasMany("App/Models/AdditionalFile");
+  }
+
   static directoryPath() {
     return "public/invoices";
   }
