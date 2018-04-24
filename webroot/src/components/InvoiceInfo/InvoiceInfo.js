@@ -1,13 +1,10 @@
 import React, { Component } from "react";
-import DatePicker from "react-datepicker";
-import Dropzone from "react-dropzone";
-import Input from "../common/Input";
-import Button from "../common/Button";
 import RecipientModal from "./RecipientModal";
 import moment from "moment";
 import validate from "../../utils/validators/invoiceInfo";
-import cx from "classnames";
 import "react-datepicker/dist/react-datepicker.css";
+import Information from "./Information";
+import AdditionalFiles from "./AdditionalFiles";
 
 class InvoiceInfo extends Component {
   constructor(props) {
@@ -114,7 +111,7 @@ class InvoiceInfo extends Component {
   };
 
   render() {
-    const { invoiceAmount, paymentTarget, errors, recipient } = this.state;
+    const { recipient } = this.state;
     const { addRecipient, updateRecipient, recipients, invoices: { invoiceFile } } = this.props;
 
     return (
@@ -122,87 +119,15 @@ class InvoiceInfo extends Component {
         <RecipientModal ref="recipientModal" addRecipient={addRecipient} updateRecipient={updateRecipient} recipients={recipients} invoiceId={invoiceFile[0].id}/>
         <div className="container">
           <div className="col-lg-12">
-            <div className="row block">
-              <div className="col-lg-6 col-md-12">
-                <div className="row">
-                  <div className="col-lg-6 col-md-12">
-                    <Input
-                      addOn="$"
-                      label="Invoice Amount"
-                      type="number"
-                      name="invoiceAmount"
-                      value={invoiceAmount}
-                      placeholder={"1250"}
-                      error={errors.invoiceAmount}
-                      onChange={this.handleOnChange}
-                    />
-                  </div>
-                  <div className="col-lg-6 col-md-12">
-                    <div className="form-group">
-                      <label>Payment Target</label>
-                      <DatePicker
-                        className={cx("date-picker form-control", errors.paymentTarget && "is-invalid")}
-                        onChange={this.handleOnChangePaymentTarget}
-                        selected={moment(paymentTarget)}
-                      />
-                      {errors.paymentTarget &&
-                      <span className="error-label small float-right text-danger">{errors.paymentTarget}</span>}
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-lg-12">
-                    <p>
-                      Invoice File:
-                      <span className="small filename">
-                        {invoiceFile[0].filename.substr(20)}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-6 text-right">
-                <div className="row">
-                  <div className="col-lg-6"></div>
-                  <div className="col-lg-6 text-left">
-                    <label>Recipient:</label>
-                    {
-                      recipient && (
-                        <div className="text-muted">
-                          <p>Full name: {recipient.name} {recipient.surname}</p>
-                          <p>Address: {recipient.address}</p>
-                          <p>Phone: {recipient.phone}</p>
-                        </div>
-                      )
-                    }
-                    <Button
-                      className="btn-primary col-lg-12"
-                      text={`${recipient ? "Edit " : "Add "} Recipient`}
-                      onClick={this.handleRecipientManagementClick}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="row block">
-              <div className="col-lg-12">
-                <Dropzone
-                  accept="application/pdf"
-                  className={"dropzone"}
-                  activeClassName={"active-dropzone"}
-                  rejectClassName={"reject-dropzone"}
-                >
-                  <p>Drag aditional files here</p>
-                </Dropzone>
-              </div>
-              <div className="col-lg-12 text-right">
-                <Button
-                  className="btn-primary col-lg-2 col-md-6 col-sm-12"
-                  text="Proceed"
-                  onClick={this.handleOnSubmit}
-                />
-              </div>
-            </div>
+            <Information
+              state={this.state}
+              invoiceFile={invoiceFile}
+              recipient={recipient}
+              onChange={this.handleOnChange}
+              onPaymentTargetChange={this.handleOnChangePaymentTarget}
+              onRecipientClick={this.handleRecipientManagementClick}
+            />
+            <AdditionalFiles onSubmit={this.handleOnSubmit}/>
           </div>
         </div>
       </div>
