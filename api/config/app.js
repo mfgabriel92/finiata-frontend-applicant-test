@@ -100,7 +100,7 @@ module.exports = {
     | Dot Files
     |--------------------------------------------------------------------------
     |
-    | Define how to treat dot files when trying to server static resources.
+    | Define how to treat dot filesList when trying to server static resources.
     | By default it is set to ignore, which will pretend that dotfiles
     | does not exists.
     |

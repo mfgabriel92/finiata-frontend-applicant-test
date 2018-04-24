@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "classnames": "^2.2.5",
+    "lodash": "^4.17.5",
     "moment": "^2.22.1",
     "node-sass-chokidar": "^1.2.2",
     "prop-types": "^15.6.1",

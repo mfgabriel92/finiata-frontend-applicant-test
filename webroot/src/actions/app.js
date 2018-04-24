@@ -16,6 +16,12 @@ import {
   UPDATE_RECIPIENT_FAILURE
 } from "./recipients/recipients";
 
+import {
+  ADD_ADDITIONAL_FILE,
+  ADD_ADDITIONAL_FILE_SUCCESS,
+  ADD_ADDITIONAL_FILE_FAILURE
+} from "./additionalFiles/additionalFiles";
+
 export const ADD_FLASH_MESSAGE = 'app:add_flash_message';
 export const DELETE_FLASH_MESSAGE = 'app:delete_flash_message';
 
@@ -116,10 +122,26 @@ const ACTION_HANDLERS = {
     }
   }),
 
+  [ADD_ADDITIONAL_FILE]: state => ({
+    ...state,
+    flashMessage: {
+      message: "Wait while an additional file is being added...",
+      type: TYPE_PROCESSING
+    }
+  }),
+  [ADD_ADDITIONAL_FILE_SUCCESS]: state => ({
+    ...state,
+    flashMessage: {
+      message: "Additional file successfully added.",
+      type: TYPE_SUCCESS
+    }
+  }),
+
   [UPLOAD_INVOICE_FAILURE]: failureMessage(),
   [ADD_INVOICE_INFO_FAILURE]: failureMessage(),
   [ADD_RECIPIENT_FAILURE]: failureMessage(),
   [UPDATE_RECIPIENT_FAILURE]: failureMessage(),
+  [ADD_ADDITIONAL_FILE_FAILURE]: failureMessage(),
 };
 
 const initialState = {

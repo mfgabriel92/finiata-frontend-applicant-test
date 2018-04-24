@@ -97,12 +97,12 @@ module.exports = {
     | Max Size
     |--------------------------------------------------------------------------
     |
-    | Below value is the max size of all the files uploaded to the server. It
-    | is validated even before files have been processed and hard exception
+    | Below value is the max size of all the filesList uploaded to the server. It
+    | is validated even before filesList have been processed and hard exception
     | is thrown.
     |
     | Consider setting a reasonable value here, otherwise people may upload GB's
-    | of files which will keep your server busy.
+    | of filesList which will keep your server busy.
     |
     | Also this value is considered when `autoProcess` is set to true.
     |
@@ -114,9 +114,9 @@ module.exports = {
     | Auto Process
     |--------------------------------------------------------------------------
     |
-    | Whether or not to auto-process files. Since HTTP servers handle files via
+    | Whether or not to auto-process filesList. Since HTTP servers handle filesList via
     | couple of specific endpoints. It is better to set this value off and
-    | manually process the files when required.
+    | manually process the filesList when required.
     |
     | This value can contain a boolean or an array of route patterns
     | to be autoprocessed.
@@ -128,7 +128,7 @@ module.exports = {
     | Process Manually
     |--------------------------------------------------------------------------
     |
-    | The list of routes that should not process files and instead rely on
+    | The list of routes that should not process filesList and instead rely on
     | manual process. This list should only contain routes when autoProcess
     | is to true. Otherwise everything is processed manually.
     |

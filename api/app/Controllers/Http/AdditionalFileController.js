@@ -36,8 +36,7 @@ class AdditionalFileController {
   async store({ request, response, params }) {
     const op = new AdditionalFileOperation();
     op.invoiceId = params.invoiceId;
-    op.filename = request.input("filename");
-    op.path = request.input("path");
+    op.file = request.file("additionalFile");
     op.description = request.input("description");
 
     const additionalFile = await op.store();

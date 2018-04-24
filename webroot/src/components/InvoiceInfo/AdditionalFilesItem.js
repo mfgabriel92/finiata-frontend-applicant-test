@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Input from "../common/Input";
 import Button from "../common/Button";
 import FontAwesome from "react-fontawesome";
+import moment from "moment";
 
 class AdditionalFilesItem extends Component {
   constructor(props) {
@@ -19,13 +20,17 @@ class AdditionalFilesItem extends Component {
     })
   };
 
-  handleAddClick = () => {
+  handleAddClick = (item) => {
+    const { addAdditionalFile } = this.props;
+    const { description } = this.state;
 
+    addAdditionalFile(item, description);
   };
 
   handleRemoveClick = (item) => {
-    const { onDeleteClick } = this.props;
-    onDeleteClick(item);
+    const { deleteAdditionalFile } = this.props;
+
+    deleteAdditionalFile(item);
   };
 
   getItemName = (name) => {
@@ -52,40 +57,81 @@ class AdditionalFilesItem extends Component {
     }
   };
 
+  renderFilename = (name) => {
+    const { item, showControls } = this.props;
+
+    return (
+      <div>
+        <FontAwesome name={this.getItemFileIcon(name)} className="file-icon"/>
+        <span className="small">
+            {
+              showControls
+                ? <span>{this.getItemName(name)}</span>
+                : <a download href={item.path}>{this.getItemName(name)}</a>
+            }
+        </span>
+      </div>
+    )
+  };
+
+  renderFileDescription = () => {
+    const { item, showControls } = this.props;
+    const { description } = this.state;
+
+    console.log(item.description ? item.description : "");
+
+    return (
+      showControls
+        ? <Input
+          name="description"
+          value={description}
+          onChange={this.handleOnChange}
+          placeholder="Write a short description..."
+        />
+        : <span>{item.description || ""}</span>
+    )
+  };
+
+  renderFileButtons = () => {
+    const { item, showControls } = this.props;
+
+    return (
+      showControls
+        ? <div className="row">
+            <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <Button
+                className="btn-primary col-lg-12"
+                onClick={() => this.handleAddClick(item)}
+                text={<FontAwesome name="check"/>}/>
+            </div>
+            <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <Button
+                className="btn-danger col-lg-12"
+                onClick={() => this.handleRemoveClick(item)}
+                text={<FontAwesome name="trash"/>}/>
+            </div>
+          </div>
+        : <span className="small">
+            {moment(item.created_at).format("MM/DD/YYYY \\, HH:mm A")}
+          </span>
+    )
+  };
+
   render() {
     const { item } = this.props;
-    const { description } = this.state;
+    const name = item.name || item.filename;
 
     return (
       <div className="col-lg-12 additional-file">
         <div className="row">
           <div className="col-lg-3 col-md-6 col-sm-12">
-            <FontAwesome name={this.getItemFileIcon(item.name)} className="file-icon"/>
-            <span className="small">{this.getItemName(item.name)}</span>
+            {this.renderFilename(name)}
           </div>
           <div className="col-lg-7 col-md-12">
-            <Input
-              name="description"
-              value={description}
-              onChange={this.handleOnChange}
-              placeholder="Write a short description..."
-            />
+            {this.renderFileDescription()}
           </div>
           <div className="col-lg-2 col-md-12">
-            <div className="row">
-              <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <Button
-                  className="btn-primary col-lg-12"
-                  onClick={e => this.handleAddClick()}
-                  text={<FontAwesome name="check"/>}/>
-              </div>
-              <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <Button
-                  className="btn-danger col-lg-12"
-                  onClick={e => this.handleRemoveClick(item)}
-                  text={<FontAwesome name="trash"/>}/>
-              </div>
-            </div>
+            {this.renderFileButtons()}
           </div>
         </div>
       </div>
@@ -94,7 +140,14 @@ class AdditionalFilesItem extends Component {
 }
 
 AdditionalFilesItem.propTypes = {
-  item: PropTypes.object.isRequired
+  item: PropTypes.object,
+  deleteAdditionalFile: PropTypes.func,
+  addAdditionalFile: PropTypes.func,
+  showControls: PropTypes.bool
+};
+
+AdditionalFilesItem.defaultProps = {
+  showControls: true
 };
 
 export default AdditionalFilesItem;

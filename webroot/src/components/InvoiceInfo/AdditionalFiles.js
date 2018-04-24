@@ -10,39 +10,54 @@ class AdditionalFiles extends Component {
     super(props);
 
     this.state = {
-      additionalFiles: []
+      filesList: []
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { additionalFiles: { addingAdditionalFileSuccess } } = nextProps;
+
+    if (addingAdditionalFileSuccess) {
+      this.setState({
+        filesList: []
+      })
     }
   }
 
   handleOnDrop = (files) => {
-    const { additionalFiles } = this.state;
+    const { filesList } = this.state;
 
     files.forEach((f) => {
-      additionalFiles.push(f);
+      filesList.push(f);
     });
 
-    this.setState({ additionalFiles });
+    this.setState({ additionalFiles: filesList });
   };
 
   handleDeleteAdditionalFile = (file) => {
-    const { additionalFiles } = this.state;
-    const removed = _.remove(additionalFiles, { name: file.name });
+    const { filesList } = this.state;
+    const removed = _.remove(filesList, { name: file.name });
 
     this.setState({
-      additionalFiles: _.reject(additionalFiles, removed[0].name)
+      filesList: _.reject(filesList, removed[0].name)
     });
   };
 
   render() {
-    const { onSubmit } = this.props;
-    const { additionalFiles } = this.state;
+    const { onSubmit, addAdditionalFile, additionalFiles: { additionalFiles }  } = this.props;
+    const { filesList } = this.state;
 
     return (
       <div className="row block">
         <div className="col-lg-12">
           <AdditionalFilesList
             list={additionalFiles}
-            onDeleteClick={this.handleDeleteAdditionalFile}
+            showControls={false}
+          />
+          <AdditionalFilesList
+            list={filesList}
+            deleteAdditionalFile={this.handleDeleteAdditionalFile}
+            addAdditionalFile={addAdditionalFile}
           />
         </div>
         <div className="col-lg-12">
@@ -69,7 +84,9 @@ class AdditionalFiles extends Component {
 }
 
 AdditionalFiles.propTypes = {
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func,
+  addAdditionalFile: PropTypes.func,
+  additionalFiles: PropTypes.object
 };
 
 export default AdditionalFiles;

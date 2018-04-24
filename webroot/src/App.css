@@ -8670,7 +8670,7 @@ body {
   background: indianred !important; }
 
 .alert {
-  position: absolute;
+  position: fixed;
   width: auto;
   margin: auto;
   left: 30px;

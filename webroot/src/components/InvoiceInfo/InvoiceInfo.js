@@ -26,6 +26,7 @@ class InvoiceInfo extends Component {
   componentWillMount() {
     const {
       fetchRecipient,
+      fetchAdditionalFiles,
       invoices: {
         invoice,
         invoiceFile
@@ -39,6 +40,7 @@ class InvoiceInfo extends Component {
 
     if (invoiceFile) {
       fetchRecipient();
+      fetchAdditionalFiles();
     }
   }
 
@@ -52,11 +54,19 @@ class InvoiceInfo extends Component {
         addingInvoiceInfoSuccess,
         recipient
       },
+      fetchAdditionalFiles,
+      additionalFiles: {
+        addingAdditionalFileSuccess
+      },
       history
     } = nextProps;
 
     if (addingRecipientSuccess || updatingRecipientSuccess) {
       fetchRecipient();
+    }
+
+    if (addingAdditionalFileSuccess) {
+      fetchAdditionalFiles()
     }
 
     if (addingInvoiceInfoSuccess) {
@@ -109,9 +119,27 @@ class InvoiceInfo extends Component {
     }
   };
 
+  handleOnSubmitAdditionalFile = (file, description) => {
+    const { addAdditionalFile } = this.props;
+    const data = new FormData();
+
+    data.append("additionalFile", file);
+    data.append("description", description);
+
+    addAdditionalFile(data, description);
+  };
+
   render() {
     const { recipient } = this.state;
-    const { addRecipient, updateRecipient, recipients, invoices: { invoiceFile } } = this.props;
+    const {
+      addRecipient,
+      updateRecipient,
+      recipients,
+      invoices: {
+        invoiceFile
+      },
+      additionalFiles
+    } = this.props;
 
     return (
       <div id="invoice-info">
@@ -126,7 +154,11 @@ class InvoiceInfo extends Component {
               onPaymentTargetChange={this.handleOnChangePaymentTarget}
               onRecipientClick={this.handleRecipientManagementClick}
             />
-            <AdditionalFiles onSubmit={this.handleOnSubmit}/>
+            <AdditionalFiles
+              onSubmit={this.handleOnSubmit}
+              addAdditionalFile={this.handleOnSubmitAdditionalFile}
+              additionalFiles={additionalFiles}
+            />
           </div>
         </div>
       </div>

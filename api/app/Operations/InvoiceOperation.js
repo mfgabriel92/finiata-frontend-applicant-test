@@ -21,6 +21,7 @@ class InvoiceOperation extends Operation {
 
     this.invoice = null;
   }
+
   /**
    * Operation for storing into the database
    *

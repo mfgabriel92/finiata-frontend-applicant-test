@@ -3,16 +3,20 @@ import PropTypes from "prop-types";
 import AdditionalFilesItem from "./AdditionalFilesItem";
 
 class AdditionalFilesList extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
-    const { list, onDeleteClick } = this.props;
+    const { list, deleteAdditionalFile, addAdditionalFile, showControls } = this.props;
 
     return (
-      list.length > 0 && <div className="additional-files">
+      list && list.length > 0 && <div className="additional-files">
         <div className="row">
           {
             list.map((item) => {
               return (
-                <AdditionalFilesItem item={item} onDeleteClick={onDeleteClick}/>
+                <AdditionalFilesItem item={item} deleteAdditionalFile={deleteAdditionalFile} addAdditionalFile={addAdditionalFile} showControls={showControls}/>
               )
             })
           }
@@ -24,11 +28,14 @@ class AdditionalFilesList extends Component {
 
 AdditionalFilesList.propTypes = {
   list: PropTypes.array,
-  onDeleteClick: PropTypes.func
+  deleteAdditionalFile: PropTypes.func,
+  addAdditionalFile: PropTypes.func,
+  showControls: PropTypes.bool
 };
 
 AdditionalFilesList.defaultProps = {
-  list: []
+  list: [],
+  showControls: true
 };
 
 export default AdditionalFilesList;

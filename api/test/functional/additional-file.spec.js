@@ -5,8 +5,8 @@ const moment = use("moment");
 
 trait("Test/ApiClient");
 
-test("fetch additional files", async ({ client }) => {
-  const request = await client.get("http://127.0.0.1:4000/api/v1/invoices/1/additional-files").end();
+test("fetch additional filesList", async ({ client }) => {
+  const request = await client.get("http://127.0.0.1:4000/api/v1/invoices/1/additional-filesList").end();
 
   request.assertStatus(200);
   request.assertJSONSubset([
@@ -35,7 +35,7 @@ test("fetch additional files", async ({ client }) => {
 });
 
 test("add a new additional file", async ({ client }) => {
-  const request = await client.post("http://127.0.0.1:4000/api/v1/invoices/1/additional-files")
+  const request = await client.post("http://127.0.0.1:4000/api/v1/invoices/1/additional-filesList")
     .send({
       id: 4,
       invoice_id: 1,
@@ -56,7 +56,7 @@ test("add a new additional file", async ({ client }) => {
 });
 
 test("fetch from non existent invoice", async ({ client }) => {
-  const request = await client.get("http://127.0.0.1:4000/api/v1/invoices/999/additional-files").end();
+  const request = await client.get("http://127.0.0.1:4000/api/v1/invoices/999/additional-filesList").end();
 
   request.assertStatus(404);
   request.assertJSONSubset({

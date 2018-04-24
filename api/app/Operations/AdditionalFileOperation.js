@@ -5,6 +5,7 @@ const Operation = use("App/Operations/Operation");
 const HTTP = use("App/HTTPResponse");
 const Invoice = use("App/Models/Invoice");
 const AdditionalFile = use("App/Models/AdditionalFile");
+const moment = use("moment");
 
 /**
  * Operations for invoices table
@@ -20,8 +21,7 @@ class AdditionalFileOperation extends Operation {
     super();
 
     this.invoiceId = null;
-    this.filename = null;
-    this.path = null;
+    this.file = null;
     this.description = null;
   }
 
@@ -81,12 +81,24 @@ class AdditionalFileOperation extends Operation {
       return false;
     }
 
+    const file = this.file;
+    const name = moment().format("YYYY-MM-DD-HH-mm-ss") + "_" + file.clientName;
+    const path = AdditionalFile.directoryPath(this.invoiceId);
+
+    await file.move(path, {
+      name
+    });
+
+    if (!file.moved()) {
+      return file.error();
+    }
+
     try {
       return await AdditionalFile.create({
-        invoice_id: parseInt(this.invoiceId),
-        filename: this.filename,
-        path: this.path,
-        description: this.description,
+        invoice_id: this.invoiceId,
+        filename: name,
+        path: path + "/" + name,
+        description: this.description
       });
     } catch (e) {
       this.addError(HTTP.STATUS_INTERNAL_SERVER_ERROR, e);
