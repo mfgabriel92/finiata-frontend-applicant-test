@@ -17,8 +17,9 @@ class InvoiceSeeder {
   async run () {
     await Invoice.create({
       id: 1,
-      filename: "test_file_name.pdf"
-    })
+      filename: "test_file_name.pdf",
+      path: "some/path/to/file/test_file_name.pdf"
+    });
   }
 }
 

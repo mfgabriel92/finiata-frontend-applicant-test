@@ -7,6 +7,7 @@ class InvoiceSchema extends Schema {
     this.create('invoices', (table) => {
       table.increments();
       table.string("filename").notNullable();
+      table.string("path").notNullable();
       table.timestamps()
     })
   }
