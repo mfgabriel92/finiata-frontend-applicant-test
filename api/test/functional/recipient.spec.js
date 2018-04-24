@@ -47,8 +47,46 @@ test("failure insertion without all fields", async ({ client }) => {
   request.assertStatus(500);
 });
 
-// test("update recipient", async ({ client }) => {
-//   const request = client.put("http://127.0.0.1:3333/api/v1/recipients/1").end();
-//
-//   request.assertStatus(200);
-// });
+test("fails update recipient that does not exist", async ({ client }) => {
+  const request = await client.put("http://127.0.0.1:4000/api/v1/recipients/999")
+    .header('accept', 'application/json')
+    .send({
+      id: 1,
+      invoice_id: 1,
+      name: "Doe",
+      surname: "John",
+      address: "000 Ipsum",
+      phone: "000000000"
+    })
+    .end();
+
+  request.assertStatus(404);
+  request.assertJSON({
+    code: 404,
+    message: "Recipient does not exist"
+  });
+});
+
+test("update recipient", async ({ client }) => {
+  const request = await client.put("http://127.0.0.1:4000/api/v1/recipients/1")
+    .header('accept', 'application/json')
+    .send({
+      id: 1,
+      invoice_id: 1,
+      name: "Doe",
+      surname: "John",
+      address: "000 Ipsum",
+      phone: "000000000"
+    })
+    .end();
+
+  request.assertStatus(200);
+  request.assertJSONSubset({
+    id: 1,
+    invoice_id: 1,
+    name: "Doe",
+    surname: "John",
+    address: "000 Ipsum",
+    phone: "000000000"
+  });
+});

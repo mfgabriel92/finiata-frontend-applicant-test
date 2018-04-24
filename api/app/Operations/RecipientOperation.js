@@ -18,6 +18,7 @@ class RecipientOperation extends Operation {
   constructor() {
     super();
 
+    this.id = null;
     this.invoiceId = null;
     this.name = null;
     this.surname = null;
@@ -31,6 +32,37 @@ class RecipientOperation extends Operation {
    * @returns {Promise<*>}
    */
   async store() {
+    if (!this.id) {
+      return await this._create();
+    }
+
+    return await this._update();
+  }
+
+  /**
+   * Operation for fetching recipients from database
+   *
+   * @returns {Promise<void>}
+   */
+  async fetch() {
+    const rules = {
+      invoiceId: "required",
+    };
+
+    if (!await this.validate(rules)) {
+      return false;
+    }
+
+    return await Recipient.findBy("invoice_id", this.invoiceId);
+  }
+
+  /**
+   * Creates a new record
+   *
+   * @returns {Promise<boolean>}
+   * @private
+   */
+  async _create() {
     const rules = {
       invoiceId: "required",
       name: "required|string",
@@ -65,21 +97,41 @@ class RecipientOperation extends Operation {
   }
 
   /**
-   * Operation for fetching recipients from database
+   * Updates an existing record
    *
    * @returns {Promise<void>}
+   * @private
    */
-async fetch() {
-  const rules = {
-    invoiceId: "required",
-  };
+  async _update() {
+    const rules = {
+      id: "required",
+    };
 
-  if (!await this.validate(rules)) {
-    return false;
+    if (!await this.validate(rules)) {
+      return false;
+    }
+
+    const recipient = await Recipient.find(this.id);
+
+    if (!recipient) {
+      this.addError(HTTP.STATUS_NOT_FOUND, "Recipient does not exist");
+      return false;
+    }
+
+    try {
+      recipient.name = this.name;
+      recipient.surname = this.surname;
+      recipient.address = this.address;
+      recipient.phone = this.phone;
+
+      await recipient.save();
+
+      return recipient;
+    } catch (e) {
+      this.addError(HTTP.STATUS_INTERNAL_SERVER_ERROR, e);
+      return false;
+    }
   }
-
-  return await Recipient.findBy("invoice_id", this.invoiceId);
-}
 }
 
 module.exports = RecipientOperation;

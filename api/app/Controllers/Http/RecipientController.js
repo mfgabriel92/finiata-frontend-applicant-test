@@ -19,6 +19,7 @@ class RecipientController {
    */
   async store({ request, response, params }) {
     const op = new RecipientOperation();
+    op.id = params.id;
     op.invoiceId = params.invoiceId;
     op.name = request.input("name");
     op.surname = request.input("surname");

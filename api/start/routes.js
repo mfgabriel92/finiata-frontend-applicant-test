@@ -20,4 +20,5 @@ Route.group(() => {
   Route.post("/invoices-info/:invoiceId", "InvoiceInfoController.store");
   Route.get("/recipients/:invoiceId", "RecipientController.fetch");
   Route.post("/recipients/:invoiceId", "RecipientController.store");
+  Route.put("/recipients/:id", "RecipientController.store");
 }).prefix('api/v1');
