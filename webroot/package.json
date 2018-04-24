@@ -23,6 +23,7 @@
     "redux-api-middleware": "^2.3.0",
     "redux-history-transitions": "^2.2.0",
     "redux-persist": "^5.9.1",
+    "redux-persist-transform-filter": "0.0.16",
     "redux-thunk": "^2.2.0",
     "validator": "^9.4.1"
   },

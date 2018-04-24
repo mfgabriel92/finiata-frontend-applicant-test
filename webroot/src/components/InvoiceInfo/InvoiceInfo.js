@@ -27,7 +27,12 @@ class InvoiceInfo extends Component {
   }
 
   componentWillMount() {
-    const { fetchRecipient } = this.props;
+    const { fetchRecipient, invoices: { invoice } } = this.props;
+
+    if (!invoice) {
+      console.log("No invoice file");
+    }
+
     fetchRecipient(1);
   }
 

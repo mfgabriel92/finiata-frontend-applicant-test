@@ -1,12 +1,24 @@
 import { RSAA } from "redux-api-middleware";
+import { REHYDRATE } from "redux-persist";
 
 export const UPLOAD_INVOICE = "invoices:upload_invoice";
 export const UPLOAD_INVOICE_SUCCESS = "invoices:upload_invoice_success";
 export const UPLOAD_INVOICE_FAILURE = "invoices:upload_invoice_failure";
 
+export const SET_INVOICE_FILE = "invoices:set_invoice_file";
+
 export const ADD_INVOICE_INFO = "invoices:add_invoice_info";
 export const ADD_INVOICE_INFO_SUCCESS = "invoices:add_invoice_info_success";
 export const ADD_INVOICE_INFO_FAILURE = "invoices:add_invoice_info_failure";
+
+export function setInvoiceFile(file) {
+  return (dispatch) => {
+    dispatch({
+      type: SET_INVOICE_FILE,
+      payload: file
+    })
+  }
+}
 
 export function uploadInvoice(invoice) {
   return dispatch => {
@@ -38,19 +50,33 @@ export function addInvoiceInfo(invoiceId, data) {
 }
 
 const ACTION_HANDLERS = {
+  // [REHYDRATE]: (state, action) => ({
+  //
+  // }),
   [UPLOAD_INVOICE]: state => ({
     ...state,
-    uploadingInvoice: true
+    uploadingInvoice: true,
+    addingInvoiceInfoSuccess: false
   }),
   [UPLOAD_INVOICE_SUCCESS]: (state, action) => ({
     ...state,
     uploadingInvoice: false,
     uploadingInvoiceSuccess: true,
+    invoice: action.payload
   }),
   [UPLOAD_INVOICE_FAILURE]: (state, action) => ({
     ...state,
     uploadingInvoice: false,
     uploadingInvoiceSuccess: false,
+    uploadingInvoiceError: action.payload.response
+  }),
+
+  [SET_INVOICE_FILE]: (state, action) => ({
+    ...state,
+    invoiceFile: [
+      ...state.invoice,
+      action.payload
+    ]
   }),
 
   [ADD_INVOICE_INFO]: state => ({
@@ -61,6 +87,7 @@ const ACTION_HANDLERS = {
     ...state,
     addingInvoiceInfo: false,
     addingInvoiceInfoSuccess: true,
+    invoiceInfo: action.payload,
   }),
   [ADD_INVOICE_INFO_FAILURE]: (state, action) => ({
     ...state,
@@ -73,9 +100,14 @@ const ACTION_HANDLERS = {
 const initialState = {
   uploadingInvoice: false,
   uploadingInvoiceSuccess: false,
+  invoice: null,
+  uploadingInvoiceError: [],
+
+  invoiceFile: null,
 
   addingInvoiceInfo: false,
   addingInvoiceInfoSuccess: false,
+  invoiceInfo: null,
   addingInvoiceInfoErrors: null
 };
 

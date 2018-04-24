@@ -1,31 +1,39 @@
 import React, { Component } from "react";
-import { Provider } from "react-redux";
-import { createStore, applyMiddleware, compose } from "redux";
-import thunkMiddleware from "redux-thunk";
-import { apiMiddleware } from "redux-api-middleware";
-import makeRootReducer from "./actions/reducers";
 import AppContainer from "./containers/App";
 import FlashMessage from "./containers/common/FlashMessage";
+import thunkMiddleware from "redux-thunk";
+import reducers from "./actions/reducers";
+import storage from "redux-persist/es/storage";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware, compose } from "redux";
+import { apiMiddleware } from "redux-api-middleware";
+import { persistStore, persistCombineReducers } from "redux-persist";
+import { PersistGate } from 'redux-persist/es/integration/react';
 import "./App.css"
 
 const middleware = [thunkMiddleware, apiMiddleware];
+const persistConfig = {
+  storage,
+  key: "root",
+  whitelist: ["invoices"]
+};
+
+const reducer = persistCombineReducers(persistConfig, reducers);
 const store = createStore(
-  makeRootReducer(),
-  compose(
-    applyMiddleware(...middleware),
-  )
+  reducer,
+  compose(applyMiddleware(...middleware))
 );
 
-store.asyncRecuers = {};
+const persistor = persistStore(store);
 
 export default class App extends Component {
   render () {
     return (
       <Provider store={store}>
-        <div>
+        <PersistGate persistor={persistor}>
           <FlashMessage/>
           <AppContainer/>
-        </div>
+        </PersistGate>
       </Provider>
     )
   }

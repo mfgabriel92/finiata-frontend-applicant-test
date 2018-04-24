@@ -1,9 +1,10 @@
 import Home from "../../components/Home";
 import { connect } from "react-redux";
-import { uploadInvoice } from "../../actions/invoices/invoices";
+import { uploadInvoice, setInvoiceFile } from "../../actions/invoices/invoices";
 
 const mapActionCreators = {
-  uploadInvoice
+  uploadInvoice,
+  setInvoiceFile
 };
 
 const mapStateToProps = state => ({

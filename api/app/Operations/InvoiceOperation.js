@@ -21,25 +21,19 @@ class InvoiceOperation extends Operation {
 
     this.invoice = null;
   }
-
-  /**
-   * Rules for invoices table
-   */
-  get rules() {
-    return {
-      invoice: "required"
-    }
-  }
-
   /**
    * Operation for storing into the database
    *
    * @returns {Promise<*>}
    */
   async store() {
-    // if (!await this.validate()) {
-    //   return false;
-    // }
+    const rules = {
+      invoice: "required"
+    };
+
+    if (!await this.validate(rules)) {
+      return false;
+    }
 
     const file = this.invoice;
     const name = moment().format("YYYY-MM-DD-HH-mm-ss") + "_" + file.clientName;
@@ -53,15 +47,13 @@ class InvoiceOperation extends Operation {
     }
 
     try {
-      await Invoice.create({
+      return await Invoice.create({
         filename: name
       });
     } catch (e) {
       this.addError(HTTP.STATUS_INTERNAL_SERVER_ERROR, e);
       return false;
     }
-
-    return true;
   }
 }
 

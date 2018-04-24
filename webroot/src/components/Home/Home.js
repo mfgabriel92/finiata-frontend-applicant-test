@@ -10,6 +10,29 @@ class Home extends Component {
     }
   }
 
+  componentWillMount() {
+    const { invoices: { invoiceFile } } = this.props;
+
+    if (invoiceFile) {
+      console.log("Invoice file found. Move forward.");
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {
+      invoices: {
+        uploadingInvoiceSuccess,
+        invoice,
+        invoiceFile
+      },
+      setInvoiceFile
+    } = nextProps;
+
+    if (uploadingInvoiceSuccess && invoice && !invoiceFile) {
+      setInvoiceFile(invoice);
+    }
+  }
+
   handleOnDrop = (invoice) => {
     const { uploadInvoice } = this.props;
     const data = new FormData();

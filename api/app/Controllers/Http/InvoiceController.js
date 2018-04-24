@@ -28,7 +28,7 @@ class InvoiceController {
       return response.status(error.code).send(error.message);
     }
 
-    return response.send(200);
+    return response.status(200).send(invoice);
   }
 }
 
