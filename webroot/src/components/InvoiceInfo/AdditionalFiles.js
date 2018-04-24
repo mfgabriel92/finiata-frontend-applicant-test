@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Dropzone from "react-dropzone";
 import Button from "../common/Button";
 import AdditionalFilesList from "./AdditionalFilesList";
+import _ from "lodash";
 
 class AdditionalFiles extends Component {
   constructor(props) {
@@ -23,6 +24,15 @@ class AdditionalFiles extends Component {
     this.setState({ additionalFiles });
   };
 
+  handleDeleteAdditionalFile = (file) => {
+    const { additionalFiles } = this.state;
+    const removed = _.remove(additionalFiles, { name: file.name });
+
+    this.setState({
+      additionalFiles: _.reject(additionalFiles, removed[0].name)
+    });
+  };
+
   render() {
     const { onSubmit } = this.props;
     const { additionalFiles } = this.state;
@@ -30,7 +40,10 @@ class AdditionalFiles extends Component {
     return (
       <div className="row block">
         <div className="col-lg-12">
-          <AdditionalFilesList list={additionalFiles} />
+          <AdditionalFilesList
+            list={additionalFiles}
+            onDeleteClick={this.handleDeleteAdditionalFile}
+          />
         </div>
         <div className="col-lg-12">
           <Dropzone

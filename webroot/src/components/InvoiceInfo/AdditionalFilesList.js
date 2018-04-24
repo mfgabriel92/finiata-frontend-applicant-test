@@ -4,7 +4,7 @@ import AdditionalFilesItem from "./AdditionalFilesItem";
 
 class AdditionalFilesList extends Component {
   render() {
-    const { list } = this.props;
+    const { list, onDeleteClick } = this.props;
 
     return (
       list.length > 0 && <div className="additional-files">
@@ -12,7 +12,7 @@ class AdditionalFilesList extends Component {
           {
             list.map((item) => {
               return (
-                <AdditionalFilesItem item={item}/>
+                <AdditionalFilesItem item={item} onDeleteClick={onDeleteClick}/>
               )
             })
           }
@@ -23,7 +23,8 @@ class AdditionalFilesList extends Component {
 }
 
 AdditionalFilesList.propTypes = {
-  list: PropTypes.array
+  list: PropTypes.array,
+  onDeleteClick: PropTypes.func
 };
 
 AdditionalFilesList.defaultProps = {

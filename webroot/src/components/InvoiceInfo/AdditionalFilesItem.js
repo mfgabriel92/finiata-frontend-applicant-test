@@ -23,8 +23,9 @@ class AdditionalFilesItem extends Component {
 
   };
 
-  handleRemoveClick = () => {
-
+  handleRemoveClick = (item) => {
+    const { onDeleteClick } = this.props;
+    onDeleteClick(item);
   };
 
   getItemName = (name) => {
@@ -75,13 +76,13 @@ class AdditionalFilesItem extends Component {
               <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <Button
                   className="btn-primary col-lg-12"
-                  onClick={this.handleAddClick}
+                  onClick={e => this.handleAddClick()}
                   text={<FontAwesome name="check"/>}/>
               </div>
               <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <Button
                   className="btn-danger col-lg-12"
-                  onClick={this.handleRemoveClick}
+                  onClick={e => this.handleRemoveClick(item)}
                   text={<FontAwesome name="trash"/>}/>
               </div>
             </div>
