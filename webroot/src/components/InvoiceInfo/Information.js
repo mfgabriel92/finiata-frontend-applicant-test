@@ -54,7 +54,7 @@ class Information extends Component {
             <div className="col-lg-12">
               <p>
                 Invoice File:
-                <span className="small filename">{invoiceFile[0].filename.substr(20)}</span>
+                <span className="small filename">{invoiceFile && invoiceFile[0].filename.substr(20)}</span>
               </p>
             </div>
           </div>

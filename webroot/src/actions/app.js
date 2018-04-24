@@ -59,14 +59,14 @@ const ACTION_HANDLERS = {
   [UPLOAD_INVOICE]: state => ({
     ...state,
     flashMessage: {
-      message: "Uploading invoice...",
+      message: "Wait while the invoice is being uploaded...",
       type: TYPE_PROCESSING
     }
   }),
   [UPLOAD_INVOICE_SUCCESS]: state => ({
     ...state,
     flashMessage: {
-      message: "Invoice uploaded!",
+      message: "Invoice uploaded.",
       type: TYPE_SUCCESS
     }
   }),
@@ -74,14 +74,14 @@ const ACTION_HANDLERS = {
   [ADD_INVOICE_INFO]: state => ({
     ...state,
     flashMessage: {
-      message: "Submitting invoice information...",
+      message: "Wait while the invoice information is being added...",
       type: TYPE_PROCESSING
     }
   }),
   [ADD_INVOICE_INFO_SUCCESS]: state => ({
     ...state,
     flashMessage: {
-      message: "Information successfully included!",
+      message: "Invoice information successfully added.",
       type: TYPE_SUCCESS
     }
   }),
@@ -89,14 +89,14 @@ const ACTION_HANDLERS = {
   [ADD_RECIPIENT]: state => ({
     ...state,
     flashMessage: {
-      message: "Submitting recipient...",
+      message: "Wait while the recipient is being added...",
       type: TYPE_PROCESSING
     }
   }),
   [ADD_RECIPIENT_SUCCESS]: state => ({
     ...state,
     flashMessage: {
-      message: "Recipient successfully added!",
+      message: "Recipient successfully added.",
       type: TYPE_SUCCESS
     }
   }),
@@ -104,14 +104,14 @@ const ACTION_HANDLERS = {
   [UPDATE_RECIPIENT]: state => ({
     ...state,
     flashMessage: {
-      message: "Updating recipient...",
+      message: "Wait while the recipient is being updated...",
       type: TYPE_PROCESSING
     }
   }),
   [UPDATE_RECIPIENT_SUCCESS]: state => ({
     ...state,
     flashMessage: {
-      message: "Recipient successfully updated!",
+      message: "Recipient successfully updated.",
       type: TYPE_SUCCESS
     }
   }),

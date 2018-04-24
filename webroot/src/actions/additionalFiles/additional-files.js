@@ -5,10 +5,12 @@ export const ADD_ADDITIONAL_FILE_SUCCESS = "invoices:upload_invoice_success";
 export const ADD_ADDITIONAL_FILE_FAILURE = "invoices:upload_invoice_failure";
 
 export function addAdditionalFile(invoiceId, data) {
-  return dispatch => {
+  return (dispatch, getState) => {
+    const { invoices: { invoiceFile } } = getState();
+
     return dispatch({
       [RSAA]: {
-        endpoint: `http://127.0.0.1/api/v1/invoices/${invoiceId}/additional-files`,
+        endpoint: `http://127.0.0.1/api/v1/invoices/${invoiceFile[0].id}/additional-files`,
         method: "POST",
         body: data,
         types: [ADD_ADDITIONAL_FILE, ADD_ADDITIONAL_FILE_SUCCESS, ADD_ADDITIONAL_FILE_FAILURE]

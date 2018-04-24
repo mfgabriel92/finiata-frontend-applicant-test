@@ -26,4 +26,15 @@ body {
   left: 30px;
   bottom: 25px;
   z-index: 1000;
+  padding-left: 60px;
+  overflow: hidden;
+
+  .flash-file-icon {
+    position: absolute;
+    font-size: 30px;
+    left: 11px;
+    top: -3px;
+    opacity: .7;
+    line-height: 55px;
+  }
 }
