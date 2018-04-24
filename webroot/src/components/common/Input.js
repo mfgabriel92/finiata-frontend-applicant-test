@@ -17,7 +17,7 @@ class Input extends Component {
 
     return (
       <div className="form-group">
-        <label>{label}</label>
+        { label && <label>{label}</label> }
         <input
           type={type}
           name={name}
@@ -33,7 +33,7 @@ class Input extends Component {
 }
 
 Input.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   type: PropTypes.string,
   name: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,

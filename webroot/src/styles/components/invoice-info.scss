@@ -25,6 +25,26 @@
   .filename {
     margin-left: 10px;
   }
+
+  .additional-files {
+    margin-bottom: 25px;
+    background: #efefef;
+    padding: 20px;
+
+    .additional-file {
+      margin: 10px 0;
+      line-height: 35px;
+
+      .file-icon {
+        margin-right: 15px;
+        font-size: 20px;
+      }
+
+      .form-group {
+        margin-bottom: 0;
+      }
+    }
+  }
 }
 .narcissus_17w311v {
   position: fixed !important;;

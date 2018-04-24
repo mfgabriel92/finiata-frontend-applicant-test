@@ -8634,6 +8634,19 @@ a.text-dark:hover, a.text-dark:focus {
 #invoice-info .filename {
   margin-left: 10px; }
 
+#invoice-info .additional-files {
+  margin-bottom: 25px;
+  background: #efefef;
+  padding: 20px; }
+  #invoice-info .additional-files .additional-file {
+    margin: 10px 0;
+    line-height: 35px; }
+    #invoice-info .additional-files .additional-file .file-icon {
+      margin-right: 15px;
+      font-size: 20px; }
+    #invoice-info .additional-files .additional-file .form-group {
+      margin-bottom: 0; }
+
 .narcissus_17w311v {
   position: fixed !important;
   transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1) !important;

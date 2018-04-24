@@ -1,18 +1,33 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import FontAwesome from "react-fontawesome";
+import AdditionalFilesItem from "./AdditionalFilesItem";
 
 class AdditionalFilesList extends Component {
   render() {
+    const { list } = this.props;
+
     return (
-      <div>
+      list.length > 0 && <div className="additional-files">
+        <div className="row">
+          {
+            list.map((item) => {
+              return (
+                <AdditionalFilesItem item={item}/>
+              )
+            })
+          }
+        </div>
       </div>
     )
   }
 }
 
-AdditionalFilesList.propTypes = {};
+AdditionalFilesList.propTypes = {
+  list: PropTypes.array
+};
 
-AdditionalFilesList.defaultProps = {};
+AdditionalFilesList.defaultProps = {
+  list: []
+};
 
 export default AdditionalFilesList;

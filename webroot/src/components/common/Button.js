@@ -7,11 +7,15 @@ class Button extends Component {
     const { className, onClick, text, showFromGroup } = this.props;
 
     return (
-      <div className={showFromGroup && "form-group"}>
-        <button className={cx("btn", className)} onClick={onClick}>
-          {text}
-        </button>
-      </div>
+      showFromGroup === true
+        ? <div className={showFromGroup && "form-group"}>
+            <button className={cx("btn", className)} onClick={onClick}>
+              {text}
+            </button>
+          </div>
+        : <button className={cx("btn", className)} onClick={onClick}>
+            {text}
+          </button>
     )
   }
 }
