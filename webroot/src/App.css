@@ -6301,6 +6301,9 @@ a.text-dark:hover, a.text-dark:focus {
     line-height: 200px;
     font-size: 52px; }
 
+#invoice-info .filename {
+  margin-left: 10px; }
+
 .narcissus_17w311v {
   position: fixed !important;
   transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1) !important;

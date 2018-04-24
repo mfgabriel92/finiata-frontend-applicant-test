@@ -32,11 +32,11 @@ class RecipientOperation extends Operation {
    * @returns {Promise<*>}
    */
   async store() {
-    if (!this.id) {
-      return await this._create();
+    if (this.id) {
+      return await this._update();
     }
 
-    return await this._update();
+    return await this._create();
   }
 
   /**

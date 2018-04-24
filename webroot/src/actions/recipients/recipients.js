@@ -8,9 +8,9 @@ export const ADD_RECIPIENT = "invoices:add_recipient";
 export const ADD_RECIPIENT_SUCCESS = "invoices:add_recipient_success";
 export const ADD_RECIPIENT_FAILURE = "invoices:add_recipient_failure";
 
-export const UPDATE_RECIPIENT = "invoices:update_recipient";
-export const UPDATE_RECIPIENT_SUCCESS = "invoices:update_recipient_success";
-export const UPDATE_RECIPIENT_FAILURE = "invoices:update_recipient_failure";
+export const UPDATE_RECIPIENT = "invoices:updating_recipient";
+export const UPDATE_RECIPIENT_SUCCESS = "invoices:updating_recipient_success";
+export const UPDATE_RECIPIENT_FAILURE = "invoices:updating_recipient_failure";
 
 export function fetchRecipient(invoiceId) {
   return (dispatch) => {
@@ -46,7 +46,7 @@ export function updateRecipient(recipientId, data) {
     return dispatch({
       [RSAA]: {
         endpoint: `http://127.0.0.1:3333/api/v1/recipients/${recipientId}`,
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json"
         },
@@ -64,6 +64,7 @@ const ACTION_HANDLERS = {
     fetchingRecipient: true,
     fetchingRecipientSuccess: false,
     addingRecipientSuccess: false,
+    updatingRecipientSuccess: false,
   }),
   [FETCH_RECIPIENT_SUCCESS]: (state, action) => ({
     ...state,
@@ -97,19 +98,19 @@ const ACTION_HANDLERS = {
 
   [UPDATE_RECIPIENT]: state => ({
     ...state,
-    updateRecipient: true
+    updatingRecipient: true
   }),
   [UPDATE_RECIPIENT_SUCCESS]: (state, action) => ({
     ...state,
-    updateRecipient: false,
-    updateRecipientSuccess: true,
+    updatingRecipient: false,
+    updatingRecipientSuccess: true,
     recipient: action.payload
   }),
   [UPDATE_RECIPIENT_FAILURE]: (state, action) => ({
     ...state,
-    updateRecipient: false,
-    updateRecipientSuccess: false,
-    updateRecipientError: action.payload.response
+    updatingRecipient: false,
+    updatingRecipientSuccess: false,
+    updatingRecipientError: action.payload.response
   }),
 };
 
@@ -117,7 +118,12 @@ const initialState = {
   addingRecipient: false,
   addingRecipientSuccess: false,
   addingRecipientError: null,
-  recipients: null
+
+  updatingRecipient: false,
+  updatingRecipientSuccess: false,
+  updatingRecipientError: null,
+
+  recipient: null,
 };
 
 export default function recipientReducer(state = initialState, action) {

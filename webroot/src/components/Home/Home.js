@@ -11,10 +11,10 @@ class Home extends Component {
   }
 
   componentWillMount() {
-    const { invoices: { invoiceFile } } = this.props;
+    const { invoices: { invoiceFile }, history } = this.props;
 
     if (invoiceFile) {
-      console.log("Invoice file found. Move forward.");
+      history.push("invoice-info")
     }
   }
 
@@ -25,11 +25,13 @@ class Home extends Component {
         invoice,
         invoiceFile
       },
-      setInvoiceFile
+      setInvoiceFile,
+      history
     } = nextProps;
 
     if (uploadingInvoiceSuccess && invoice && !invoiceFile) {
       setInvoiceFile(invoice);
+      history.push("invoice-info");
     }
   }
 

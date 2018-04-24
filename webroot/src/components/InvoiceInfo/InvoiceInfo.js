@@ -27,13 +27,22 @@ class InvoiceInfo extends Component {
   }
 
   componentWillMount() {
-    const { fetchRecipient, invoices: { invoice } } = this.props;
+    const {
+      fetchRecipient,
+      invoices: {
+        invoice,
+        invoiceFile
+      },
+      history
+    } = this.props;
 
     if (!invoice) {
-      console.log("No invoice file");
+      history.push("/")
     }
 
-    fetchRecipient(1);
+    if (invoiceFile) {
+      fetchRecipient(invoiceFile[0].id);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -42,12 +51,20 @@ class InvoiceInfo extends Component {
       recipients: {
         fetchingRecipientSuccess,
         addingRecipientSuccess,
+        updatingRecipientSuccess,
+        addingInvoiceInfoSuccess,
         recipient
-      }
+      },
+      history
     } = nextProps;
 
-    if (addingRecipientSuccess) {
-      fetchRecipient(1);
+    if (addingRecipientSuccess || updatingRecipientSuccess) {
+      const { invoices: { invoiceFile } } = nextProps;
+      fetchRecipient(invoiceFile[0].id);
+    }
+
+    if (addingInvoiceInfoSuccess) {
+      history.push("/");
     }
 
     if (recipient && fetchingRecipientSuccess) {
@@ -89,20 +106,20 @@ class InvoiceInfo extends Component {
     if (this.isValid(this.state)) {
       this.setState({ errors: {} });
 
-      const { addInvoiceInfo } = this.props;
-      const { invoiceId, invoiceAmount, paymentTarget } = this.state;
+      const { addInvoiceInfo, invoices: { invoiceFile } } = this.props;
+      const { invoiceAmount, paymentTarget } = this.state;
 
-      addInvoiceInfo(1, { invoiceAmount, paymentTarget });
+      addInvoiceInfo(invoiceFile[0].id, { invoiceAmount, paymentTarget });
     }
   };
 
   render() {
     const { invoiceAmount, paymentTarget, errors, recipient } = this.state;
-    const { addRecipient, recipients } = this.props;
+    const { addRecipient, updateRecipient, recipients, invoices: { invoiceFile } } = this.props;
 
     return (
       <div id="invoice-info">
-        <RecipientModal ref="recipientModal" addRecipient={addRecipient} recipients={recipients}/>
+        <RecipientModal ref="recipientModal" addRecipient={addRecipient} updateRecipient={updateRecipient} recipients={recipients} invoiceId={invoiceFile[0].id}/>
         <div className="container">
           <div className="col-lg-12">
             <div className="row block">
@@ -131,6 +148,16 @@ class InvoiceInfo extends Component {
                       {errors.paymentTarget &&
                       <span className="error-label small float-right text-danger">{errors.paymentTarget}</span>}
                     </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-lg-12">
+                    <p>
+                      Invoice File:
+                      <span className="small filename">
+                        {invoiceFile[0].filename.substr(20)}
+                      </span>
+                    </p>
                   </div>
                 </div>
               </div>

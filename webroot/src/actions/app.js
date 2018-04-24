@@ -10,7 +10,10 @@ import {
 import {
   ADD_RECIPIENT,
   ADD_RECIPIENT_SUCCESS,
-  ADD_RECIPIENT_FAILURE
+  ADD_RECIPIENT_FAILURE,
+  UPDATE_RECIPIENT,
+  UPDATE_RECIPIENT_SUCCESS,
+  UPDATE_RECIPIENT_FAILURE
 } from "./recipients/recipients";
 
 export const ADD_FLASH_MESSAGE = 'app:add_flash_message';
@@ -52,6 +55,7 @@ const ACTION_HANDLERS = {
     ...state,
     flashMessage: null
   }),
+
   [UPLOAD_INVOICE]: state => ({
     ...state,
     flashMessage: {
@@ -97,9 +101,25 @@ const ACTION_HANDLERS = {
     }
   }),
 
+  [UPDATE_RECIPIENT]: state => ({
+    ...state,
+    flashMessage: {
+      message: "Updating recipient...",
+      type: TYPE_PROCESSING
+    }
+  }),
+  [UPDATE_RECIPIENT_SUCCESS]: state => ({
+    ...state,
+    flashMessage: {
+      message: "Recipient successfully updated!",
+      type: TYPE_SUCCESS
+    }
+  }),
+
   [UPLOAD_INVOICE_FAILURE]: failureMessage(),
   [ADD_INVOICE_INFO_FAILURE]: failureMessage(),
   [ADD_RECIPIENT_FAILURE]: failureMessage(),
+  [UPDATE_RECIPIENT_FAILURE]: failureMessage(),
 };
 
 const initialState = {

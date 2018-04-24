@@ -27,14 +27,14 @@ class RecipientModal extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const { recipients: { addingRecipientSuccess, recipient } } = nextProps;
+    const { recipients: { addingRecipientSuccess, updatingRecipientSuccess, recipient } } = nextProps;
 
     if (recipient) {
       this.setEditing(true);
       this.setState({ ...recipient });
     }
 
-    if (addingRecipientSuccess) {
+    if (addingRecipientSuccess || updatingRecipientSuccess) {
       this.close();
       this.setState(...this.defaultState);
     }
@@ -68,16 +68,18 @@ class RecipientModal extends Component {
   handleOnSubmit = (e) => {
     e.preventDefault();
 
+    const { invoiceId } = this.props;
+    const { id } = this.state;
+
     if (this.isValid(this.state)) {
       switch (this.editing) {
         case true:
-          console.log("Updating...");
-          // const { updateRecipient } = this.props;
-          // updateRecipient(1, this.state);
+          const { updateRecipient } = this.props;
+          updateRecipient(id, this.state);
           break;
         case false:
           const { addRecipient } = this.props;
-          addRecipient(1, this.state);
+          addRecipient(invoiceId, this.state);
           break;
       }
     }
