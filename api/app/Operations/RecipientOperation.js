@@ -69,17 +69,17 @@ class RecipientOperation extends Operation {
    *
    * @returns {Promise<void>}
    */
-  async fetch() {
-    const rules = {
-      invoiceId: "required",
-    };
+async fetch() {
+  const rules = {
+    invoiceId: "required",
+  };
 
-    if (!await this.validate(rules)) {
-      return false;
-    }
-
-    return await Recipient.findBy("invoice_id", this.invoiceId);
+  if (!await this.validate(rules)) {
+    return false;
   }
+
+  return await Recipient.findBy("invoice_id", this.invoiceId);
+}
 }
 
 module.exports = RecipientOperation;

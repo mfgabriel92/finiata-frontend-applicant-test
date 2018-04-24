@@ -27,7 +27,7 @@ class RecipientController {
 
     const recipient = await op.store();
 
-    if (!recipient) {
+    if (recipient === false) {
       const error = op.getFirstError();
       return response.status(error.code).json(error);
     }
@@ -49,7 +49,7 @@ class RecipientController {
 
     const recipient = await op.fetch();
 
-    if (!recipient) {
+    if (recipient === false) {
       const error = op.getFirstError();
       return response.status(error.code).json(error);
     }
