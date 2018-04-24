@@ -116,7 +116,7 @@ class InvoiceInfo extends Component {
 
     return (
       <div id="invoice-info">
-        <RecipientModal ref="recipientModal" addRecipient={addRecipient} updateRecipient={updateRecipient} recipients={recipients} invoiceId={invoiceFile[0].id}/>
+        <RecipientModal ref="recipientModal" addRecipient={addRecipient} updateRecipient={updateRecipient} recipients={recipients} invoiceId={invoiceFile && invoiceFile[0].id}/>
         <div className="container">
           <div className="col-lg-12">
             <Information

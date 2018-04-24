@@ -37,8 +37,9 @@ class InvoiceOperation extends Operation {
 
     const file = this.invoice;
     const name = moment().format("YYYY-MM-DD-HH-mm-ss") + "_" + file.clientName;
+    const path = Invoice.directoryPath();
 
-    await file.move(Invoice.directoryPath(), {
+    await file.move(path, {
       name
     });
 
@@ -48,7 +49,8 @@ class InvoiceOperation extends Operation {
 
     try {
       return await Invoice.create({
-        filename: name
+        filename: name,
+        path: path + "/" + name
       });
     } catch (e) {
       this.addError(HTTP.STATUS_INTERNAL_SERVER_ERROR, e);

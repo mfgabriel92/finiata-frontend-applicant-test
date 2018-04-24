@@ -59,13 +59,13 @@ class FlashMessage extends Component {
     }
 
     let text = type === "error"
-      ? message.response.message
+      ? message.response.message || message.response.sqlMessage
       : message;
 
     return (
       !hide && <div className={cx("text-center alert", modalClass)}>
         <span className={spanClass}>
-          {text.charAt(0).toUpperCase() + text.slice(1)}
+          {text && text.charAt(0).toUpperCase() + text.slice(1)}
         </span>
       </div>
     )

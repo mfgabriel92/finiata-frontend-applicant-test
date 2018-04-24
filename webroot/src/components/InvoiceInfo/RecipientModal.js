@@ -116,7 +116,5 @@ RecipientModal.propTypes = {
   addRecipient: PropTypes.func.isRequired,
   recipients: PropTypes.object.isRequired
 };
-//
-// RecipientModal.defaultProps = {};
 
 export default RecipientModal;
