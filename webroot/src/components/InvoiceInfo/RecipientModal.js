@@ -68,7 +68,6 @@ class RecipientModal extends Component {
   handleOnSubmit = (e) => {
     e.preventDefault();
 
-    const { invoiceId } = this.props;
     const { id } = this.state;
 
     if (this.isValid(this.state)) {
@@ -79,7 +78,7 @@ class RecipientModal extends Component {
           break;
         case false:
           const { addRecipient } = this.props;
-          addRecipient(invoiceId, this.state);
+          addRecipient(this.state);
           break;
       }
     }

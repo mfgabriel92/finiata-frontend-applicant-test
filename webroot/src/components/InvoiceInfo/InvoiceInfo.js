@@ -38,7 +38,7 @@ class InvoiceInfo extends Component {
     }
 
     if (invoiceFile) {
-      fetchRecipient(invoiceFile[0].id);
+      fetchRecipient();
     }
   }
 
@@ -56,8 +56,7 @@ class InvoiceInfo extends Component {
     } = nextProps;
 
     if (addingRecipientSuccess || updatingRecipientSuccess) {
-      const { invoices: { invoiceFile } } = nextProps;
-      fetchRecipient(invoiceFile[0].id);
+      fetchRecipient();
     }
 
     if (addingInvoiceInfoSuccess) {
@@ -103,10 +102,10 @@ class InvoiceInfo extends Component {
     if (this.isValid(this.state)) {
       this.setState({ errors: {} });
 
-      const { addInvoiceInfo, invoices: { invoiceFile } } = this.props;
+      const { addInvoiceInfo } = this.props;
       const { invoiceAmount, paymentTarget } = this.state;
 
-      addInvoiceInfo(invoiceFile[0].id, { invoiceAmount, paymentTarget });
+      addInvoiceInfo({ invoiceAmount, paymentTarget });
     }
   };
 
@@ -116,7 +115,7 @@ class InvoiceInfo extends Component {
 
     return (
       <div id="invoice-info">
-        <RecipientModal ref="recipientModal" addRecipient={addRecipient} updateRecipient={updateRecipient} recipients={recipients} invoiceId={invoiceFile && invoiceFile[0].id}/>
+        <RecipientModal ref="recipientModal" addRecipient={addRecipient} updateRecipient={updateRecipient} recipients={recipients}/>
         <div className="container">
           <div className="col-lg-12">
             <Information

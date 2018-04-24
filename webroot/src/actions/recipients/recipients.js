@@ -12,11 +12,13 @@ export const UPDATE_RECIPIENT = "invoices:updating_recipient";
 export const UPDATE_RECIPIENT_SUCCESS = "invoices:updating_recipient_success";
 export const UPDATE_RECIPIENT_FAILURE = "invoices:updating_recipient_failure";
 
-export function fetchRecipient(invoiceId) {
-  return (dispatch) => {
+export function fetchRecipient() {
+  return (dispatch, getState) => {
+    const { invoices: { invoiceFile } } = getState();
+
     return dispatch({
       [RSAA]: {
-        endpoint: `http://127.0.0.1:3333/api/v1/recipients/${invoiceId}`,
+        endpoint: `http://127.0.0.1:3333/api/v1/recipients/${invoiceFile[0].id}`,
         method: "GET",
         types: [FETCH_RECIPIENT, FETCH_RECIPIENT_SUCCESS, FETCH_RECIPIENT_FAILURE]
       }
@@ -25,11 +27,13 @@ export function fetchRecipient(invoiceId) {
 }
 
 
-export function addRecipient(invoiceId, data) {
-  return (dispatch) => {
+export function addRecipient(data) {
+  return (dispatch, getState) => {
+    const { invoices: { invoiceFile } } = getState();
+
     return dispatch({
       [RSAA]: {
-        endpoint: `http://127.0.0.1:3333/api/v1/recipients/${invoiceId}`,
+        endpoint: `http://127.0.0.1:3333/api/v1/recipients/${invoiceFile[0].id}`,
         method: "POST",
         headers: {
           "Content-Type": "application/json"

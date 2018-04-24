@@ -1,5 +1,4 @@
 import { RSAA } from "redux-api-middleware";
-import { REHYDRATE } from "redux-persist";
 
 export const UPLOAD_INVOICE = "invoices:upload_invoice";
 export const UPLOAD_INVOICE_SUCCESS = "invoices:upload_invoice_success";
@@ -33,11 +32,13 @@ export function uploadInvoice(invoice) {
   }
 }
 
-export function addInvoiceInfo(invoiceId, data) {
-  return dispatch => {
+export function addInvoiceInfo(data) {
+  return (dispatch, getState) => {
+    const { invoices: { invoiceFile } } = getState();
+
     return dispatch({
       [RSAA]: {
-        endpoint: `http://127.0.0.1:3333/api/v1/invoices-info/${invoiceId}`,
+        endpoint: `http://127.0.0.1:3333/api/v1/invoices-info/${invoiceFile[0].id}`,
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -50,9 +51,6 @@ export function addInvoiceInfo(invoiceId, data) {
 }
 
 const ACTION_HANDLERS = {
-  // [REHYDRATE]: (state, action) => ({
-  //
-  // }),
   [UPLOAD_INVOICE]: state => ({
     ...state,
     uploadingInvoice: true,
