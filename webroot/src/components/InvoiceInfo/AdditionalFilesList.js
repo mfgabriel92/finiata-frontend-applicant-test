@@ -3,13 +3,9 @@ import PropTypes from "prop-types";
 import AdditionalFilesItem from "./AdditionalFilesItem";
 
 class AdditionalFilesList extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { list, deleteAdditionalFile, addAdditionalFile, showControls } = this.props;
-
+    console.log(list);
     return (
       list && list.length > 0 && <div className="additional-files">
         <div className="row">

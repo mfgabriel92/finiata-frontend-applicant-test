@@ -20,6 +20,7 @@ class AdditionalFileOperation extends Operation {
   constructor() {
     super();
 
+    this.id = null;
     this.invoiceId = null;
     this.file = null;
     this.description = null;
@@ -104,6 +105,38 @@ class AdditionalFileOperation extends Operation {
       this.addError(HTTP.STATUS_INTERNAL_SERVER_ERROR, e);
       return false;
     }
+  }
+
+  /**
+   * Deletes an existing additional file from the database
+   *
+   * @returns {Promise<void>}
+   */
+  async destroy() {
+    const rules = {
+      invoiceId: "required",
+      id: "required"
+    };
+
+    if (!await this.validate(rules)) {
+      return false;
+    }
+
+    const invoice = await Invoice.find(this.invoiceId);
+
+    if (!invoice) {
+      this.addError(HTTP.STATUS_NOT_FOUND, "Invoice not found");
+      return false;
+    }
+
+    const additionalFile = await AdditionalFile.find(this.id);
+
+    if (!additionalFile) {
+      this.addError(HTTP.STATUS_NOT_FOUND, "Additional file not found");
+      return false;
+    }
+
+    return await additionalFile.delete();
   }
 }
 

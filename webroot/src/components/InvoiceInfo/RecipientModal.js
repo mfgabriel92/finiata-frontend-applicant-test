@@ -80,6 +80,9 @@ class RecipientModal extends Component {
           const { addRecipient } = this.props;
           addRecipient(this.state);
           break;
+        default:
+          console.log("It won't reach here.");
+          break;
       }
     }
   };

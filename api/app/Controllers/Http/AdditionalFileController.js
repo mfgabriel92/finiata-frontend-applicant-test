@@ -48,6 +48,29 @@ class AdditionalFileController {
 
     return response.status(200).json(additionalFile);
   }
+
+  /**
+   * Deletes an existing additional file from the database
+   *
+   * @param request
+   * @param response
+   * @param params
+   * @returns {Promise<void>}
+   */
+  async destroy({ request, response, params }) {
+    const op = new AdditionalFileOperation();
+    op.invoiceId = params.invoiceId;
+    op.id = params.id;
+
+    const additionalFile = await op.destroy();
+
+    if (additionalFile === false) {
+      const error = op.getFirstError();
+      return response.status(error.code).json(error);
+    }
+
+    return response.status(200).json(additionalFile);
+  }
 }
 
 module.exports = AdditionalFileController;

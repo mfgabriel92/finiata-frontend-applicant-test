@@ -23,4 +23,5 @@ Route.group(() => {
   Route.put("/recipients/:id", "RecipientController.store");
   Route.get("/invoices/:invoiceId/additional-files", "AdditionalFileController.fetch");
   Route.post("/invoices/:invoiceId/additional-files", "AdditionalFileController.store");
+  Route.delete("/invoices/:invoiceId/additional-files/:id", "AdditionalFileController.destroy");
 }).prefix('api/v1');
