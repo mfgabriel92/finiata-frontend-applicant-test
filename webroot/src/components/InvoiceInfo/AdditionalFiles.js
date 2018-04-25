@@ -34,13 +34,20 @@ class AdditionalFiles extends Component {
     this.setState({ additionalFiles: filesList });
   };
 
-  handleDeleteAdditionalFile = (file) => {
-    const { filesList } = this.state;
-    const removed = _.remove(filesList, { name: file.name });
+  handleDeleteAdditionalFile = (file, id) => {
+    if (file) {
+      const { filesList } = this.state;
+      const removed = _.remove(filesList, { name: file.name });
 
-    this.setState({
-      filesList: _.reject(filesList, removed[0].name)
-    });
+      this.setState({
+        filesList: _.reject(filesList, removed[0].name)
+      });
+
+      return;
+    }
+
+    const { removeAdditionalFile } = this.props;
+    removeAdditionalFile(id);
   };
 
   render() {
@@ -53,6 +60,7 @@ class AdditionalFiles extends Component {
           <AdditionalFilesList
             list={additionalFiles}
             showControls={false}
+            deleteAdditionalFile={this.handleDeleteAdditionalFile}
           />
           <AdditionalFilesList
             list={filesList}
@@ -86,7 +94,8 @@ class AdditionalFiles extends Component {
 AdditionalFiles.propTypes = {
   onSubmit: PropTypes.func,
   addAdditionalFile: PropTypes.func,
-  additionalFiles: PropTypes.object
+  additionalFiles: PropTypes.object,
+  removeAdditionalFile: PropTypes.object,
 };
 
 export default AdditionalFiles;

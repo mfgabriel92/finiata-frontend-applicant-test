@@ -8646,6 +8646,10 @@ a.text-dark:hover, a.text-dark:focus {
       font-size: 20px; }
     #invoice-info .additional-files .additional-file .form-group {
       margin-bottom: 0; }
+    #invoice-info .additional-files .additional-file .additional-files-added {
+      text-align: right; }
+      #invoice-info .additional-files .additional-file .additional-files-added .btn-danger {
+        margin-left: 15px; }
 
 .narcissus_17w311v {
   position: fixed !important;

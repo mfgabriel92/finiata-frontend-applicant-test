@@ -19,7 +19,10 @@ import {
 import {
   ADD_ADDITIONAL_FILE,
   ADD_ADDITIONAL_FILE_SUCCESS,
-  ADD_ADDITIONAL_FILE_FAILURE
+  ADD_ADDITIONAL_FILE_FAILURE,
+  REMOVE_ADDITIONAL_FILE,
+  REMOVE_ADDITIONAL_FILE_SUCCESS,
+  REMOVE_ADDITIONAL_FILE_FAILURE
 } from "./additionalFiles/additionalFiles";
 
 export const ADD_FLASH_MESSAGE = 'app:add_flash_message';
@@ -137,11 +140,27 @@ const ACTION_HANDLERS = {
     }
   }),
 
+  [REMOVE_ADDITIONAL_FILE]: state => ({
+    ...state,
+    flashMessage: {
+      message: "Wait while an additional file is being removed...",
+      type: TYPE_PROCESSING
+    }
+  }),
+  [REMOVE_ADDITIONAL_FILE_SUCCESS]: state => ({
+    ...state,
+    flashMessage: {
+      message: "Additional file successfully removed.",
+      type: TYPE_SUCCESS
+    }
+  }),
+
   [UPLOAD_INVOICE_FAILURE]: failureMessage(),
   [ADD_INVOICE_INFO_FAILURE]: failureMessage(),
   [ADD_RECIPIENT_FAILURE]: failureMessage(),
   [UPDATE_RECIPIENT_FAILURE]: failureMessage(),
   [ADD_ADDITIONAL_FILE_FAILURE]: failureMessage(),
+  [REMOVE_ADDITIONAL_FILE_FAILURE]: failureMessage(),
 };
 
 const initialState = {

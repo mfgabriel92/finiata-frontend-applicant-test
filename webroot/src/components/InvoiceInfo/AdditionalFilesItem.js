@@ -30,12 +30,18 @@ class AdditionalFilesItem extends Component {
   handleRemoveClick = (item) => {
     const { deleteAdditionalFile } = this.props;
 
-    deleteAdditionalFile(item);
+    item.hasOwnProperty("id")
+      ? deleteAdditionalFile(null, item.id)
+      : deleteAdditionalFile(item)
   };
 
   getItemName = (name) => {
-    if (name.length > 25) {
-      const firstPart = name.substr(0, 20);
+    if (name.startsWith(moment().format("Y"))) {
+      name = name.substr(20);
+    }
+
+    if (name.length > 30) {
+      const firstPart = name.substr(0, 25);
       const lastPart = name.substr(-4);
 
       return firstPart + "..." + lastPart;
@@ -78,8 +84,6 @@ class AdditionalFilesItem extends Component {
     const { item, showControls } = this.props;
     const { description } = this.state;
 
-    console.log(item.description ? item.description : "");
-
     return (
       showControls
         ? <Input
@@ -98,22 +102,28 @@ class AdditionalFilesItem extends Component {
     return (
       showControls
         ? <div className="row">
-            <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div className="col-lg-4 col-md-6 col-sm-6 col-xs-12">
               <Button
                 className="btn-primary col-lg-12"
                 onClick={() => this.handleAddClick(item)}
                 text={<FontAwesome name="check"/>}/>
             </div>
-            <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div className="col-lg-4 col-md-6 col-sm-6 col-xs-12">
               <Button
                 className="btn-danger col-lg-12"
                 onClick={() => this.handleRemoveClick(item)}
                 text={<FontAwesome name="trash"/>}/>
             </div>
           </div>
-        : <span className="small">
-            {moment(item.created_at).format("MM/DD/YYYY \\, HH:mm A")}
-          </span>
+        : <div className="additional-files-added">
+            <span className="small">
+              {moment(item.created_at).format("MM/DD/YYYY \\, HH:mm A")}
+              <Button
+                className="btn-danger btn-sm"
+                onClick={() => this.handleRemoveClick(item)}
+                text={<FontAwesome name="trash"/>}/>
+            </span>
+          </div>
     )
   };
 
@@ -124,13 +134,13 @@ class AdditionalFilesItem extends Component {
     return (
       <div className="col-lg-12 additional-file">
         <div className="row">
-          <div className="col-lg-3 col-md-6 col-sm-12">
+          <div className="col-lg-4 col-md-6 col-sm-12">
             {this.renderFilename(name)}
           </div>
-          <div className="col-lg-7 col-md-12">
+          <div className="col-lg-5 col-md-12">
             {this.renderFileDescription()}
           </div>
-          <div className="col-lg-2 col-md-12">
+          <div className="col-lg-3 col-md-12 text-left">
             {this.renderFileButtons()}
           </div>
         </div>

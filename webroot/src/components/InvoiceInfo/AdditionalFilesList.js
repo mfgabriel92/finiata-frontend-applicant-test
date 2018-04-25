@@ -5,14 +5,19 @@ import AdditionalFilesItem from "./AdditionalFilesItem";
 class AdditionalFilesList extends Component {
   render() {
     const { list, deleteAdditionalFile, addAdditionalFile, showControls } = this.props;
-    console.log(list);
+
     return (
       list && list.length > 0 && <div className="additional-files">
         <div className="row">
           {
             list.map((item) => {
               return (
-                <AdditionalFilesItem item={item} deleteAdditionalFile={deleteAdditionalFile} addAdditionalFile={addAdditionalFile} showControls={showControls}/>
+                <AdditionalFilesItem
+                  item={item}
+                  deleteAdditionalFile={deleteAdditionalFile}
+                  addAdditionalFile={addAdditionalFile}
+                  showControls={showControls}
+                />
               )
             })
           }

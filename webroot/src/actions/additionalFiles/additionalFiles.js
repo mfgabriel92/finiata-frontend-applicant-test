@@ -1,13 +1,16 @@
 import { RSAA } from "redux-api-middleware";
 
-export const FETCH_ADDITIONAL_FILE = "invoices:fetch_additional";
-export const FETCH_ADDITIONAL_FILE_SUCCESS = "invoices:fetch_additional_success";
-export const FETCH_ADDITIONAL_FILE_FAILURE = "invoices:fetch_additional_failure";
+export const FETCH_ADDITIONAL_FILE = "invoices:fetch_additional_file";
+export const FETCH_ADDITIONAL_FILE_SUCCESS = "invoices:fetch_additional_file_success";
+export const FETCH_ADDITIONAL_FILE_FAILURE = "invoices:fetch_additional_file_failure";
 
+export const ADD_ADDITIONAL_FILE = "invoices:add_additional_file";
+export const ADD_ADDITIONAL_FILE_SUCCESS = "invoices:add_additional_file_success";
+export const ADD_ADDITIONAL_FILE_FAILURE = "invoices:add_additional_file_failure";
 
-export const ADD_ADDITIONAL_FILE = "invoices:add_additional";
-export const ADD_ADDITIONAL_FILE_SUCCESS = "invoices:add_additional_success";
-export const ADD_ADDITIONAL_FILE_FAILURE = "invoices:add_additional_failure";
+export const REMOVE_ADDITIONAL_FILE = "invoices:remove_additional_file";
+export const REMOVE_ADDITIONAL_FILE_SUCCESS = "invoices:remove_additional_file_success";
+export const REMOVE_ADDITIONAL_FILE_FAILURE = "invoices:remove_additional_file_failure";
 
 export function fetchAdditionalFiles() {
   return (dispatch, getState) => {
@@ -38,12 +41,27 @@ export function addAdditionalFile(data) {
   }
 }
 
+export function removeAdditionalFile(id) {
+  return (dispatch, getState) => {
+    const { invoices: { invoiceFile } } = getState();
+
+    return dispatch({
+      [RSAA]: {
+        endpoint: `http://127.0.0.1:3333/api/v1/invoices/${invoiceFile[0].id}/additional-files/${id}`,
+        method: "DELETE",
+        types: [REMOVE_ADDITIONAL_FILE, REMOVE_ADDITIONAL_FILE_SUCCESS, REMOVE_ADDITIONAL_FILE_FAILURE]
+      }
+    })
+  }
+}
+
 const ACTION_HANDLERS = {
   [FETCH_ADDITIONAL_FILE]: state => ({
     ...state,
     fetchingAdditionalFile: true,
     fetchingAdditionalFileSuccess: false,
     addingAdditionalFileSuccess: false,
+    removingAdditionalFileSuccess: false
   }),
   [FETCH_ADDITIONAL_FILE_SUCCESS]: (state, action) => ({
     ...state,
@@ -73,6 +91,23 @@ const ACTION_HANDLERS = {
     addingAdditionalFile: false,
     addingAdditionalFileSuccess: false,
     addingAdditionalFileError: action.payload.response
+  }),
+
+  [REMOVE_ADDITIONAL_FILE]: state => ({
+    ...state,
+    removingAdditionalFile: true,
+  }),
+  [REMOVE_ADDITIONAL_FILE_SUCCESS]: (state, action) => ({
+    ...state,
+    removingAdditionalFile: false,
+    removingAdditionalFileSuccess: true,
+    additionalFile: action.payload
+  }),
+  [REMOVE_ADDITIONAL_FILE_FAILURE]: (state, action) => ({
+    ...state,
+    removingAdditionalFile: false,
+    removingAdditionalFileSuccess: false,
+    removingAdditionalFileError: action.payload.response
   })
 };
 
@@ -85,7 +120,11 @@ const initialState = {
   addingAdditionalFile: false,
   addingAdditionalFileSuccess: false,
   additionalFile: null,
-  addingAdditionalFileError: []
+  addingAdditionalFileError: [],
+
+  removingAdditionalFile: false,
+  removingAdditionalFileSuccess: false,
+  removingAdditionalFileError: []
 };
 
 export default function additionalFileReducer(state = initialState, action) {

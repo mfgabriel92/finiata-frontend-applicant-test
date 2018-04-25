@@ -43,6 +43,14 @@
       .form-group {
         margin-bottom: 0;
       }
+
+      .additional-files-added {
+        text-align: right;
+
+        .btn-danger {
+          margin-left: 15px;
+        }
+      }
     }
   }
 }

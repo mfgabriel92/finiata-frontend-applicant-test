@@ -56,7 +56,8 @@ class InvoiceInfo extends Component {
       },
       fetchAdditionalFiles,
       additionalFiles: {
-        addingAdditionalFileSuccess
+        addingAdditionalFileSuccess,
+        removingAdditionalFileSuccess
       },
       history
     } = nextProps;
@@ -65,7 +66,7 @@ class InvoiceInfo extends Component {
       fetchRecipient();
     }
 
-    if (addingAdditionalFileSuccess) {
+    if (addingAdditionalFileSuccess || removingAdditionalFileSuccess) {
       fetchAdditionalFiles()
     }
 
@@ -129,6 +130,11 @@ class InvoiceInfo extends Component {
     addAdditionalFile(data, description);
   };
 
+  handleOnDeleteAdditionalFile = (id) => {
+    const { removeAdditionalFile } = this.props;
+    removeAdditionalFile(id);
+  };
+
   render() {
     const { recipient } = this.state;
     const {
@@ -138,7 +144,8 @@ class InvoiceInfo extends Component {
       invoices: {
         invoiceFile
       },
-      additionalFiles
+      additionalFiles,
+      removeAdditionalFile
     } = this.props;
 
     return (
@@ -157,6 +164,7 @@ class InvoiceInfo extends Component {
             <AdditionalFiles
               onSubmit={this.handleOnSubmit}
               addAdditionalFile={this.handleOnSubmitAdditionalFile}
+              removeAdditionalFile={this.handleOnDeleteAdditionalFile}
               additionalFiles={additionalFiles}
             />
           </div>
