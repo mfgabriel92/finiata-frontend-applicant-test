@@ -13,7 +13,7 @@ class RecipientSchema extends Schema {
       table.string("phone").notNullable();
       table.timestamps();
 
-      table.foreign("invoice_id").references("id").inTable("invoices");
+      table.foreign("invoice_id").references("id").inTable("invoices").onDelete("CASCADE");
     })
   }
 

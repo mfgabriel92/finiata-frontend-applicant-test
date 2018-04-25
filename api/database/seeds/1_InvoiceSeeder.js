@@ -14,12 +14,24 @@ const Factory = use("Factory");
 const Invoice = use("App/Models/Invoice");
 
 class InvoiceSeeder {
-  async run () {
-    await Invoice.create({
-      id: 1,
-      filename: "test_file_name.pdf",
-      path: "some/path/to/file/test_file_name.pdf"
-    });
+  async run() {
+    await Invoice.createMany([
+      {
+        id: 1,
+        filename: "test_file_name.pdf",
+        path: "some/path/to/file/test_file_name.pdf"
+      },
+      {
+        id: 50,
+        filename: "test_file_name.pdf",
+        path: "some/path/to/file/test_file_name.pdf"
+      },
+      {
+        id: 100,
+        filename: "test_file_name.pdf",
+        path: "some/path/to/file/test_file_name.pdf"
+      }
+    ]);
   }
 }
 

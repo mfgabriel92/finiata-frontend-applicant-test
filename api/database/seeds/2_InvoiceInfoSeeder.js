@@ -15,13 +15,21 @@ const InvoiceInfo = use("App/Models/InvoiceInfo");
 const moment = use("moment");
 
 class InvoiceInfoSeeder {
-  async run () {
-    await InvoiceInfo.create({
-      id: 1,
-      invoice_id: 1,
-      invoiceAmount: 1500.00,
-      paymentTarget: moment().format("YYYY-MM-DD HH:mm:ss")
-    })
+  async run() {
+    await InvoiceInfo.createMany([
+      {
+        id: 1,
+        invoice_id: 1,
+        invoiceAmount: 1500.00,
+        paymentTarget: moment().format("YYYY-MM-DD HH:mm:ss")
+      },
+      {
+        id: 50,
+        invoice_id: 50,
+        invoiceAmount: 1500.00,
+        paymentTarget: moment().format("YYYY-MM-DD HH:mm:ss")
+      }
+    ])
   }
 }
 

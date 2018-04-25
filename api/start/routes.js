@@ -16,7 +16,9 @@
 const Route = use('Route');
 
 Route.group(() => {
+  Route.get("/invoices", "InvoiceController.fetch");
   Route.post("/invoices", "InvoiceController.store");
+  Route.delete("/invoices/:id", "InvoiceController.destroy");
   Route.post("/invoices-info/:invoiceId", "InvoiceInfoController.store");
   Route.get("/recipients/:invoiceId", "RecipientController.fetch");
   Route.post("/recipients/:invoiceId", "RecipientController.store");

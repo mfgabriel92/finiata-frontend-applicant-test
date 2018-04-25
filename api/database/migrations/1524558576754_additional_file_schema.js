@@ -12,7 +12,7 @@ class AdditionalFileSchema extends Schema {
       table.text("description");
       table.timestamps();
 
-      table.foreign("invoice_id").references("id").inTable("invoices");
+      table.foreign("invoice_id").references("id").inTable("invoices").onDelete("CASCADE");
     })
   }
 

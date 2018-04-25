@@ -12,7 +12,6 @@
 
 const Factory = use("Factory");
 const AdditionalFile = use("App/Models/AdditionalFile");
-const moment = use("moment");
 
 class AdditionalFileSeeder {
   async run() {
@@ -34,6 +33,13 @@ class AdditionalFileSeeder {
       {
         id: 3,
         invoice_id: 1,
+        filename: "test_file_name.pdf",
+        path: "some/path/for/file/test_file_name.pdf",
+        description: "Lorem ipsum dolor sit amet"
+      },
+      {
+        id: 50,
+        invoice_id: 50,
         filename: "test_file_name.pdf",
         path: "some/path/for/file/test_file_name.pdf",
         description: "Lorem ipsum dolor sit amet"

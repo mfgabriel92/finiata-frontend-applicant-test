@@ -14,15 +14,25 @@ const Factory = use("Factory");
 const Recipient = use("App/Models/Recipient");
 
 class RecipientSeeder {
-  async run () {
-    await Recipient.create({
-      id: 1,
-      invoice_id: 1,
-      name: "John",
-      surname: "Doe",
-      address: "123 Lorem Ipsum, DO",
-      phone: "55555555"
-    })
+  async run() {
+    await Recipient.createMany([
+      {
+        id: 1,
+        invoice_id: 1,
+        name: "John",
+        surname: "Doe",
+        address: "123 Lorem Ipsum, DO",
+        phone: "55555555"
+      },
+      {
+        id: 50,
+        invoice_id: 50,
+        name: "John",
+        surname: "Doe",
+        address: "123 Lorem Ipsum, DO",
+        phone: "55555555"
+      }
+    ])
   }
 }
 
