@@ -41,8 +41,8 @@ export function setUnsavedInvoiceFile(file) {
 }
 
 export function deleteInvoiceFile(file) {
-  return async (dispatch) => {
-    await dispatch({
+  return (dispatch) => {
+    dispatch({
       type: DELETE_INVOICE_FILE,
     });
 
@@ -167,7 +167,8 @@ const ACTION_HANDLERS = {
     unsavedInvoiceFiles: [
       ...state,
       action.payload
-    ]
+    ],
+    invoiceFile: null
   }),
 
   [DELETE_INVOICE]: state => ({
