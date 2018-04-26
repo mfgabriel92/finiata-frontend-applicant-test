@@ -4,7 +4,7 @@ import BaseModal from "../common/BaseModal";
 import Button from "../common/Button";
 import FontAwesome from "react-fontawesome";
 
-class DeleteInvoiceModal extends BaseModal {
+class CancelInvoiceModal extends BaseModal {
   handleOnSubmit = (e) => {
     const { cancelInvoiceConfirm } = this.props;
     cancelInvoiceConfirm();
@@ -47,8 +47,8 @@ class DeleteInvoiceModal extends BaseModal {
   };
 }
 
-DeleteInvoiceModal.propTypes = {
+CancelInvoiceModal.propTypes = {
   cancelInvoiceConfirm: PropTypes.func,
 };
 
-export default DeleteInvoiceModal;
+export default CancelInvoiceModal;

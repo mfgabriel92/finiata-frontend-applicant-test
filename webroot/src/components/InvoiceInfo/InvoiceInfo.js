@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Button from "../common/Button";
-import DeleteInvoiceModal from "./DeleteInvoiceModal";
+import CancelInvoiceModal from "./CancelInvoiceModal";
 import RecipientModal from "./RecipientModal";
 import moment from "moment";
 import validate from "../../utils/validators/invoiceInfo";
@@ -30,14 +30,13 @@ class InvoiceInfo extends Component {
       fetchRecipient,
       fetchAdditionalFiles,
       invoices: {
-        invoice,
         invoiceFile
       },
       history
     } = this.props;
 
-    if (!invoice) {
-      // history.push("/")
+    if (!invoiceFile) {
+      history.push("/")
     }
 
     if (invoiceFile) {
@@ -156,10 +155,12 @@ class InvoiceInfo extends Component {
       setUnsavedInvoiceFile,
       invoices: {
         invoiceFile
-      }
+      },
+      history
     } = this.props;
 
     setUnsavedInvoiceFile(invoiceFile[0]);
+    history.push("invoices");
   };
 
   render() {
@@ -182,7 +183,7 @@ class InvoiceInfo extends Component {
           updateRecipient={updateRecipient}
           recipients={recipients}
         />
-        <DeleteInvoiceModal
+        <CancelInvoiceModal
           ref="deleteInvoiceModal"
           cancelInvoiceConfirm={this.handleOnCancelInvoiceConfirm}
         />

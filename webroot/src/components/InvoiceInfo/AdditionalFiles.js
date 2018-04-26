@@ -92,7 +92,7 @@ class AdditionalFiles extends Component {
 AdditionalFiles.propTypes = {
   addAdditionalFile: PropTypes.func,
   additionalFiles: PropTypes.object,
-  removeAdditionalFile: PropTypes.object,
+  removeAdditionalFile: PropTypes.func,
 };
 
 export default AdditionalFiles;

@@ -88,7 +88,6 @@ class Information extends Component {
 
 Information.propTypes = {
   state: PropTypes.object.isRequired,
-  invoiceFile: PropTypes.array.isRequired,
   recipient: PropTypes.object,
   onChange: PropTypes.func.isRequired,
   onPaymentTargetChange: PropTypes.func.isRequired,

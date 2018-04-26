@@ -14,7 +14,7 @@ class Home extends Component {
     const { invoices: { invoiceFile }, history } = this.props;
 
     if (invoiceFile) {
-      // history.push("invoice-info")
+      history.push("invoice-info")
     }
   }
 
@@ -23,15 +23,14 @@ class Home extends Component {
       invoices: {
         uploadingInvoiceSuccess,
         invoice,
-        invoiceFile
       },
       setInvoiceFile,
       history
     } = nextProps;
 
-    if (uploadingInvoiceSuccess && invoice && !invoiceFile) {
+    if (uploadingInvoiceSuccess && invoice) {
       setInvoiceFile(invoice);
-      // history.push("invoice-info");
+      history.push("invoice-info");
     }
   }
 
