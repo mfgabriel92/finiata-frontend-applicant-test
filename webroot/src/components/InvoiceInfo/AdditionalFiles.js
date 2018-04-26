@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Dropzone from "react-dropzone";
-import Button from "../common/Button";
 import AdditionalFilesList from "./AdditionalFilesList";
 import _ from "lodash";
 
@@ -52,8 +51,6 @@ class AdditionalFiles extends Component {
 
   render() {
     const {
-      deleteInvoice,
-      onSubmit,
       addAdditionalFile,
       additionalFiles: {
         additionalFiles
@@ -87,32 +84,12 @@ class AdditionalFiles extends Component {
             <p>Drag additional files here</p>
           </Dropzone>
         </div>
-        <div className="col-lg-12">
-          <div className="row justify-content-between">
-            <div className="col-lg-3 col-md-5 col-sm-6 col-xs-12">
-              <Button
-                className="btn-default col-lg-12"
-                text="Cancel"
-                onClick={deleteInvoice}
-              />
-            </div>
-            <div className="col-lg-3 col-md-5 col-sm-6 col-xs-12">
-              <Button
-                className="btn-primary col-lg-12"
-                text="Proceed"
-                onClick={onSubmit}
-              />
-            </div>
-          </div>
-        </div>
       </div>
     )
   }
 }
 
 AdditionalFiles.propTypes = {
-  deleteInvoice: PropTypes.func,
-  onSubmit: PropTypes.func,
   addAdditionalFile: PropTypes.func,
   additionalFiles: PropTypes.object,
   removeAdditionalFile: PropTypes.object,

@@ -1,11 +1,15 @@
 import { RSAA } from "redux-api-middleware";
-import persist from "redux-persist";
+
+export const FETCH_INVOICES = "invoices:fetch_invoices_invoice";
+export const FETCH_INVOICES_SUCCESS = "invoices:fetch_invoices_success";
+export const FETCH_INVOICES_FAILURE = "invoices:fetch_invoices_failure";
 
 export const UPLOAD_INVOICE = "invoices:upload_invoice";
 export const UPLOAD_INVOICE_SUCCESS = "invoices:upload_invoice_success";
 export const UPLOAD_INVOICE_FAILURE = "invoices:upload_invoice_failure";
 
 export const SET_INVOICE_FILE = "invoices:set_invoice_file";
+export const SET_UNSAVED_INVOICE_FILE = "invoices:set_invoice_file";
 
 export const DELETE_INVOICE = "invoices:delete_invoice";
 export const DELETE_INVOICE_SUCCESS = "invoices:delete_invoice_success";
@@ -26,6 +30,15 @@ export function setInvoiceFile(file) {
   }
 }
 
+export function setUnsavedInvoiceFile(file) {
+  return (dispatch) => {
+    dispatch({
+      type: SET_UNSAVED_INVOICE_FILE,
+      payload: file
+    })
+  }
+}
+
 export function deleteInvoiceFile() {
   return async (dispatch) => {
     await dispatch({
@@ -33,6 +46,18 @@ export function deleteInvoiceFile() {
     });
 
     window.localStorage.clear();
+  }
+}
+
+export function fetchInvoices() {
+  return dispatch => {
+    return dispatch({
+      [RSAA]: {
+        endpoint: "http://127.0.0.1:3333/api/v1/invoices",
+        method: "GET",
+        types: [FETCH_INVOICES, FETCH_INVOICES_SUCCESS, FETCH_INVOICES_FAILURE]
+      }
+    })
   }
 }
 
@@ -82,6 +107,26 @@ export function addInvoiceInfo(data) {
 }
 
 const ACTION_HANDLERS = {
+  [FETCH_INVOICES]: state => ({
+    ...state,
+    fetchingInvoice: true,
+    addingInvoiceInfoSuccess: false,
+    deletingInvoiceSuccess: false,
+    uploadingInvoiceSuccess: false
+  }),
+  [FETCH_INVOICES_SUCCESS]: (state, action) => ({
+    ...state,
+    fetchingInvoice: false,
+    fetchingInvoiceSuccess: true,
+    allInvoices: action.payload
+  }),
+  [FETCH_INVOICES_FAILURE]: (state, action) => ({
+    ...state,
+    fetchingInvoice: false,
+    fetchingInvoiceSuccess: false,
+    fetchingInvoiceError: action.payload.response
+  }),
+
   [UPLOAD_INVOICE]: state => ({
     ...state,
     uploadingInvoice: true,
@@ -102,12 +147,21 @@ const ACTION_HANDLERS = {
   }),
 
   [SET_INVOICE_FILE]: (state, action) => ({
-    ...state,
     invoiceFile: [
-      ...state.invoice,
+      ...state,
       action.payload
     ]
   }),
+
+  [SET_UNSAVED_INVOICE_FILE]: (state, action) => {
+    return {
+      ...state,
+      unsavedInvoiceFiles: [
+        ...state,
+        action.payload
+      ]
+    }
+  },
 
   [DELETE_INVOICE]: state => ({
     ...state,
@@ -157,6 +211,11 @@ const ACTION_HANDLERS = {
 };
 
 const initialState = {
+  fetchingInvoice: false,
+  fetchingInvoiceSuccess: false,
+  allInvoices: null,
+  fetchingInvoiceError: [],
+
   uploadingInvoice: false,
   uploadingInvoiceSuccess: false,
   invoice: null,
@@ -167,6 +226,7 @@ const initialState = {
   deletingInvoiceError: [],
 
   invoiceFile: null,
+  unsavedInvoiceFiles: [],
 
   addingInvoiceInfo: false,
   addingInvoiceInfoSuccess: false,

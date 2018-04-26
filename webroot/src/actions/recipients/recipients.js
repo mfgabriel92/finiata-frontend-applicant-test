@@ -14,12 +14,11 @@ export const UPDATE_RECIPIENT_FAILURE = "invoices:updating_recipient_failure";
 
 export function fetchRecipient() {
   return (dispatch, getState) => {
-    console.log(getState());
     const { invoices: { invoiceFile } } = getState();
 
     return dispatch({
       [RSAA]: {
-        endpoint: `http://127.0.0.1:3333/api/v1/recipients/${invoiceFile.id}`,
+        endpoint: `http://127.0.0.1:3333/api/v1/recipients/${invoiceFile[0].id}`,
         method: "GET",
         types: [FETCH_RECIPIENT, FETCH_RECIPIENT_SUCCESS, FETCH_RECIPIENT_FAILURE]
       }
@@ -34,7 +33,7 @@ export function addRecipient(data) {
 
     return dispatch({
       [RSAA]: {
-        endpoint: `http://127.0.0.1:3333/api/v1/recipients/${invoiceFile.id}`,
+        endpoint: `http://127.0.0.1:3333/api/v1/recipients/${invoiceFile[0].id}`,
         method: "POST",
         headers: {
           "Content-Type": "application/json"

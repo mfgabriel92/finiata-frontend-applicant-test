@@ -5,30 +5,23 @@ import Button from "../common/Button";
 import FontAwesome from "react-fontawesome";
 
 class DeleteInvoiceModal extends BaseModal {
-  componentWillReceiveProps(nextProps) {
-    const { deletingInvoiceSuccess } = nextProps;
-
-    if (deletingInvoiceSuccess) {
-      this.close();
-    }
-  }
-
   handleOnSubmit = (e) => {
-    const { deleteInvoice } = this.props;
-    deleteInvoice();
+    const { cancelInvoiceConfirm } = this.props;
+    cancelInvoiceConfirm();
+    this.close();
   };
 
   renderHeader = () => {
     return (
       <h3>
-        <FontAwesome name="trash"/> Delete
+        <FontAwesome name="stop-circle"/> Cancel
       </h3>
     )
   };
 
   renderBody = () => {
     return (
-      <p>Cancelling this invoice will permanently delete it and its related information. <br/><br/> Proceed?</p>
+      <p>Cancelling will leave this page, but you may continue edit it later. <br/><br/> Proceed?</p>
     )
   };
 
@@ -38,13 +31,14 @@ class DeleteInvoiceModal extends BaseModal {
         <div className="col-lg-6">
           <Button
             className="btn-default col-lg-12"
-            text="Cancel"
+            text="No"
             onClick={this.close}
           />
         </div>
         <div className="col-lg-6">
           <Button
             className="btn-primary col-lg-12"
+            text="Yes"
             onClick={this.handleOnSubmit}
           />
         </div>
@@ -54,8 +48,7 @@ class DeleteInvoiceModal extends BaseModal {
 }
 
 DeleteInvoiceModal.propTypes = {
-  deleteInvoice: PropTypes.func,
-  invoices: PropTypes.object
+  cancelInvoiceConfirm: PropTypes.func,
 };
 
 export default DeleteInvoiceModal;

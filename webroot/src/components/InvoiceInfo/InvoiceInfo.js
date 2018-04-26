@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Button from "../common/Button";
 import DeleteInvoiceModal from "./DeleteInvoiceModal";
 import RecipientModal from "./RecipientModal";
 import moment from "moment";
@@ -145,29 +146,46 @@ class InvoiceInfo extends Component {
     removeAdditionalFile(id);
   };
 
-  handleOnDeleteInvoice = () => {
+  handleOnCancelInvoiceClick = () => {
     const { deleteInvoiceModal } = this.refs;
     deleteInvoiceModal.open();
+  };
+
+  handleOnCancelInvoiceConfirm = () => {
+    const {
+      setUnsavedInvoiceFile,
+      invoices: {
+        invoiceFile
+      }
+    } = this.props;
+
+    setUnsavedInvoiceFile(invoiceFile[0]);
   };
 
   render() {
     const { recipient } = this.state;
     const {
-      deleteInvoice,
       addRecipient,
       updateRecipient,
       recipients,
       invoices: {
         invoiceFile,
-        deletingInvoiceSuccess
       },
       additionalFiles,
     } = this.props;
 
     return (
       <div id="invoice-info">
-        <RecipientModal ref="recipientModal" addRecipient={addRecipient} updateRecipient={updateRecipient} recipients={recipients}/>
-        <DeleteInvoiceModal ref="deleteInvoiceModal" deleteInvoice={deleteInvoice} deletingInvoiceSuccess={deletingInvoiceSuccess}/>
+        <RecipientModal
+          ref="recipientModal"
+          addRecipient={addRecipient}
+          updateRecipient={updateRecipient}
+          recipients={recipients}
+        />
+        <DeleteInvoiceModal
+          ref="deleteInvoiceModal"
+          cancelInvoiceConfirm={this.handleOnCancelInvoiceConfirm}
+        />
         <div className="container">
           <div className="col-lg-12">
             <Information
@@ -179,12 +197,28 @@ class InvoiceInfo extends Component {
               onRecipientClick={this.handleRecipientManagementClick}
             />
             <AdditionalFiles
-              onSubmit={this.handleOnSubmit}
-              deleteInvoice={this.handleOnDeleteInvoice}
               addAdditionalFile={this.handleOnSubmitAdditionalFile}
               removeAdditionalFile={this.handleOnDeleteAdditionalFile}
               additionalFiles={additionalFiles}
             />
+          </div>
+          <div className="col-lg-12">
+            <div className="row justify-content-between">
+              <div className="col-lg-3 col-md-5 col-sm-6 col-xs-12">
+                <Button
+                  className="btn-default col-lg-12"
+                  text="Cancel"
+                  onClick={this.handleOnCancelInvoiceClick}
+                />
+              </div>
+              <div className="col-lg-3 col-md-5 col-sm-6 col-xs-12">
+                <Button
+                  className="btn-primary col-lg-12"
+                  text="Proceed"
+                  onClick={this.handleOnSubmit}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
