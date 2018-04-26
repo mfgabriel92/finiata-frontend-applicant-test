@@ -6,6 +6,7 @@
 @import "./styles/fontawesome/font-awesome.scss";
 @import "./styles/components/home.scss";
 @import "./styles/components/invoice-info.scss";
+@import "./styles/components/invoices.scss";
 
 body {
   font-family: "Lato Regular", serif;
@@ -23,6 +24,10 @@ body {
   @media (max-width: 992px) {
     display: none;
   }
+}
+
+.text-bold {
+  font-weight: bold;
 }
 
 .alert {

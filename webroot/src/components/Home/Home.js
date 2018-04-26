@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import Dropzone from "react-dropzone";
 
 class Home extends Component {
@@ -67,6 +68,9 @@ class Home extends Component {
               }
             </p>
           </Dropzone>
+          <span className="small text-primary">
+            <Link to="invoices">Go to my invoices</Link>
+          </span>
         </div>
       </div>
     )

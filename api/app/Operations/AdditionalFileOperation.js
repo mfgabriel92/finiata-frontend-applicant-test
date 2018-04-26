@@ -98,6 +98,7 @@ class AdditionalFileOperation extends Operation {
       return await AdditionalFile.create({
         invoice_id: this.invoiceId,
         filename: name,
+        originalName: file.clientName,
         path: path + "/" + name,
         description: this.description
       });

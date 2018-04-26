@@ -8662,6 +8662,12 @@ a.text-dark:hover, a.text-dark:focus {
   width: 500px !important;
   height: 500px !important; }
 
+#invoices .invoice {
+  padding: 7px;
+  background: #fbfbfb;
+  border: 1px solid beige;
+  margin-bottom: 5px; }
+
 body {
   font-family: "Lato Regular", serif; }
 
@@ -8674,6 +8680,9 @@ body {
 @media (max-width: 992px) {
   .text-md-hide {
     display: none; } }
+
+.text-bold {
+  font-weight: bold; }
 
 .alert {
   position: fixed;

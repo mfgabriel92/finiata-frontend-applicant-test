@@ -32,6 +32,7 @@ export function setInvoiceFile(file) {
 }
 
 export function setUnsavedInvoiceFile(file) {
+  console.log(file);
   return (dispatch) => {
     dispatch({
       type: SET_UNSAVED_INVOICE_FILE,
@@ -41,16 +42,15 @@ export function setUnsavedInvoiceFile(file) {
 }
 
 export function deleteInvoiceFile(file) {
+  const invoices = JSON.parse(localStorage.getItem("persist:root"));
+  const unsavedInvoiceFiles = JSON.parse(invoices.invoices).unsavedInvoiceFiles;
+  const removed = _.remove(unsavedInvoiceFiles, { id: file.id });
+
   return (dispatch) => {
     dispatch({
       type: DELETE_INVOICE_FILE,
+      payload: _.reject(unsavedInvoiceFiles, removed[0].id)
     });
-
-    const invoices = JSON.parse(localStorage.getItem("persist:root"));
-    const invoiceFiles = JSON.parse(invoices.invoices).invoiceFile;
-    const index = _.findIndex(invoiceFiles, { filename: file.filename });
-
-    console.log(index);
   }
 }
 
@@ -154,7 +154,6 @@ const ACTION_HANDLERS = {
 
   [SET_INVOICE_FILE]: (state, action) => ({
     ...state,
-    uploadingInvoiceSuccess: false,
     invoiceFile: [
       ...state,
       action.payload
@@ -163,12 +162,19 @@ const ACTION_HANDLERS = {
 
   [SET_UNSAVED_INVOICE_FILE]: (state, action) => ({
     ...state,
-    uploadingInvoiceSuccess: false,
     unsavedInvoiceFiles: [
-      ...state,
+      ...state.unsavedInvoiceFiles || [],
       action.payload
     ],
     invoiceFile: null
+  }),
+
+  [DELETE_INVOICE_FILE]: (state, action) => ({
+    ...state,
+    unsavedInvoiceFiles: [
+      ...state,
+      action.payload
+    ]
   }),
 
   [DELETE_INVOICE]: state => ({
@@ -201,6 +207,7 @@ const ACTION_HANDLERS = {
     addingInvoiceInfo: false,
     addingInvoiceInfoSuccess: true,
     invoiceInfo: action.payload,
+    invoiceFile: null,
   }),
   [ADD_INVOICE_INFO_FAILURE]: (state, action) => ({
     ...state,
@@ -226,7 +233,7 @@ const initialState = {
   deletingInvoiceError: [],
 
   invoiceFile: null,
-  // unsavedInvoiceFiles: [],
+  unsavedInvoiceFiles: null,
 
   addingInvoiceInfo: false,
   addingInvoiceInfoSuccess: false,

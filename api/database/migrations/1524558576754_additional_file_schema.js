@@ -8,6 +8,7 @@ class AdditionalFileSchema extends Schema {
       table.increments();
       table.integer("invoice_id").notNullable().unsigned();
       table.string("filename").notNullable();
+      table.string("originalName").notNullable();
       table.string("path").notNullable();
       table.text("description");
       table.timestamps();

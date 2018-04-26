@@ -18,17 +18,20 @@ class InvoiceSeeder {
     await Invoice.createMany([
       {
         id: 1,
-        filename: "test_file_name.pdf",
+        filename: "2018_01_01_test_file_name.pdf",
+        originalName: "test_file_name.pdf",
         path: "some/path/to/file/test_file_name.pdf"
       },
       {
         id: 50,
-        filename: "test_file_name.pdf",
+        filename: "2018_01_01_test_file_name.pdf",
+        originalName: "test_file_name.pdf",
         path: "some/path/to/file/test_file_name.pdf"
       },
       {
         id: 100,
-        filename: "test_file_name.pdf",
+        filename: "2018_01_01_test_file_name.pdf",
+        originalName: "test_file_name.pdf",
         path: "some/path/to/file/test_file_name.pdf"
       }
     ]);

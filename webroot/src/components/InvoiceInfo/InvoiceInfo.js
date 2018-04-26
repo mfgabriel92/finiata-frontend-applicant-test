@@ -123,10 +123,11 @@ class InvoiceInfo extends Component {
     if (this.isValid(this.state)) {
       this.setState({ errors: {} });
 
-      const { addInvoiceInfo } = this.props;
+      const { addInvoiceInfo, history } = this.props;
       const { invoiceAmount, paymentTarget } = this.state;
 
       addInvoiceInfo({ invoiceAmount, paymentTarget });
+      history.push("invoices");
     }
   };
 

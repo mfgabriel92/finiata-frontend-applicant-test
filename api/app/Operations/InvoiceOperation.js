@@ -31,7 +31,9 @@ class InvoiceOperation extends Operation {
   async fetch() {
     return await Invoice.query()
       .whereHas("invoiceInfo")
+      .with("invoiceInfo")
       .whereHas("recipients")
+      .with("recipients")
       .with("additionalFiles")
       .fetch();
   }
@@ -65,6 +67,7 @@ class InvoiceOperation extends Operation {
     try {
       return await Invoice.create({
         filename: name,
+        originalName: file.clientName,
         path: path + "/" + name
       });
     } catch (e) {

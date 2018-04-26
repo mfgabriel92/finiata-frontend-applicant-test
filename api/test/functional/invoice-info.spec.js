@@ -18,7 +18,7 @@ test("insertion of invoice info", async ({ client }) => {
 
   request.assertStatus(200);
   request.assertJSONSubset({
-    id: 2,
+    id: 51,
     invoice_id: 1,
     invoiceAmount: 1500.00,
     paymentTarget: "2012-12-21 12:12:12",
