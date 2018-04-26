@@ -30,8 +30,8 @@ class InvoiceOperation extends Operation {
    */
   async fetch() {
     return await Invoice.query()
-      .with("invoiceInfo")
-      .with("recipients")
+      .whereHas("invoiceInfo")
+      .whereHas("recipients")
       .with("additionalFiles")
       .fetch();
   }
