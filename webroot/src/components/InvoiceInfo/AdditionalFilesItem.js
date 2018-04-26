@@ -116,13 +116,13 @@ class AdditionalFilesItem extends Component {
             </div>
           </div>
         : <div className="additional-files-added">
-            <span className="small">
+            <span className="small text-md-hide">
               {moment(item.created_at).format("MM/DD/YYYY \\, HH:mm A")}
-              <Button
-                className="btn-danger btn-sm"
-                onClick={() => this.handleRemoveClick(item)}
-                text={<FontAwesome name="trash"/>}/>
             </span>
+            <Button
+              className="btn-danger btn-sm"
+              onClick={() => this.handleRemoveClick(item)}
+              text={<FontAwesome name="trash"/>}/>
           </div>
     )
   };
@@ -134,13 +134,13 @@ class AdditionalFilesItem extends Component {
     return (
       <div className="col-lg-12 additional-file">
         <div className="row">
-          <div className="col-lg-4 col-md-6 col-sm-12">
+          <div className="col-lg-4 col-md-5 col-sm-5 col-xs-12">
             {this.renderFilename(name)}
           </div>
-          <div className="col-lg-5 col-md-12">
+          <div className="col-lg-4 col-md-5 col-sm-5 col-xs-12">
             {this.renderFileDescription()}
           </div>
-          <div className="col-lg-3 col-md-12 text-left">
+          <div className="col-lg-4 col-md-2 col-sm-2 col-xs-12 text-left">
             {this.renderFileButtons()}
           </div>
         </div>

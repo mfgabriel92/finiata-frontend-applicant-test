@@ -8661,8 +8661,6 @@ a.text-dark:hover, a.text-dark:focus {
   margin: auto !important;
   width: 500px !important;
   height: 500px !important; }
-  .narcissus_17w311v .btn:first-child {
-    margin-left: 15px; }
 
 body {
   font-family: "Lato Regular", serif; }
@@ -8672,6 +8670,10 @@ body {
 
 .reject-dropzone {
   background: indianred !important; }
+
+@media (max-width: 992px) {
+  .text-md-hide {
+    display: none; } }
 
 .alert {
   position: fixed;

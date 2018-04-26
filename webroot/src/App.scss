@@ -19,6 +19,12 @@ body {
   background: indianred !important;
 }
 
+.text-md-hide {
+  @media (max-width: 992px) {
+    display: none;
+  }
+}
+
 .alert {
   position: fixed;
   width: auto;

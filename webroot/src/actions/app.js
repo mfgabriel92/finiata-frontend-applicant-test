@@ -4,7 +4,10 @@ import {
   UPLOAD_INVOICE_FAILURE,
   ADD_INVOICE_INFO,
   ADD_INVOICE_INFO_SUCCESS,
-  ADD_INVOICE_INFO_FAILURE
+  ADD_INVOICE_INFO_FAILURE,
+  DELETE_INVOICE,
+  DELETE_INVOICE_SUCCESS,
+  DELETE_INVOICE_FAILURE
 } from "./invoices/invoices";
 
 import {
@@ -76,6 +79,21 @@ const ACTION_HANDLERS = {
     ...state,
     flashMessage: {
       message: "Invoice uploaded.",
+      type: TYPE_SUCCESS
+    }
+  }),
+
+  [DELETE_INVOICE]: state => ({
+    ...state,
+    flashMessage: {
+      message: "Wait while the file is being removed...",
+      type: TYPE_PROCESSING
+    }
+  }),
+  [DELETE_INVOICE_SUCCESS]: state => ({
+    ...state,
+    flashMessage: {
+      message: "Invoice successfully removed.",
       type: TYPE_SUCCESS
     }
   }),
@@ -156,6 +174,7 @@ const ACTION_HANDLERS = {
   }),
 
   [UPLOAD_INVOICE_FAILURE]: failureMessage(),
+  [DELETE_INVOICE_FAILURE]: failureMessage(),
   [ADD_INVOICE_INFO_FAILURE]: failureMessage(),
   [ADD_RECIPIENT_FAILURE]: failureMessage(),
   [UPDATE_RECIPIENT_FAILURE]: failureMessage(),

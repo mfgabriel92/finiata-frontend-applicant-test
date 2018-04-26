@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import DeleteInvoiceModal from "./DeleteInvoiceModal";
 import RecipientModal from "./RecipientModal";
 import moment from "moment";
 import validate from "../../utils/validators/invoiceInfo";
@@ -35,7 +36,7 @@ class InvoiceInfo extends Component {
     } = this.props;
 
     if (!invoice) {
-      history.push("/")
+      // history.push("/")
     }
 
     if (invoiceFile) {
@@ -47,6 +48,9 @@ class InvoiceInfo extends Component {
   componentWillReceiveProps(nextProps) {
     const {
       fetchRecipient,
+      invoices: {
+        deletingInvoiceSuccess
+      },
       recipients: {
         fetchingRecipientSuccess,
         addingRecipientSuccess,
@@ -59,6 +63,7 @@ class InvoiceInfo extends Component {
         addingAdditionalFileSuccess,
         removingAdditionalFileSuccess
       },
+      deleteInvoiceFile,
       history
     } = nextProps;
 
@@ -76,6 +81,11 @@ class InvoiceInfo extends Component {
 
     if (recipient && fetchingRecipientSuccess) {
       this.setState({ recipient });
+    }
+
+    if (deletingInvoiceSuccess) {
+      deleteInvoiceFile();
+      history.push("/");
     }
   }
 
@@ -135,22 +145,29 @@ class InvoiceInfo extends Component {
     removeAdditionalFile(id);
   };
 
+  handleOnDeleteInvoice = () => {
+    const { deleteInvoiceModal } = this.refs;
+    deleteInvoiceModal.open();
+  };
+
   render() {
     const { recipient } = this.state;
     const {
+      deleteInvoice,
       addRecipient,
       updateRecipient,
       recipients,
       invoices: {
-        invoiceFile
+        invoiceFile,
+        deletingInvoiceSuccess
       },
       additionalFiles,
-      removeAdditionalFile
     } = this.props;
 
     return (
       <div id="invoice-info">
         <RecipientModal ref="recipientModal" addRecipient={addRecipient} updateRecipient={updateRecipient} recipients={recipients}/>
+        <DeleteInvoiceModal ref="deleteInvoiceModal" deleteInvoice={deleteInvoice} deletingInvoiceSuccess={deletingInvoiceSuccess}/>
         <div className="container">
           <div className="col-lg-12">
             <Information
@@ -163,6 +180,7 @@ class InvoiceInfo extends Component {
             />
             <AdditionalFiles
               onSubmit={this.handleOnSubmit}
+              deleteInvoice={this.handleOnDeleteInvoice}
               addAdditionalFile={this.handleOnSubmitAdditionalFile}
               removeAdditionalFile={this.handleOnDeleteAdditionalFile}
               additionalFiles={additionalFiles}

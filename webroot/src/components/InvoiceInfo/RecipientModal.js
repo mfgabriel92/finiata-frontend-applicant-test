@@ -1,10 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { ModalContainer, ModalDialog } from "react-modal-dialog-react16";
 import Input from "../common/Input";
+import Button from "../common/Button";
 import validate from "../../utils/validators/recipient";
+import BaseModal from "../common/BaseModal";
+import FontAwesome from "react-fontawesome";
 
-class RecipientModal extends Component {
+class RecipientModal extends BaseModal {
   constructor(props) {
     super(props);
 
@@ -14,7 +16,6 @@ class RecipientModal extends Component {
       address: "",
       phone: "",
       recipient: null,
-      show: false,
       errors: {},
     };
 
@@ -39,14 +40,6 @@ class RecipientModal extends Component {
       this.setState(...this.defaultState);
     }
   }
-
-  open = () => {
-    this.setState({ show: true });
-  };
-
-  close = () => {
-    this.setState({ show: false });
-  };
 
   handleOnChange = (e) => {
     this.setState({
@@ -87,31 +80,51 @@ class RecipientModal extends Component {
     }
   };
 
-  render() {
-    const { name, surname, address, phone, show, errors } = this.state;
+  renderHeader = () => {
+    return (
+      <h3>
+        {
+          this.editing
+            ? <span><FontAwesome name="pencil"/> Edit </span>
+            : <span><FontAwesome name="plus"/> Add </span>
+        }
+        Recipient
+      </h3>
+    )
+  };
+
+  renderBody = () => {
+    const { name, surname, address, phone, errors } = this.state;
 
     return (
-      show && <ModalContainer>
-        <ModalDialog>
-          <div className="col-lg-12">
-            <h3>{this.editing ? "Edit " : "Add "} Recipient</h3>
-          </div>
-          <hr/>
-          <div className="col-lg-12">
-            <Input label="Name" name="name" value={name} onChange={this.handleOnChange} error={errors.name}/>
-            <Input label="Surname" name="surname" value={surname} onChange={this.handleOnChange} error={errors.surname}/>
-            <Input label="Address" name="address" value={address} onChange={this.handleOnChange} error={errors.address}/>
-            <Input label="Phone" name="phone" value={phone} onChange={this.handleOnChange} error={errors.phone}/>
-          </div>
-          <hr/>
-          <div className="col-lg-12 float-right">
-            <button className="btn btn-default float-right" onClick={this.close}>Cancel</button>
-            <button className="btn btn-primary float-right" onClick={this.handleOnSubmit}>Submit</button>
-          </div>
-        </ModalDialog>
-      </ModalContainer>
+      <div>
+        <Input label="Name" name="name" value={name} onChange={this.handleOnChange} error={errors.name}/>
+        <Input label="Surname" name="surname" value={surname} onChange={this.handleOnChange} error={errors.surname}/>
+        <Input label="Address" name="address" value={address} onChange={this.handleOnChange} error={errors.address}/>
+        <Input label="Phone" name="phone" value={phone} onChange={this.handleOnChange} error={errors.phone}/>
+      </div>
     )
-  }
+  };
+
+  renderFooter = () => {
+    return (
+      <div className="row">
+        <div className="col-lg-6">
+          <Button
+            className="btn-default col-lg-12"
+            text="Cancel"
+            onClick={this.close}
+          />
+        </div>
+        <div className="col-lg-6">
+          <Button
+            className="btn-primary col-lg-12"
+            onClick={this.handleOnSubmit}
+          />
+        </div>
+      </div>
+    )
+  };
 }
 
 RecipientModal.propTypes = {

@@ -1,22 +1,21 @@
 import React, { Component } from "react";
-import { Modal } from "react-bootstrap";
-import cx from "classnames";
+import Modal from "react-bootstrap4-modal";
 
 class BaseModal extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      showModal: false
+      show: false
     }
   }
 
   open = () => {
-    this.setState({ showModal: true })
+    this.setState({ show: true });
   };
 
   close = () => {
-    this.setState({ showModal: false })
+    this.setState({ show: false });
   };
 
   renderHeader = () => {
@@ -29,20 +28,26 @@ class BaseModal extends Component {
   };
 
   render() {
+    const { show } = this.state;
+
     return (
-      <Modal show={this.state.showModal} onHide={this.close}>
-        <Modal.Header>
-          {this.renderHeader()}
-        </Modal.Header>
-        <Modal.Body>
+      <Modal className="modal" visible={show} onClickBackdrop={this.close}>
+        <div className="modal-header col-lg-12">
+          <div className="modal-title">
+            {this.renderHeader()}
+          </div>
+        </div>
+        <hr/>
+        <div className="modal-body col-lg-12">
           {this.renderBody()}
-        </Modal.Body>
-        <Modal.Footer>
+        </div>
+        <hr/>
+        <div className="modal-footer col-lg-12">
           {this.renderFooter()}
-        </Modal.Footer>
+        </div>
       </Modal>
     )
   }
 }
 
-export default BaseModal
+export default BaseModal;

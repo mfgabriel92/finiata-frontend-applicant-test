@@ -22,7 +22,7 @@ class InvoiceController {
 
     if (!invoices) {
       const error = op.getFirstError();
-      return response.status(error.code).json(error.message);
+      return response.status(error.code).json(error);
     }
 
     return response.status(200).json(invoices);
@@ -43,7 +43,7 @@ class InvoiceController {
 
     if (!invoice) {
       const error = op.getFirstError();
-      return response.status(error.code).json(error.message);
+      return response.status(error.code).json(error);
     }
 
     return response.status(200).json(invoice);
@@ -65,7 +65,7 @@ class InvoiceController {
 
     if (!invoice) {
       const error = op.getFirstError();
-      return response.status(error.code).json(error.message);
+      return response.status(error.code).json(error);
     }
 
     return response.status(200).json(invoice);

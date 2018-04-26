@@ -35,6 +35,10 @@ test("failure of insertion with non existent invoice ID", async ({ client }) => 
     .end();
 
   request.assertStatus(404);
+  request.assertJSON({
+    code: 404,
+    message: "Invoice not found"
+  })
 });
 
 test("failure of insertion with a missing field", async ({ client }) => {
