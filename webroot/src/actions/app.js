@@ -7,9 +7,7 @@ import {
   ADD_INVOICE_INFO_FAILURE,
   DELETE_INVOICE,
   DELETE_INVOICE_SUCCESS,
-  DELETE_INVOICE_FAILURE,
-  DELETE_INVOICE_FILE,
-  DELETE_INVOICE_FILE_SUCCESS
+  DELETE_INVOICE_FAILURE
 } from "./invoices/invoices";
 
 import {
@@ -171,14 +169,6 @@ const ACTION_HANDLERS = {
     ...state,
     flashMessage: {
       message: "Additional file successfully removed.",
-      type: TYPE_SUCCESS
-    }
-  }),
-
-  [DELETE_INVOICE_FILE_SUCCESS]: state => ({
-    ...state,
-    flashMessage: {
-      message: "Unsaved invoice successfully removed.",
       type: TYPE_SUCCESS
     }
   }),

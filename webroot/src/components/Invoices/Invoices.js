@@ -60,7 +60,9 @@ class Invoices extends Component {
   renderUnsavedInvoices = () => {
     const { invoices: { unsavedInvoiceFiles } } = this.props;
 
-    if (!unsavedInvoiceFiles) {
+    console.log(unsavedInvoiceFiles);
+
+    if (!unsavedInvoiceFiles || unsavedInvoiceFiles.length === 0) {
       return (
         <p className="small text-muted">No unsaved files</p>
       )
@@ -71,10 +73,10 @@ class Invoices extends Component {
         <div className="col-lg-12 small text-muted">
           <div className="row">
             {
-              unsavedInvoiceFiles && unsavedInvoiceFiles.map((file) => {
+              unsavedInvoiceFiles.map((file) => {
                 let name = file.filename;
 
-                if (name && name.length > 20) {
+                if (name.length > 20) {
                   let firstPart = name.substr(0, 10);
                   let lastPart = name.substr(-15);
 

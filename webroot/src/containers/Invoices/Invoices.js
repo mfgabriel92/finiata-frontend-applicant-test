@@ -1,12 +1,12 @@
 import Invoices from "../../components/Invoices";
 import { connect } from "react-redux";
-import { setInvoiceFile, fetchInvoices, deleteInvoiceFile } from "../../actions/invoices/invoices";
+import { setInvoiceFile, fetchInvoices, deleteUnsavedInvoiceFile } from "../../actions/invoices/invoices";
 
 const mapActionCreators = {
   setInvoiceFile,
 
   fetchInvoices,
-  deleteInvoiceFile
+  deleteInvoiceFile: deleteUnsavedInvoiceFile
 };
 
 const mapStateToProps = state => ({

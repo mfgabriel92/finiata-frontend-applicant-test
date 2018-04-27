@@ -17,7 +17,6 @@ export const DELETE_INVOICE_SUCCESS = "invoices:delete_invoice_success";
 export const DELETE_INVOICE_FAILURE = "invoices:delete_invoice_failure";
 
 export const DELETE_INVOICE_FILE = "invoices:delete_invoice_file";
-export const DELETE_INVOICE_FILE_SUCCESS = "invoices:delete_invoice_file";
 
 export const ADD_INVOICE_INFO = "invoices:add_invoice_info";
 export const ADD_INVOICE_INFO_SUCCESS = "invoices:add_invoice_info_success";
@@ -41,15 +40,16 @@ export function setUnsavedInvoiceFile(file) {
   }
 }
 
-export function deleteInvoiceFile(file) {
+export function deleteUnsavedInvoiceFile(file) {
   const invoices = JSON.parse(localStorage.getItem("persist:root"));
   const unsavedInvoiceFiles = JSON.parse(invoices.invoices).unsavedInvoiceFiles;
   const removed = _.remove(unsavedInvoiceFiles, { id: file.id });
+  const list = _.reject(unsavedInvoiceFiles, removed[0].id)
 
   return (dispatch) => {
     dispatch({
-      type: [DELETE_INVOICE_FILE, DELETE_INVOICE_FILE_SUCCESS],
-      payload: _.reject(unsavedInvoiceFiles, removed[0].id)
+      type: DELETE_INVOICE_FILE,
+      payload: list.length !== 0 ? list : null
     });
   }
 }
@@ -160,25 +160,18 @@ const ACTION_HANDLERS = {
     ]
   }),
 
-  [SET_UNSAVED_INVOICE_FILE]: (state, action) => {
-    let previousData = _.uniqBy(...state.unsavedInvoiceFiles, "id");
-
-    return {
-      ...state,
-      unsavedInvoiceFiles: [
-        ...previousData || [],
-        action.payload
-      ],
-      invoiceFile: null
-    }
-  },
+  [SET_UNSAVED_INVOICE_FILE]: (state, action) => ({
+    state,
+    unsavedInvoiceFiles: [
+      ...state.unsavedInvoiceFiles,
+      action.payload
+    ],
+    invoiceFile: null
+  }),
 
   [DELETE_INVOICE_FILE]: (state, action) => ({
     ...state,
-    unsavedInvoiceFiles: [
-      ...state,
-      action.payload
-    ]
+    unsavedInvoiceFiles: action.payload || []
   }),
 
   [DELETE_INVOICE]: state => ({
@@ -237,7 +230,7 @@ const initialState = {
   deletingInvoiceError: [],
 
   invoiceFile: null,
-  unsavedInvoiceFiles: null,
+  unsavedInvoiceFiles: [],
 
   addingInvoiceInfo: false,
   addingInvoiceInfoSuccess: false,

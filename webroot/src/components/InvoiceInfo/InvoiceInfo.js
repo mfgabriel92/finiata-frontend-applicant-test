@@ -7,6 +7,8 @@ import validate from "../../utils/validators/invoiceInfo";
 import "react-datepicker/dist/react-datepicker.css";
 import Information from "./Information";
 import AdditionalFiles from "./AdditionalFiles";
+import _ from "lodash";
+import { deleteUnsavedInvoiceFile } from "../../actions/invoices/invoices";
 
 class InvoiceInfo extends Component {
   constructor(props) {
@@ -154,11 +156,18 @@ class InvoiceInfo extends Component {
   handleOnCancelInvoiceConfirm = () => {
     const {
       setUnsavedInvoiceFile,
+      deleteUnsavedInvoiceFile,
       invoices: {
-        invoiceFile
+        invoiceFile,
+        unsavedInvoiceFiles
       },
       history
     } = this.props;
+
+
+    if (_.findIndex(unsavedInvoiceFiles, { id: invoiceFile[0].id }) !== -1) {
+      deleteUnsavedInvoiceFile(invoiceFile[0]);
+    }
 
     setUnsavedInvoiceFile(invoiceFile[0]);
     history.push("invoices");
