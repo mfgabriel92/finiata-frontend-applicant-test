@@ -5,9 +5,15 @@ import Button from "../common/Button";
 import FontAwesome from "react-fontawesome";
 
 class CancelInvoiceModal extends BaseModal {
-  handleOnSubmit = (e) => {
-    const { cancelInvoiceConfirm } = this.props;
-    cancelInvoiceConfirm();
+  handleOnSaveForLaterClick = () => {
+    const { saveForLater } = this.props;
+    saveForLater();
+    this.close();
+  };
+
+  handleOnDiscardClick = () => {
+    const { discardInvoice } = this.props;
+    discardInvoice();
     this.close();
   };
 
@@ -21,25 +27,32 @@ class CancelInvoiceModal extends BaseModal {
 
   renderBody = () => {
     return (
-      <p>Cancelling will leave this page, but you may continue edit it later. <br/><br/> Proceed?</p>
+      <p>Do you want to save it for later or completely discard the invoice?</p>
     )
   };
 
   renderFooter = () => {
     return (
       <div className="row">
-        <div className="col-lg-6">
+        <div className="col float-left">
           <Button
-            className="btn-default col-lg-12"
-            text="No"
+            className="btn-default"
+            text="Cancel"
             onClick={this.close}
           />
         </div>
-        <div className="col-lg-6">
+        <div className="col">
           <Button
-            className="btn-primary col-lg-12"
-            text="Yes"
-            onClick={this.handleOnSubmit}
+            className="btn-primary"
+            text="Save for later"
+            onClick={this.handleOnSaveForLaterClick}
+          />
+        </div>
+        <div className="col">
+          <Button
+            className="btn-danger"
+            text="Discard"
+            onClick={this.handleOnDiscardClick}
           />
         </div>
       </div>
@@ -48,7 +61,8 @@ class CancelInvoiceModal extends BaseModal {
 }
 
 CancelInvoiceModal.propTypes = {
-  cancelInvoiceConfirm: PropTypes.func,
+  saveForLater: PropTypes.func,
+  discardInvoice: PropTypes.func
 };
 
 export default CancelInvoiceModal;

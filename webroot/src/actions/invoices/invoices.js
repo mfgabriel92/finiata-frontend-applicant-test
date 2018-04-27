@@ -43,8 +43,13 @@ export function setUnsavedInvoiceFile(file) {
 export function deleteUnsavedInvoiceFile(file) {
   const invoices = JSON.parse(localStorage.getItem("persist:root"));
   const unsavedInvoiceFiles = JSON.parse(invoices.invoices).unsavedInvoiceFiles;
+
+  if (!unsavedInvoiceFiles || unsavedInvoiceFiles.length === 0) {
+    return;
+  }
+
   const removed = _.remove(unsavedInvoiceFiles, { id: file.id });
-  const list = _.reject(unsavedInvoiceFiles, removed[0].id)
+  const list = _.reject(unsavedInvoiceFiles, removed[0].id);
 
   return (dispatch) => {
     dispatch({
@@ -89,7 +94,7 @@ export function deleteInvoice() {
         method: "DELETE",
         types: [DELETE_INVOICE, DELETE_INVOICE_SUCCESS, DELETE_INVOICE_FAILURE]
       }
-    })
+    }).then(() => { dispatch(deleteUnsavedInvoiceFile(invoiceFile[0])) })
   }
 }
 
@@ -107,7 +112,7 @@ export function addInvoiceInfo(data) {
         body: JSON.stringify(data),
         types: [ADD_INVOICE_INFO, ADD_INVOICE_INFO_SUCCESS, ADD_INVOICE_INFO_FAILURE]
       }
-    })
+    }).then(() => { dispatch(deleteUnsavedInvoiceFile(invoiceFile[0])) })
   }
 }
 
@@ -184,7 +189,8 @@ const ACTION_HANDLERS = {
     ...state,
     deletingInvoice: false,
     deletingInvoiceSuccess: true,
-    invoice: action.payload
+    invoice: action.payload,
+    invoiceFile: null
   }),
   [DELETE_INVOICE_FAILURE]: (state, action) => ({
     ...state,

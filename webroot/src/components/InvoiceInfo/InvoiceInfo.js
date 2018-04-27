@@ -57,9 +57,11 @@ class InvoiceInfo extends Component {
   componentWillReceiveProps(nextProps) {
     const {
       fetchRecipient,
+      deleteUnsavedInvoiceFile,
       invoices: {
         deletingInvoiceSuccess,
-        addingInvoiceInfoSuccess
+        addingInvoiceInfoSuccess,
+        invoiceFile
       },
       recipients: {
         fetchingRecipientSuccess,
@@ -72,9 +74,12 @@ class InvoiceInfo extends Component {
         addingAdditionalFileSuccess,
         removingAdditionalFileSuccess
       },
-      deleteInvoiceFile,
       history
     } = nextProps;
+
+    if (recipient && fetchingRecipientSuccess) {
+      this.setState({ recipient });
+    }
 
     if (addingRecipientSuccess || updatingRecipientSuccess) {
       fetchRecipient();
@@ -85,17 +90,8 @@ class InvoiceInfo extends Component {
       this.setHasUnsavedAdditionalFiles(false);
     }
 
-    if (addingInvoiceInfoSuccess) {
+    if (addingInvoiceInfoSuccess || deletingInvoiceSuccess) {
       history.push("/invoices");
-    }
-
-    if (recipient && fetchingRecipientSuccess) {
-      this.setState({ recipient });
-    }
-
-    if (deletingInvoiceSuccess) {
-      deleteInvoiceFile();
-      history.push("/");
     }
   }
 
@@ -165,24 +161,40 @@ class InvoiceInfo extends Component {
     deleteInvoiceModal.open();
   };
 
-  handleOnCancelInvoiceConfirm = () => {
+  handleSaveInvoiceForLaterClick = () => {
     const {
       setUnsavedInvoiceFile,
       deleteUnsavedInvoiceFile,
       invoices: {
         invoiceFile,
-        unsavedInvoiceFiles
       },
       history
     } = this.props;
 
 
-    if (_.findIndex(unsavedInvoiceFiles, { id: invoiceFile[0].id }) !== -1) {
+    if (this.isFileUnsaved()) {
       deleteUnsavedInvoiceFile(invoiceFile[0]);
     }
 
     setUnsavedInvoiceFile(invoiceFile[0]);
     history.push("invoices");
+  };
+
+  handleDiscardInvoiceClick = () => {
+    const { deleteInvoice } = this.props;
+
+    deleteInvoice();
+  };
+
+  isFileUnsaved = () => {
+    const {
+      invoices: {
+        unsavedInvoiceFiles,
+        invoiceFile
+      }
+    } = this.props;
+
+    return _.findIndex(unsavedInvoiceFiles, { id: invoiceFile[0].id }) !== -1;
   };
 
   render() {
@@ -208,7 +220,8 @@ class InvoiceInfo extends Component {
         />
         <CancelInvoiceModal
           ref="deleteInvoiceModal"
-          cancelInvoiceConfirm={this.handleOnCancelInvoiceConfirm}
+          saveForLater={this.handleSaveInvoiceForLaterClick}
+          discardInvoice={this.handleDiscardInvoiceClick}
         />
         <div className="container">
           <div className="col-lg-12">
