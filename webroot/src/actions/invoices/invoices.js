@@ -17,6 +17,7 @@ export const DELETE_INVOICE_SUCCESS = "invoices:delete_invoice_success";
 export const DELETE_INVOICE_FAILURE = "invoices:delete_invoice_failure";
 
 export const DELETE_INVOICE_FILE = "invoices:delete_invoice_file";
+export const DELETE_INVOICE_FILE_SUCCESS = "invoices:delete_invoice_file";
 
 export const ADD_INVOICE_INFO = "invoices:add_invoice_info";
 export const ADD_INVOICE_INFO_SUCCESS = "invoices:add_invoice_info_success";
@@ -32,7 +33,6 @@ export function setInvoiceFile(file) {
 }
 
 export function setUnsavedInvoiceFile(file) {
-  console.log(file);
   return (dispatch) => {
     dispatch({
       type: SET_UNSAVED_INVOICE_FILE,
@@ -48,7 +48,7 @@ export function deleteInvoiceFile(file) {
 
   return (dispatch) => {
     dispatch({
-      type: DELETE_INVOICE_FILE,
+      type: [DELETE_INVOICE_FILE, DELETE_INVOICE_FILE_SUCCESS],
       payload: _.reject(unsavedInvoiceFiles, removed[0].id)
     });
   }
@@ -160,14 +160,18 @@ const ACTION_HANDLERS = {
     ]
   }),
 
-  [SET_UNSAVED_INVOICE_FILE]: (state, action) => ({
-    ...state,
-    unsavedInvoiceFiles: [
-      ...state.unsavedInvoiceFiles || [],
-      action.payload
-    ],
-    invoiceFile: null
-  }),
+  [SET_UNSAVED_INVOICE_FILE]: (state, action) => {
+    let previousData = _.uniqBy(...state.unsavedInvoiceFiles, "id");
+
+    return {
+      ...state,
+      unsavedInvoiceFiles: [
+        ...previousData || [],
+        action.payload
+      ],
+      invoiceFile: null
+    }
+  },
 
   [DELETE_INVOICE_FILE]: (state, action) => ({
     ...state,

@@ -13,7 +13,11 @@ class Invoices extends Component {
   }
 
   componentWillMount() {
-    const { fetchInvoices } = this.props;
+    const { invoices: { invoiceFile }, fetchInvoices, history } = this.props;
+
+    if (invoiceFile) {
+      history.push("invoice-info")
+    }
 
     fetchInvoices();
   }
@@ -46,6 +50,13 @@ class Invoices extends Component {
     deleteInvoiceFile(file);
   };
 
+  handleEditUnsavedFile = (file) => {
+    const { setInvoiceFile, history } = this.props;
+
+    setInvoiceFile(file);
+    history.push("invoice-info");
+  };
+
   renderUnsavedInvoices = () => {
     const { invoices: { unsavedInvoiceFiles } } = this.props;
 
@@ -63,9 +74,9 @@ class Invoices extends Component {
               unsavedInvoiceFiles && unsavedInvoiceFiles.map((file) => {
                 let name = file.filename;
 
-                if (name.length > 25) {
+                if (name && name.length > 20) {
                   let firstPart = name.substr(0, 10);
-                  let lastPart = name.substr(-20);
+                  let lastPart = name.substr(-15);
 
                   name = firstPart + "..." + lastPart;
                 }
@@ -85,7 +96,7 @@ class Invoices extends Component {
                       <div className="col-1">
                         <FontAwesome
                           name="pencil"
-                          onClick={e => this.handleDeleteUnsavedFile(file)}
+                          onClick={e => this.handleEditUnsavedFile(file)}
                           className="text-primary"/>
                       </div>
                     </div>
