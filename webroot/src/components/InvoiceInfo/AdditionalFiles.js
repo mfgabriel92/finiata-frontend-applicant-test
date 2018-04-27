@@ -24,12 +24,14 @@ class AdditionalFiles extends Component {
   }
 
   handleOnDrop = (files) => {
+    const { handleSetHasUnsavedAdditionalFiles } = this.props;
     const { filesList } = this.state;
 
     files.forEach((f) => {
       filesList.push(f);
     });
 
+    handleSetHasUnsavedAdditionalFiles(true);
     this.setState({ additionalFiles: filesList });
   };
 
@@ -93,6 +95,7 @@ AdditionalFiles.propTypes = {
   addAdditionalFile: PropTypes.func,
   additionalFiles: PropTypes.object,
   removeAdditionalFile: PropTypes.func,
+  handleSetHasUnsavedAdditionalFiles: PropTypes.func
 };
 
 export default AdditionalFiles;

@@ -20,7 +20,7 @@ class MaskedInput extends Component {
       <div className="form-group">
         { label && <label>{label}</label> }
         <Cleave
-          className={cx("form-control", classNames)}
+          className={cx("form-control", classNames, error && "is-invalid")}
           name={name}
           value={value}
           placeholder={placeholder}

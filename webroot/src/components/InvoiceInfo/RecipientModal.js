@@ -111,14 +111,14 @@ class RecipientModal extends BaseModal {
       <div className="row">
         <div className="col-lg-6">
           <Button
-            className="btn-default col-lg-12"
+            className="btn-default"
             text="Cancel"
             onClick={this.close}
           />
         </div>
         <div className="col-lg-6">
           <Button
-            className="btn-primary col-lg-12"
+            className="btn-primary"
             onClick={this.handleOnSubmit}
           />
         </div>

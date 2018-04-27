@@ -7,6 +7,7 @@ import validate from "../../utils/validators/invoiceInfo";
 import "react-datepicker/dist/react-datepicker.css";
 import Information from "./Information";
 import AdditionalFiles from "./AdditionalFiles";
+import UnsavedDataAlertModal from "../common/UnsavedDataAlertModal";
 import _ from "lodash";
 
 class InvoiceInfo extends Component {
@@ -20,11 +21,18 @@ class InvoiceInfo extends Component {
       recipient: null,
       files: [],
       errors: {},
-      isLoading: false
+      isLoading: false,
+      hasUnsavedAdditionalFiles: false
     };
 
     this.state = this.defaultState;
   }
+
+  setHasUnsavedAdditionalFiles = (has) => {
+    this.setState({
+      hasUnsavedAdditionalFiles: has
+    });
+  };
 
   componentWillMount() {
     const {
@@ -73,11 +81,11 @@ class InvoiceInfo extends Component {
     }
 
     if (addingAdditionalFileSuccess || removingAdditionalFileSuccess) {
-      fetchAdditionalFiles()
+      fetchAdditionalFiles();
+      this.setHasUnsavedAdditionalFiles(false);
     }
 
     if (addingInvoiceInfoSuccess) {
-      console.log("Redireciona para a puta que pariu, filho da puta.");
       history.push("/invoices");
     }
 
@@ -123,12 +131,16 @@ class InvoiceInfo extends Component {
     e.preventDefault();
 
     if (this.isValid(this.state)) {
+      const { addInvoiceInfo } = this.props;
+      const { invoiceAmount, paymentTarget, hasUnsavedAdditionalFiles } = this.state;
+
+      if (hasUnsavedAdditionalFiles) {
+        const { unsavedDataAlertModal } = this.refs;
+        unsavedDataAlertModal.open();
+        return;
+      }
+
       this.setState({ errors: {} });
-
-      const {
-        addInvoiceInfo, } = this.props;
-      const { invoiceAmount, paymentTarget } = this.state;
-
       addInvoiceInfo({ invoiceAmount, paymentTarget });
     }
   };
@@ -187,6 +199,7 @@ class InvoiceInfo extends Component {
 
     return (
       <div id="invoice-info">
+        <UnsavedDataAlertModal ref="unsavedDataAlertModal" customMessage="You have unsaved additional files. Please submit or delete them first."/>
         <RecipientModal
           ref="recipientModal"
           addRecipient={addRecipient}
@@ -210,6 +223,7 @@ class InvoiceInfo extends Component {
             <AdditionalFiles
               addAdditionalFile={this.handleOnSubmitAdditionalFile}
               removeAdditionalFile={this.handleOnDeleteAdditionalFile}
+              handleSetHasUnsavedAdditionalFiles={this.setHasUnsavedAdditionalFiles}
               additionalFiles={additionalFiles}
             />
           </div>
