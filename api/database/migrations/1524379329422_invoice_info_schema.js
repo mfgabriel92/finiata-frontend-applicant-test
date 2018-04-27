@@ -7,7 +7,7 @@ class InvoiceInfoSchema extends Schema {
     this.create("invoice_info", (table) => {
       table.increments();
       table.integer("invoice_id").notNullable().unsigned();
-      table.decimal("invoiceAmount").notNullable();
+      table.string("invoiceAmount").notNullable();
       table.timestamp("paymentTarget").notNullable();
       table.timestamps();
 

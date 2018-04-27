@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import DatePicker from "react-datepicker";
-import Input from "../common/Input";
 import Button from "../common/Button";
 import moment from "moment/moment";
 import cx from "classnames";
+import MaskedInput from "../common/MaskedInput";
 
 class Information extends Component {
   render() {
@@ -26,13 +26,12 @@ class Information extends Component {
         <div className="col-lg-6 col-md-12">
           <div className="row">
             <div className="col-lg-6 col-md-12">
-              <Input
-                addOn="$"
+              <MaskedInput
+                options={{ numeral: true, numeralThousandsGroupStyle: "thousand" }}
                 label="Invoice Amount"
-                type="number"
                 name="invoiceAmount"
                 value={invoiceAmount}
-                placeholder={"1250"}
+                placeholder={"1,250"}
                 error={errors.invoiceAmount}
                 onChange={onChange}
               />
