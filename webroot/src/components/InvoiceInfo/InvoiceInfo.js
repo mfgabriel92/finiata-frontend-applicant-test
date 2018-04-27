@@ -8,7 +8,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import Information from "./Information";
 import AdditionalFiles from "./AdditionalFiles";
 import _ from "lodash";
-import { deleteUnsavedInvoiceFile } from "../../actions/invoices/invoices";
 
 class InvoiceInfo extends Component {
   constructor(props) {
@@ -51,13 +50,13 @@ class InvoiceInfo extends Component {
     const {
       fetchRecipient,
       invoices: {
-        deletingInvoiceSuccess
+        deletingInvoiceSuccess,
+        addingInvoiceInfoSuccess
       },
       recipients: {
         fetchingRecipientSuccess,
         addingRecipientSuccess,
         updatingRecipientSuccess,
-        addingInvoiceInfoSuccess,
         recipient
       },
       fetchAdditionalFiles,
@@ -78,7 +77,8 @@ class InvoiceInfo extends Component {
     }
 
     if (addingInvoiceInfoSuccess) {
-      history.push("/");
+      console.log("Redireciona para a puta que pariu, filho da puta.");
+      history.push("/invoices");
     }
 
     if (recipient && fetchingRecipientSuccess) {
@@ -125,11 +125,11 @@ class InvoiceInfo extends Component {
     if (this.isValid(this.state)) {
       this.setState({ errors: {} });
 
-      const { addInvoiceInfo, history } = this.props;
+      const {
+        addInvoiceInfo, } = this.props;
       const { invoiceAmount, paymentTarget } = this.state;
 
       addInvoiceInfo({ invoiceAmount, paymentTarget });
-      history.push("invoices");
     }
   };
 

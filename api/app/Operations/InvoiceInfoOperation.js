@@ -90,7 +90,33 @@ class InvoiceInfoOperation extends Operation {
    * @private
    */
   async _update() {
-    return true;
+    const rules = {
+      id: "required",
+      invoiceId: "required"
+    };
+
+    if (!await this.validate(rules)) {
+      return false;
+    }
+
+    const invoiceInfo = await InvoiceInfo.find(this.id);
+
+    if (!invoiceInfo) {
+      await this.addError(HTTP.STATUS_NOT_FOUND, "Invoice's data not found");
+      return false;
+    }
+
+    try {
+      invoiceInfo.invoiceAmount = this.invoiceAmount;
+      invoiceInfo.paymentTarget = moment(this.paymentTarget).format("YYYY-MM-DD HH:mm:ss");
+
+      await invoiceInfo.save();
+
+      return invoiceInfo;
+    } catch (e) {
+      this.addError(HTTP.STATUS_INTERNAL_SERVER_ERROR, e);
+      return false;
+    }
   }
 }
 

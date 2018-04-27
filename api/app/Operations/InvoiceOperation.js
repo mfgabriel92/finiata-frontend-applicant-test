@@ -35,6 +35,7 @@ class InvoiceOperation extends Operation {
       .whereHas("recipients")
       .with("recipients")
       .with("additionalFiles")
+      .orderBy("created_at", "DESC")
       .fetch();
   }
 
