@@ -60,8 +60,6 @@ class Invoices extends Component {
   renderUnsavedInvoices = () => {
     const { invoices: { unsavedInvoiceFiles } } = this.props;
 
-    console.log(unsavedInvoiceFiles);
-
     if (!unsavedInvoiceFiles || unsavedInvoiceFiles.length === 0) {
       return (
         <p className="small text-muted">No unsaved files</p>
