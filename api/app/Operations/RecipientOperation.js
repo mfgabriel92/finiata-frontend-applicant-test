@@ -27,7 +27,7 @@ class RecipientOperation extends Operation {
   }
 
   /**
-   * Operation for storing into the database
+   * Operation for storing into the database or updating an existing record
    *
    * @returns {Promise<*>}
    */

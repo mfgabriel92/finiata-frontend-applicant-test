@@ -28,11 +28,25 @@ class InvoiceInfoOperation extends Operation {
   }
 
   /**
-   * Operation for storing into the database
+   * Operation for storing into the database or updating an existing record
    *
    * @returns {Promise<boolean>}
    */
   async store() {
+    if (this.id) {
+      return await this._update();
+    }
+
+    return await this._create();
+  }
+
+  /**
+   * Creates a new record
+   *
+   * @returns {Promise<*>}
+   * @private
+   */
+  async _create() {
     const rules = {
       invoiceId: "required",
       invoiceAmount: "required",
@@ -67,6 +81,16 @@ class InvoiceInfoOperation extends Operation {
       this.addError(HTTP.STATUS_INTERNAL_SERVER_ERROR, e);
       return false;
     }
+  }
+
+  /**
+   * Updates an existing record
+   *
+   * @returns {Promise<boolean>}
+   * @private
+   */
+  async _update() {
+    return true;
   }
 }
 

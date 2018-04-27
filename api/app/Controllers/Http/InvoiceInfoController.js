@@ -19,6 +19,7 @@ class InvoiceInfoController {
    */
     async store({ request, response, params }) {
       const op = new InvoiceInfoOperation();
+      op.id = params.id;
       op.invoiceId = params.invoiceId;
       op.invoiceAmount = request.input("invoiceAmount");
       op.paymentTarget = request.input("paymentTarget");
