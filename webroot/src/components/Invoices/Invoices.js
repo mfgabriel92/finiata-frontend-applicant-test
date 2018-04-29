@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import FontAwesome from "react-fontawesome";
+import InvoiceModal from "./InvoiceModal";
 
 class Invoices extends Component {
   constructor(props) {
@@ -122,7 +123,7 @@ class Invoices extends Component {
     return (
       allInvoices.map((i) => {
         return (
-          <div className="invoice" key={i.id}>
+          <div className="invoice" key={i.id} onClick={() => this.handleInvoiceViewClick(i)}>
             <div className="col-lg-12">
               <div className="row">
                 <span className="text-bold">{i.originalName}</span>
@@ -156,9 +157,27 @@ class Invoices extends Component {
     )
   };
 
+  handleInvoiceViewClick = (invoice) => {
+    const { invoiceModal } = this.refs;
+    invoiceModal.setInvoice(invoice);
+    invoiceModal.open();
+  };
+
+  handleViewFile = (path) => {
+    const { viewModal } = this.refs;
+    viewModal.setPath(path);
+    viewModal.open();
+  };
+
+  handleDownloadFile = (invoiceId, fileId) => {
+    const { downloadAdditionalFile } = this.props;
+    downloadAdditionalFile(invoiceId, fileId);
+  };
+
   render() {
     return (
       <div id="invoices">
+        <InvoiceModal ref="invoiceModal" onDownloadFileClick={this.handleDownloadFile}/>
         <div className="container">
           <div className="col-lg-12">
             <div className="row">

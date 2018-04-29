@@ -99,7 +99,7 @@ class AdditionalFileOperation extends Operation {
         invoice_id: this.invoiceId,
         filename: name,
         originalName: file.clientName,
-        path: path + "/" + name,
+        path: path.substr(7) + "/" + name,
         description: this.description
       });
     } catch (e) {
@@ -138,6 +138,38 @@ class AdditionalFileOperation extends Operation {
     }
 
     return await additionalFile.delete();
+  }
+
+  /**
+   * Download an additional file
+   *
+   * @returns {Promise<*>}
+   */
+  async download() {
+    const rules = {
+      invoiceId: "required",
+      id: "required"
+    };
+
+    if (!await this.validate(rules)) {
+      return false;
+    }
+
+    const invoice = await Invoice.find(this.invoiceId);
+
+    if (!invoice) {
+      this.addError(HTTP.STATUS_NOT_FOUND, "Invoice not found");
+      return false;
+    }
+
+    const additionalFile = await AdditionalFile.find(this.id);
+
+    if (!additionalFile) {
+      this.addError(HTTP.STATUS_NOT_FOUND, "Additional file not found");
+      return false;
+    }
+
+    return additionalFile;
   }
 }
 

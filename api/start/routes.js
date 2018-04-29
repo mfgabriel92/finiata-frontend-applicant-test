@@ -27,4 +27,5 @@ Route.group(() => {
   Route.get("/invoices/:invoiceId/additional-files", "AdditionalFileController.fetch");
   Route.post("/invoices/:invoiceId/additional-files", "AdditionalFileController.store");
   Route.delete("/invoices/:invoiceId/additional-files/:id", "AdditionalFileController.destroy");
+  Route.get("/invoices/:invoiceId/additional-files/:id/download", "AdditionalFileController.download");
 }).prefix('api/v1');

@@ -1,6 +1,7 @@
 "use strict";
 
 const AdditionalFileOperation = use("App/Operations/AdditionalFileOperation");
+const Http = use("request");
 
 class AdditionalFileController {
   /**
@@ -71,6 +72,29 @@ class AdditionalFileController {
 
     return response.status(200).json(additionalFile);
   }
+
+  /**
+   * Download an additional file
+   *
+   * @param request
+   * @param response
+   * @param params
+   * @returns {Promise<*>}
+   */
+    async download({ request, response, params }) {
+      const op = new AdditionalFileOperation();
+      op.invoiceId = params.invoiceId;
+      op.id = params.id;
+
+      const additionalFile = await op.download();
+
+      if (additionalFile === false) {
+        const error = op.getFirstError();
+        return response.status(error.code).json(error);
+      }
+
+      return response.attachment("public/" + additionalFile.path, additionalFile.originalName);
+    }
 }
 
 module.exports = AdditionalFileController;

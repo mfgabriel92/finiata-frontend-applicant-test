@@ -69,7 +69,7 @@ class InvoiceOperation extends Operation {
       return await Invoice.create({
         filename: name,
         originalName: file.clientName,
-        path: path + "/" + name
+        path: path.substr(7) + "/" + name
       });
     } catch (e) {
       this.addError(HTTP.STATUS_INTERNAL_SERVER_ERROR, e);

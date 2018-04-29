@@ -33,15 +33,13 @@ class BaseModal extends Component {
     return (
       <Modal className="modal" visible={show} onClickBackdrop={this.close}>
         <div className="modal-header col-lg-12">
-          <div className="modal-title">
+          <div className="modal-title col-lg-12">
             {this.renderHeader()}
           </div>
         </div>
-        <hr/>
         <div className="modal-body col-lg-12">
           {this.renderBody()}
         </div>
-        <hr/>
         <div className="modal-footer col-lg-12">
           {this.renderFooter()}
         </div>

@@ -12,6 +12,10 @@ export const REMOVE_ADDITIONAL_FILE = "invoices:remove_additional_file";
 export const REMOVE_ADDITIONAL_FILE_SUCCESS = "invoices:remove_additional_file_success";
 export const REMOVE_ADDITIONAL_FILE_FAILURE = "invoices:remove_additional_file_failure";
 
+export const DOWNLOAD_ADDITIONAL_FILE = "invoices:download_additional_file";
+export const DOWNLOAD_ADDITIONAL_FILE_SUCCESS = "invoices:download_additional_file_success";
+export const DOWNLOAD_ADDITIONAL_FILE_FAILURE = "invoices:download_additional_file_failure";
+
 export function fetchAdditionalFiles() {
   return (dispatch, getState) => {
     const { invoices: { invoiceFile } } = getState();
@@ -50,6 +54,20 @@ export function removeAdditionalFile(id) {
         endpoint: `http://127.0.0.1:3333/api/v1/invoices/${invoiceFile[0].id}/additional-files/${id}`,
         method: "DELETE",
         types: [REMOVE_ADDITIONAL_FILE, REMOVE_ADDITIONAL_FILE_SUCCESS, REMOVE_ADDITIONAL_FILE_FAILURE]
+      }
+    })
+  }
+}
+
+export function downloadAdditionalFile(invoiceId, fileId) {
+  return (dispatch, getState) => {
+    const { invoices: { invoiceFile } } = getState();
+
+    return dispatch({
+      [RSAA]: {
+        endpoint: `http://127.0.0.1:3333/api/v1/invoices/${invoiceId}/additional-files/${fileId}/download`,
+        method: "GET",
+        types: [DOWNLOAD_ADDITIONAL_FILE, DOWNLOAD_ADDITIONAL_FILE_SUCCESS, DOWNLOAD_ADDITIONAL_FILE_FAILURE]
       }
     })
   }
