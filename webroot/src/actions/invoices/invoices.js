@@ -100,7 +100,7 @@ export function deleteInvoice() {
 
 export function addInvoiceInfo(data) {
   return (dispatch, getState) => {
-    const { invoices: { invoiceFile } } = getState();
+    const { invoices, invoices: { invoiceFile } } = getState();
 
     return dispatch({
       [RSAA]: {
@@ -112,7 +112,13 @@ export function addInvoiceInfo(data) {
         body: JSON.stringify(data),
         types: [ADD_INVOICE_INFO, ADD_INVOICE_INFO_SUCCESS, ADD_INVOICE_INFO_FAILURE]
       }
-    }).then(() => { dispatch(deleteUnsavedInvoiceFile(invoiceFile[0])) })
+    }).then(() => {
+      const { invoices: { addingInvoiceInfoSuccess } } = getState();
+
+      if (addingInvoiceInfoSuccess) {
+        deleteUnsavedInvoiceFile(invoiceFile[0])
+      }
+    })
   }
 }
 
