@@ -47,7 +47,7 @@ class InvoiceModal extends BaseModal {
         {
           <div>
             { this.invoice && <h6 className="float-left">{this.invoice.originalName}</h6> }
-            <FontAwesome name="eye" className="float-right view-file" onClick={this.handleViewFileClick}/>
+            <a href="#" className="float-right view-file" onClick={this.handleViewFileClick}><FontAwesome name="eye"/></a>
           </div>
         }
       </div>

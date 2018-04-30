@@ -30,7 +30,8 @@
     "@adonisjs/validator": "^5.0.3",
     "@adonisjs/vow": "^1.0.15",
     "moment": "^2.22.1",
-    "mysql": "^2.15.0"
+    "mysql": "^2.15.0",
+    "request": "^2.85.0"
   },
   "devDependencies": {},
   "autoload": {
