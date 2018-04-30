@@ -47,8 +47,8 @@ class Invoices extends Component {
   }
 
   handleDeleteUnsavedFile = (file) => {
-    const { deleteInvoiceFile } = this.props;
-    deleteInvoiceFile(file);
+    const { deleteUnsavedInvoiceFile } = this.props;
+    deleteUnsavedInvoiceFile(file);
   };
 
   handleEditUnsavedFile = (file) => {

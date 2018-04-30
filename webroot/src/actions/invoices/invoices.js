@@ -43,11 +43,6 @@ export function setUnsavedInvoiceFile(file) {
 export function deleteUnsavedInvoiceFile(file) {
   const invoices = JSON.parse(localStorage.getItem("persist:root"));
   const unsavedInvoiceFiles = JSON.parse(invoices.invoices).unsavedInvoiceFiles;
-
-  if (!unsavedInvoiceFiles || unsavedInvoiceFiles.length === 0) {
-    return;
-  }
-
   const removed = _.remove(unsavedInvoiceFiles, { id: file.id });
   const list = _.reject(unsavedInvoiceFiles, removed[0].id);
 
@@ -100,7 +95,7 @@ export function deleteInvoice() {
 
 export function addInvoiceInfo(data) {
   return (dispatch, getState) => {
-    const { invoices, invoices: { invoiceFile } } = getState();
+    const { invoices: { invoiceFile } } = getState();
 
     return dispatch({
       [RSAA]: {
@@ -113,10 +108,14 @@ export function addInvoiceInfo(data) {
         types: [ADD_INVOICE_INFO, ADD_INVOICE_INFO_SUCCESS, ADD_INVOICE_INFO_FAILURE]
       }
     }).then(() => {
-      const { invoices: { addingInvoiceInfoSuccess } } = getState();
+      const { invoices: { unsavedInvoiceFiles, addingInvoiceInfoSuccess } } = getState();
+      const isMatch = _.isMatch(unsavedInvoiceFiles[0], { id: invoiceFile[0].id });
 
-      if (addingInvoiceInfoSuccess) {
-        deleteUnsavedInvoiceFile(invoiceFile[0])
+      console.log(addingInvoiceInfoSuccess)
+      console.log(isMatch)
+
+      if (addingInvoiceInfoSuccess && isMatch) {
+        dispatch(deleteUnsavedInvoiceFile(invoiceFile[0]))
       }
     })
   }

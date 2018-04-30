@@ -57,11 +57,9 @@ class InvoiceInfo extends Component {
   componentWillReceiveProps(nextProps) {
     const {
       fetchRecipient,
-      deleteUnsavedInvoiceFile,
       invoices: {
         deletingInvoiceSuccess,
         addingInvoiceInfoSuccess,
-        invoiceFile
       },
       recipients: {
         fetchingRecipientSuccess,
@@ -91,7 +89,8 @@ class InvoiceInfo extends Component {
     }
 
     if (addingInvoiceInfoSuccess || deletingInvoiceSuccess) {
-      history.push("/invoices");
+      this.setState(...this.defaultState);
+      setTimeout(() => { history.push("invoices") }, 1500);
     }
   }
 
