@@ -55,7 +55,7 @@ class Home extends Component {
             accept="application/pdf"
             preventDropOnDocument={false}
             multiple={false}
-            className={"invoice-dropzone"}
+            className={"dropzone"}
             activeClassName={"active-dropzone"}
             rejectClassName={"reject-dropzone"}
             onDrop={this.handleOnDrop}

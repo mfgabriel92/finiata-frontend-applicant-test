@@ -82,14 +82,14 @@ class RecipientModal extends BaseModal {
 
   renderHeader = () => {
     return (
-      <h3>
+      <h5>
         {
           this.editing
             ? <span><FontAwesome name="pencil"/> Edit </span>
             : <span><FontAwesome name="plus"/> Add </span>
         }
         Recipient
-      </h3>
+      </h5>
     )
   };
 
@@ -101,7 +101,7 @@ class RecipientModal extends BaseModal {
         <Input label="Name" name="name" value={name} onChange={this.handleOnChange} error={errors.name}/>
         <Input label="Surname" name="surname" value={surname} onChange={this.handleOnChange} error={errors.surname}/>
         <Input label="Address" name="address" value={address} onChange={this.handleOnChange} error={errors.address}/>
-        <Input label="Phone" name="phone" value={phone} onChange={this.handleOnChange} error={errors.phone}/>
+        <Input type="number" label="Phone" name="phone" value={phone} onChange={this.handleOnChange} error={errors.phone}/>
       </div>
     )
   };

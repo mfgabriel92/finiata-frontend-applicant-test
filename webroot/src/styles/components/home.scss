@@ -1,16 +1,11 @@
 #home {
   text-align: center;
 
-  .invoice-dropzone {
+  .dropzone {
     height: 80vh;
-    background: #e6e6e6;
     width: 90%;
     margin: auto;
     display: flex;
     cursor: pointer;
-
-    p {
-      width: 100%;
-    }
   }
 }

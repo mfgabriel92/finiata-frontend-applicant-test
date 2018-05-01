@@ -42,28 +42,23 @@ class FlashMessage extends Component {
     const { hide } = this.state;
 
     let modalClass;
-    let spanClass;
     let icon;
 
     switch (type) {
       case "success":
         modalClass = "alert-success";
-        spanClass = "text-success";
         icon = "check";
         break;
       case "processing":
         modalClass = "alert-warning";
-        spanClass = "text-warning";
         icon = "warning";
         break;
       case "error":
         modalClass = "alert-danger";
-        spanClass = "text-danger";
         icon = "close";
         break;
       default:
         modalClass = "alert-default";
-        spanClass = "text-muted";
         icon = "question";
         break;
     }
@@ -75,7 +70,7 @@ class FlashMessage extends Component {
     return (
       !hide && <div className={cx("text-center alert", modalClass)}>
         <FontAwesome name={icon} className="flash-file-icon"/>
-        <span className={spanClass}>
+        <span>
           {text && text.charAt(0).toUpperCase() + text.slice(1)}
         </span>
       </div>

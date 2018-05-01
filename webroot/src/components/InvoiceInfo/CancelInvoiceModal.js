@@ -19,9 +19,9 @@ class CancelInvoiceModal extends BaseModal {
 
   renderHeader = () => {
     return (
-      <h3>
+      <h5>
         <FontAwesome name="stop-circle"/> Cancel
-      </h3>
+      </h5>
     )
   };
 
