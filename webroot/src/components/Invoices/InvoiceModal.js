@@ -26,12 +26,13 @@ class InvoiceModal extends BaseModal {
       )
     }
 
-    const firstPart = this.invoice && this.invoice.originalName.substr(0, 20);
-    const lastPart = this.invoice && this.invoice.originalName.substr(-10);
-    const name = firstPart + "..." + lastPart;
-
     return (
       this.invoice && this.invoice.additionalFiles.map((file) => {
+      
+      const firstPart = file.originalName.substr(0, 20);
+      const lastPart = file.originalName.substr(-10);
+      const name = firstPart + "..." + lastPart;
+
         return (
           <div key={file.id}>
             <a className="small" href={`http://localhost:3333/${file.path}`} target="_blank">{name}</a>
