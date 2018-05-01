@@ -86,12 +86,11 @@ class AdditionalFileOperation extends Operation {
     const name = moment().format("YYYY-MM-DD-HH-mm-ss") + "_" + file.clientName;
     const path = AdditionalFile.directoryPath(this.invoiceId);
 
-    await file.move(path, {
-      name
-    });
+    await file.move(path, { name });
 
     if (!file.moved()) {
-      return file.error();
+      this.addError(HTTP.STATUS_INTERNAL_SERVER_ERROR, file.error());
+      return false;
     }
 
     try {
