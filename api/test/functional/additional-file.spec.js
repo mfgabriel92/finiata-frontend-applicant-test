@@ -37,27 +37,16 @@ test("fetch additional filesList", async ({ client }) => {
   ]);
 });
 
-// test("add a new additional file", async ({ client }) => {
-//   const request = await client.post("http://127.0.0.1:4000/api/v1/invoices/1/additional-files")
-//     .send({
-//       id: 4,
-//       invoice_id: 1,
-//       File: {
-//         name: "a_new_file_uploaded.png"
-//       },
-//       description: "Lorem ipsum dolor sit amet"
-//     })
-//     .end();
-//
-//   request.assertStatus(200);
-//   request.assertJSONSubset({
-//     id: 4,
-//     invoice_id: 1,
-//     filename: "a_new_file_uploaded.png",
-//     path: "some/new/path/to/a_new_file_uploaded.png",
-//     description: "Lorem ipsum dolor sit amet"
-//   });
-// });
+test("add a new additional file", async ({ client }) => {
+  const request = await client.post("http://127.0.0.1:4000/api/v1/invoices/1/additional-files")
+    .attach("additionalFile", "public/invoices/test/test_file_name.pdf")
+    .end();
+
+  request.assertStatus(200);
+  request.assertJSONSubset({
+    originalName: "test_file_name.pdf"
+  });
+});
 
 test("fetch from non existent invoice", async ({ client }) => {
   const request = await client.get("http://127.0.0.1:4000/api/v1/invoices/999/additional-files").end();

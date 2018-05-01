@@ -20,13 +20,13 @@ class InvoiceInfoSeeder {
       {
         id: 1,
         invoice_id: 1,
-        invoiceAmount: 1500.00,
+        invoiceAmount: "1,500,00",
         paymentTarget: moment().format("YYYY-MM-DD HH:mm:ss")
       },
       {
         id: 50,
         invoice_id: 50,
-        invoiceAmount: 1500.00,
+        invoiceAmount: "1,500,00",
         paymentTarget: moment().format("YYYY-MM-DD HH:mm:ss")
       }
     ])

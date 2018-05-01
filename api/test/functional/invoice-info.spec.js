@@ -52,17 +52,3 @@ test("failure of insertion with a missing field", async ({ client }) => {
 
   request.assertStatus(500);
 });
-
-test("update invoice info", async ({ client }) => {
-  const request = await client.put("http://127.0.0.1:4000/api/v1/invoices-info/1")
-    .header('accept', 'application/json')
-    .send({
-      invoiceAmount: 90000
-    })
-    .end();
-
-  request.assertStatus(200);
-  request.assertJSONSubset({
-    invoiceAmount: 90000
-  });
-});
