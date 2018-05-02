@@ -4,7 +4,7 @@ import BaseModal from "../common/BaseModal";
 import FontAwesome from "react-fontawesome";
 import Button from "../common/Button";
 
-class InvoiceModal extends BaseModal {
+class ConfirmDeletionModal extends BaseModal {
   constructor(props) {
     super(props);
 
@@ -60,9 +60,9 @@ class InvoiceModal extends BaseModal {
   };
 }
 
-InvoiceModal.propTypes = {
+ConfirmDeletionModal.propTypes = {
   invoices: PropTypes.object,
   onDeleteClick: PropTypes.func
 };
 
-export default InvoiceModal;
+export default ConfirmDeletionModal;

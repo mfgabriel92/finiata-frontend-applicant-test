@@ -73,7 +73,7 @@ class AdditionalFilesItem extends Component {
             {
               showControls
                 ? <span>{this.getItemName(name)}</span>
-                : <a download href={item.path}>{this.getItemName(name)}</a>
+                : <a href={`http://localhost:3333/${item.path}`} target="_blank">{name}</a>
             }
         </span>
       </div>
