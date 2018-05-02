@@ -11,17 +11,14 @@ class ConfirmDeletionModal extends BaseModal {
     this.id = null;
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { invoices: { deletingInvoiceSuccess } } = nextProps;
-
-    if (deletingInvoiceSuccess) {
-      this.close();
-    }
-  }
-
   setId = (id) => {
     this.id = id;
-    console.log(this.id);
+  };
+
+  handleOnDeleteClick = () => {
+    const { onDeleteClick } = this.props;
+    this.id && onDeleteClick(this.id);
+    this.close();
   };
 
   renderHeader = () => {
@@ -31,13 +28,15 @@ class ConfirmDeletionModal extends BaseModal {
   };
 
   renderBody = () => {
+    const { customMessage } = this.props;
+
     return (
-      <p>Do you want to delete this invoice?</p>
+      <p>{customMessage}</p>
     )
   };
 
   renderFooter = () => {
-    const { onDeleteClick } = this.props;
+
 
     return (
       <div className="row">
@@ -45,7 +44,7 @@ class ConfirmDeletionModal extends BaseModal {
           <Button
             className="btn-danger"
             text="Yes"
-            onClick={() => onDeleteClick(this.id)}
+            onClick={() => this.handleOnDeleteClick()}
           />
         </div>
         <div className="col">
@@ -62,7 +61,12 @@ class ConfirmDeletionModal extends BaseModal {
 
 ConfirmDeletionModal.propTypes = {
   invoices: PropTypes.object,
+  customMessage: PropTypes.string,
   onDeleteClick: PropTypes.func
+};
+
+ConfirmDeletionModal.defaultProps = {
+  customMessage: "Are you sure you want to proceed with the deletion?"
 };
 
 export default ConfirmDeletionModal;

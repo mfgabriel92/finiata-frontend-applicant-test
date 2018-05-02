@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import FontAwesome from "react-fontawesome";
 import InvoiceModal from "./InvoiceModal";
+import ConfirmDeletionModal from "../common/ConfirmDeletionModal";
 
 class Invoices extends Component {
   constructor(props) {
@@ -53,9 +54,10 @@ class Invoices extends Component {
     }
   }
 
-  handleDeleteUnsavedFile = (file) => {
-    const { deleteUnsavedInvoiceFile } = this.props;
-    deleteUnsavedInvoiceFile(file);
+  handleDeleteUnsavedInvoice = (id) => {
+    const { confirmDeletionModal } = this.refs;
+    confirmDeletionModal.setId(id);
+    confirmDeletionModal.open();
   };
 
   handleEditUnsavedFile = (file) => {
@@ -98,7 +100,7 @@ class Invoices extends Component {
                       <div className="col-1">
                         <FontAwesome
                           name="trash"
-                          onClick={e => this.handleDeleteUnsavedFile(file)}
+                          onClick={e => this.handleDeleteUnsavedInvoice(file)}
                           className="text-danger"/>
                       </div>
                       <div className="col-1">
@@ -180,6 +182,11 @@ class Invoices extends Component {
     deleteInvoice(id);
   };
 
+  handleOnDeleteUnsavedInvoiceClick = (file) => {
+    const { deleteUnsavedInvoiceFile } = this.props;
+    deleteUnsavedInvoiceFile(file);
+  };
+
   render() {
     const { invoices } = this.props;
 
@@ -190,6 +197,11 @@ class Invoices extends Component {
           invoices={invoices}
           onDownloadFileClick={this.handleDownloadFile}
           onDeleteClick={this.handleOnDeleteInvoiceClick}
+        />
+        <ConfirmDeletionModal
+          ref="confirmDeletionModal"
+          invoices={invoices}
+          onDeleteClick={this.handleOnDeleteUnsavedInvoiceClick}
         />
         <div className="container">
           <div className="col-lg-12">

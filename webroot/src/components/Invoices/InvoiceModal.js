@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import BaseModal from "../common/BaseModal";
 import FontAwesome from "react-fontawesome";
 import Button from "../common/Button";
-import ConfirmDeletionModal from "./ConfirmDeletionModal";
+import ConfirmDeletionModal from "../common/ConfirmDeletionModal";
 
 class InvoiceModal extends BaseModal {
   constructor(props) {
