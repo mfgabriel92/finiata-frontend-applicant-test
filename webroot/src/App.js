@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
 import { apiMiddleware } from "redux-api-middleware";
 import { persistStore, persistCombineReducers } from "redux-persist";
+import { createWhitelistFilter, createBlacklistFilter } from "redux-persist-transform-filter";
 import { PersistGate } from 'redux-persist/es/integration/react';
 import "./App.css"
 
@@ -15,7 +16,15 @@ const middleware = [thunkMiddleware, apiMiddleware];
 const persistConfig = {
   storage,
   key: "root",
-  whitelist: ["invoices"]
+  transforms: [
+    createWhitelistFilter("invoices", ["invoiceFile", "unsavedInvoiceFiles"]),
+  ],
+  blacklist: [
+    "additionalFiles",
+    "app",
+    "recipients",
+    "router"
+  ]
 };
 
 const reducer = persistCombineReducers(persistConfig, reducers);

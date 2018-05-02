@@ -25,9 +25,11 @@ class Invoices extends Component {
 
   componentWillReceiveProps(nextProps) {
     const {
+      fetchInvoices,
       invoices: {
         fetchingInvoices,
         fetchingInvoicesSuccess,
+        deletingInvoiceSuccess,
         allInvoices
       }
     } = nextProps;
@@ -43,6 +45,11 @@ class Invoices extends Component {
         allInvoices,
         isLoading: false
       })
+    }
+
+    if (deletingInvoiceSuccess) {
+      fetchInvoices();
+      window.location.reload();
     }
   }
 
@@ -163,21 +170,27 @@ class Invoices extends Component {
     invoiceModal.open();
   };
 
-  handleViewFile = (path) => {
-    const { viewModal } = this.refs;
-    viewModal.setPath(path);
-    viewModal.open();
-  };
-
   handleDownloadFile = (invoiceId, fileId) => {
     const { downloadAdditionalFile } = this.props;
     downloadAdditionalFile(invoiceId, fileId);
   };
 
+  handleOnDeleteInvoiceClick = (id) => {
+    const { deleteInvoice } = this.props;
+    deleteInvoice(id);
+  };
+
   render() {
+    const { invoices } = this.props;
+
     return (
       <div id="invoices">
-        <InvoiceModal ref="invoiceModal" onDownloadFileClick={this.handleDownloadFile}/>
+        <InvoiceModal
+          ref="invoiceModal"
+          invoices={invoices}
+          onDownloadFileClick={this.handleDownloadFile}
+          onDeleteClick={this.handleOnDeleteInvoiceClick}
+        />
         <div className="container">
           <div className="col-lg-12">
             <div className="row">

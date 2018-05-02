@@ -3,12 +3,21 @@ import PropTypes from "prop-types";
 import BaseModal from "../common/BaseModal";
 import FontAwesome from "react-fontawesome";
 import Button from "../common/Button";
+import ConfirmDeletionModal from "./ConfirmDeletionModal";
 
 class InvoiceModal extends BaseModal {
   constructor(props) {
     super(props);
 
     this.invoice = null;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { invoices: { deletingInvoiceSuccess } } = this.props;
+
+    if (deletingInvoiceSuccess) {
+      this.close();
+    }
   }
 
   setInvoice = (invoice) => {
@@ -19,7 +28,14 @@ class InvoiceModal extends BaseModal {
     this.invoice && window.open(`http://localhost:3333/${this.invoice.path}`);
   };
 
-  renderAdditionalFiles = (file) => {
+  handleDeleteClick = () => {
+    const { confirmDeletionModal } = this.refs;
+
+    confirmDeletionModal.setId(this.invoice.id);
+    confirmDeletionModal.open();
+  };
+
+  renderAdditionalFiles = () => {
     if (this.invoice && this.invoice.additionalFiles.length === 0) {
       return (
         <span className="small text-muted">No additional files</span>
@@ -28,7 +44,7 @@ class InvoiceModal extends BaseModal {
 
     return (
       this.invoice && this.invoice.additionalFiles.map((file) => {
-      
+
       const firstPart = file.originalName.substr(0, 20);
       const lastPart = file.originalName.substr(-10);
       const name = firstPart + "..." + lastPart;
@@ -56,8 +72,11 @@ class InvoiceModal extends BaseModal {
   };
 
   renderBody = () => {
+    const { onDeleteClick, invoices } = this.props;
+
     return (
       <div>
+        <ConfirmDeletionModal ref="confirmDeletionModal" onDeleteClick={onDeleteClick} invoices={invoices}/>
         {
           this.invoice && <div className="invoice-info">
             <div className="col-lg-12">
@@ -95,17 +114,30 @@ class InvoiceModal extends BaseModal {
 
   renderFooter = () => {
     return (
-      <Button
-        className="btn-primary"
-        text="Ok"
-        onClick={this.close}
-      />
+      <div className="row">
+        <div className="col">
+          <Button
+            className="btn-danger"
+            text="Delete"
+            onClick={() => this.handleDeleteClick()}
+          />
+        </div>
+        <div className="col">
+          <Button
+            className="btn-primary"
+            text="Ok"
+            onClick={this.close}
+          />
+        </div>
+      </div>
     )
   };
 }
 
 InvoiceModal.propTypes = {
+  invoices: PropTypes.object,
   onViewFileClick: PropTypes.func,
+  onDeleteClick: PropTypes.func
 };
 
 export default InvoiceModal;

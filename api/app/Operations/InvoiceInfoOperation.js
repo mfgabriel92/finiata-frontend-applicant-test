@@ -91,8 +91,7 @@ class InvoiceInfoOperation extends Operation {
    */
   async _update() {
     const rules = {
-      id: "required",
-      invoiceId: "required"
+      id: "required"
     };
 
     if (!await this.validate(rules)) {

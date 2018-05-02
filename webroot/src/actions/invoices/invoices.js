@@ -79,17 +79,22 @@ export function uploadInvoice(invoice) {
   }
 }
 
-export function deleteInvoice() {
+export function deleteInvoice(id = null) {
   return (dispatch, getState) => {
     const { invoices: { invoiceFile } } = getState();
+    const invoiceId = id ? id : (invoiceFile && invoiceFile[0].id);
 
     return dispatch({
       [RSAA]: {
-        endpoint: `http://127.0.0.1:3333/api/v1/invoices/${invoiceFile[0].id}`,
+        endpoint: `http://127.0.0.1:3333/api/v1/invoices/${invoiceId}`,
         method: "DELETE",
         types: [DELETE_INVOICE, DELETE_INVOICE_SUCCESS, DELETE_INVOICE_FAILURE]
       }
-    }).then(() => { dispatch(deleteUnsavedInvoiceFile(invoiceFile[0])) })
+    }).then(() => {
+      if (invoiceFile && invoiceFile.length !== 0) {
+        dispatch(deleteUnsavedInvoiceFile(invoiceFile[0]));
+      }
+    })
   }
 }
 
@@ -110,9 +115,6 @@ export function addInvoiceInfo(data) {
     }).then(() => {
       const { invoices: { unsavedInvoiceFiles, addingInvoiceInfoSuccess } } = getState();
       const isMatch = _.isMatch(unsavedInvoiceFiles[0], { id: invoiceFile[0].id });
-
-      console.log(addingInvoiceInfoSuccess)
-      console.log(isMatch)
 
       if (addingInvoiceInfoSuccess && isMatch) {
         dispatch(deleteUnsavedInvoiceFile(invoiceFile[0]))
