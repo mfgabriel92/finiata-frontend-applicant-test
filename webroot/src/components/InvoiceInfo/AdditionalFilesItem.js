@@ -40,7 +40,7 @@ class AdditionalFilesItem extends Component {
       name = name.substr(20);
     }
 
-    if (name.length > 30) {
+    if (name.length > 20) {
       const firstPart = name.substr(0, 25);
       const lastPart = name.substr(-4);
 
@@ -129,7 +129,7 @@ class AdditionalFilesItem extends Component {
 
   render() {
     const { item } = this.props;
-    const name = item.name || item.filename;
+    const name = item.originalName || item.filename;
 
     return (
       <div className="col-lg-12 additional-file">
