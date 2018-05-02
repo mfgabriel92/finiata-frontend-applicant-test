@@ -81,7 +81,7 @@ export function uploadInvoice(invoice) {
 
 export function deleteInvoice(id = null) {
   return (dispatch, getState) => {
-    const { invoices: { invoiceFile } } = getState();
+    const { invoices: { invoiceFile, unsavedInvoiceFiles } } = getState();
     const invoiceId = id ? id : (invoiceFile && invoiceFile[0].id);
 
     return dispatch({
@@ -91,7 +91,9 @@ export function deleteInvoice(id = null) {
         types: [DELETE_INVOICE, DELETE_INVOICE_SUCCESS, DELETE_INVOICE_FAILURE]
       }
     }).then(() => {
-      if (invoiceFile && invoiceFile.length !== 0) {
+      const isMatch = _.isMatch(unsavedInvoiceFiles[0], { id: invoiceFile[0].id });
+
+      if (isMatch) {
         dispatch(deleteUnsavedInvoiceFile(invoiceFile[0]));
       }
     })
